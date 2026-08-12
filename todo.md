@@ -1,11 +1,17 @@
-# Distinctive Motion Research + Build Todo
+# Side-by-Side Parity Audit Todo
 
-- [x] Research uncommon portfolio UI/UX patterns beyond generic fade, slide, parallax, and hover effects.
-- [x] Audit the reference’s pen-line curls, route scribbles, background imagery, scene handoffs, and section-specific motion.
-- [x] Define an original motion vocabulary: ink curls, elastic route knots, paper lifts, scanline reveals, and responsive field effects.
-- [x] Source or generate a coherent visual background system for Hero, Origin, Labs, Signal, Notes, and Contact.
-- [x] Implement an animated SVG/canvas pen-line system with path drawing, curl loops, knots, and scroll-linked rewrites.
-- [x] Give every major section a distinct animation identity rather than reusing the same reveal.
-- [x] Add at least three unusual interaction states: magnetic ink trails, tactile paper peel/lift, and signal-route reconfiguration.
-- [x] Verify interruption, reduced-motion, keyboard, touch, mobile layout, console, performance, and production build behavior.
-- [ ] Checkpoint and deliver the distinctive-motion revision with remaining limitations stated plainly.
+- [x] Capture the reference and latest build at matching desktop and mobile viewport states.
+- [x] Compare hero composition, fixed chrome, route rail, background treatment, typography, and scene pacing.
+- [x] Compare Origin, Labs, Featured, Notes, Contact, and all transition states one by one.
+- [x] Record every remaining major difference with a priority and acceptance criterion in `parity_audit_2026.md`.
+- [x] Implement the highest-impact parity fixes using original code and assets: changing top ribbon, skip/sound controls, handwritten accent, hero meter, organic field, archive hint, signal-terminal track, Step Out route, and deterministic Lenis/native navigation handoff.
+- [ ] Re-test every interaction family across keyboard, touch, reduced motion, draggable notes, evidence drawer, scanner cards, and all pinned scenes; core Featured reroute and clean console are verified.
+- [ ] Checkpoint and deliver the audited parity revision with limitations stated plainly.
+
+## Remaining parity gaps
+
+- [ ] Replace the CSS-generated hero field with an original image-led silhouette when the image-generation quota is available again.
+- [ ] Strengthen Origin into a diary/scrapbook composition with original photo/polaroid placeholder frames and tape choreography.
+- [ ] Upgrade Notes into a physical media wall/contact sheet with spread and splay behavior.
+- [ ] Add a stronger Contact closure that ties the final ink route back to the opening mark.
+- [ ] Add chapter-level transition masks for silhouette-to-paper, paper-to-blue, and blue-to-gallery handoffs.
