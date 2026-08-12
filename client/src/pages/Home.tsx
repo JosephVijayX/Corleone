@@ -79,6 +79,15 @@ function BrandMark({ hero = false }: { hero?: boolean }) {
   return <span aria-hidden="true" className={`brand-mark ${hero ? "brand-mark--hero" : ""}`} />;
 }
 
+function InkRoute({ variant = "default", className = "" }: { variant?: "default" | "signal" | "close"; className?: string }) {
+  const paths = {
+    default: "M18 116 C120 12 188 168 286 86 S456 28 520 102 S680 164 744 58 C796 -8 854 28 812 74 C776 112 734 102 754 66 C770 38 812 38 824 64",
+    signal: "M18 100 C132 82 174 16 280 48 S426 154 534 86 S708 26 812 86 C860 114 922 100 976 44",
+    close: "M18 94 C130 10 214 146 324 64 S486 18 568 82 S712 142 792 70 C842 28 894 48 866 88 C842 120 804 104 812 76",
+  };
+  return <svg className={`ink-route ink-route--${variant} ${className}`} viewBox="0 0 1000 180" preserveAspectRatio="none" aria-hidden="true"><path className="ink-route__shadow" d={paths[variant]} /><path className="ink-route__path" d={paths[variant]} /><path className="ink-route__curl" d="M824 64 C852 24 914 42 900 84 C886 122 820 132 796 96 C780 72 798 42 828 46" /><circle className="ink-route__node" cx="286" cy="86" r="7" /><circle className="ink-route__node" cx="744" cy="58" r="7" /></svg>;
+}
+
 function DraggableSticker({ children, className = "" }: { children: ReactNode; className?: string }) {
   const stickerRef = useRef<HTMLDivElement>(null);
 
@@ -265,10 +274,32 @@ function useReferenceMotion() {
         gsap.fromTo(section, { "--scene-depth": 0 }, { "--scene-depth": 1, ease: "none", scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: true } });
       });
 
+      const routeScenes = [
+        [".ink-route-layer--hero", "#home"],
+        [".ink-route-layer--origin", "#about"],
+        [".ink-route-layer--signal", "#featured"],
+        [".ink-route-layer--close", "#contact"],
+      ] as const;
+      routeScenes.forEach(([routeSelector, triggerSelector]) => {
+        const route = document.querySelector<SVGSVGElement>(`${routeSelector} .ink-route`);
+        if (!route) return;
+        const path = route.querySelector<SVGPathElement>(".ink-route__path");
+        const curl = route.querySelector<SVGPathElement>(".ink-route__curl");
+        const nodes = route.querySelectorAll<SVGCircleElement>(".ink-route__node");
+        gsap.timeline({ scrollTrigger: { trigger: triggerSelector, start: "top 84%", end: "top 18%", scrub: 1.1 } })
+          .to(path, { strokeDashoffset: 0, ease: "sine.inOut", duration: 1 }, 0)
+          .to(curl, { strokeDashoffset: 0, ease: "elastic.out(1, .5)", duration: .7 }, .55)
+          .to(nodes, { autoAlpha: 1, scale: 1, stagger: .16, ease: "back.out(1.8)", duration: .25 }, .72)
+          .to(route, { rotation: routeSelector.includes("signal") ? 4 : -2, transformOrigin: "50% 50%", ease: "sine.inOut", duration: .5 }, .5);
+      });
+
       gsap.to("#about .scene-route path", { strokeDashoffset: 0, duration: 2.4, ease: "sine.inOut", scrollTrigger: { trigger: "#about", start: "top 72%", end: "top 26%", scrub: 1 } });
       gsap.fromTo("#about .draggable-sticker", { autoAlpha: 0, y: 42 }, { autoAlpha: 1, y: 0, duration: .8, stagger: .12, ease: "back.out(1.2)", scrollTrigger: { trigger: "#about", start: "top 72%", once: true } });
       gsap.fromTo("#work .project-record", { x: -18, autoAlpha: .2 }, { x: 0, autoAlpha: 1, duration: .7, stagger: .12, ease: "power3.out", scrollTrigger: { trigger: "#work", start: "top 72%", once: true } });
+      gsap.fromTo("#work .project-record", { y: 34, rotate: (index) => index % 2 === 0 ? -1.4 : 1.1, clipPath: "inset(0 0 100% 0)" }, { y: 0, rotate: 0, clipPath: "inset(0 0 0% 0)", duration: .9, stagger: .16, ease: "elastic.out(1, .68)", scrollTrigger: { trigger: "#work", start: "top 78%", once: true } });
       gsap.fromTo("#featured .scene-orbit", { rotation: -18, scale: .85, autoAlpha: .2 }, { rotation: 12, scale: 1, autoAlpha: 1, duration: 1.8, ease: "power3.out", scrollTrigger: { trigger: "#featured", start: "top 78%", once: true } });
+      gsap.fromTo("#visuals [data-cursor=INSPECT]", { clipPath: "inset(0 0 100% 0)", y: 50, rotation: -3 }, { clipPath: "inset(0 0 0% 0)", y: 0, rotation: 0, duration: .9, stagger: .14, ease: "expo.out", scrollTrigger: { trigger: "#visuals", start: "top 78%", once: true } });
+      gsap.to("#contact .ink-route-layer--close", { x: 70, ease: "none", scrollTrigger: { trigger: "#contact", start: "top bottom", end: "bottom top", scrub: 1.2 } });
     });
 
     return () => context.revert();
@@ -308,9 +339,18 @@ export default function Home() {
   }, []);
 
   const changeFeatured = (direction: 1 | -1) => {
-    setSlideDirection(direction === 1 ? "next" : "prev");
-    setFeaturedIndex((value) => (value + direction + featured.length) % featured.length);
+    gsap.killTweensOf([".featured-copy", ".ink-route-layer--signal .ink-route__path", ".ink-route-layer--signal .ink-route__curl"]);
+    gsap.timeline({ onComplete: () => { setSlideDirection(direction === 1 ? "next" : "prev"); setFeaturedIndex((value) => (value + direction + featured.length) % featured.length); } })
+      .to(".featured-copy", { x: direction === 1 ? -36 : 36, autoAlpha: 0, filter: "blur(8px)", duration: .22, ease: "power2.in" })
+      .to(".ink-route-layer--signal .ink-route__curl", { strokeDashoffset: direction === 1 ? 520 : 0, duration: .28, ease: "power3.inOut" }, "<")
+      .to(".ink-route-layer--signal .ink-route__path", { strokeDashoffset: direction === 1 ? 480 : 1600, duration: .38, ease: "power3.inOut" }, "<.05");
   };
+
+  useLayoutEffect(() => {
+    gsap.fromTo(".featured-copy", { x: slideDirection === "next" ? 42 : -42, clipPath: slideDirection === "next" ? "inset(0 0 0 100%)" : "inset(0 100% 0 0)", autoAlpha: 0, filter: "blur(8px)" }, { x: 0, clipPath: "inset(0 0 0 0)", autoAlpha: 1, filter: "blur(0px)", duration: .62, ease: "expo.out", overwrite: true });
+    gsap.to(".ink-route-layer--signal .ink-route__path", { strokeDashoffset: 0, duration: .62, ease: "elastic.out(1, .5)", overwrite: true });
+    gsap.to(".ink-route-layer--signal .ink-route__curl", { strokeDashoffset: 0, duration: .5, delay: .1, ease: "back.out(1.6)", overwrite: true });
+  }, [featuredIndex, slideDirection]);
 
   const goTo = (id: string) => {
     if (jumping) return;
@@ -382,6 +422,10 @@ export default function Home() {
       <div className="fixed bottom-0 left-0 top-0 z-30 hidden w-8 flex-col items-center justify-center gap-3 border-r border-black/10 bg-[#ede5d7]/35 lg:flex"><span className="signal-mono -rotate-90 whitespace-nowrap text-[9px] uppercase tracking-[.18em]">signal route / {activeSection}</span><div className="h-32 w-px bg-black/20"><div className="w-full bg-[#3e4cff] transition-[height] duration-500" style={{ height: `${progress}%` }} /></div></div>
 
       <div className="signal-stage">
+        <div className="ink-route-layer ink-route-layer--hero"><InkRoute variant="default" /></div>
+        <div className="ink-route-layer ink-route-layer--origin"><InkRoute variant="default" /></div>
+        <div className="ink-route-layer ink-route-layer--signal"><InkRoute variant="signal" /></div>
+        <div className="ink-route-layer ink-route-layer--close"><InkRoute variant="close" /></div>
 
       <section id="home" className="scene-section grain relative flex min-h-[100svh] items-end overflow-hidden bg-[#3e4cff] px-5 pb-16 pt-32 text-[#f4efe5] sm:px-10 lg:px-16"><div className="absolute inset-0 opacity-50 [background-image:linear-gradient(125deg,transparent_0_48%,rgba(244,239,229,.24)_48.2%,transparent_48.5%),linear-gradient(25deg,transparent_0_65%,rgba(20,15,15,.3)_65.2%,transparent_65.5%)]" /><div className="scene-parallax absolute left-[9%] top-[23%] h-[42vw] w-[42vw] max-h-[540px] max-w-[540px] rounded-full bg-[#191512] shadow-[18px_18px_0_rgba(244,239,229,.16)]" style={{ transform: `translate3d(0, ${progress * -0.16}px, 0)` }} /><div className="absolute left-[11%] top-[31%] h-px w-[32vw] bg-[#f4efe5]/60 scene-route-line" /><div className="absolute right-[8%] top-[22%] hidden w-56 rotate-3 border border-[#f4efe5]/70 p-3 font-mono text-[10px] uppercase leading-5 scene-float lg:block"><span className="text-[#ed8b5a]">status: curious</span><br />second love: parrot os<br />signal: telegram<br />mode: learning</div><div className="relative z-10 w-full"><div data-reveal className="mb-10 flex items-center gap-4 sm:ml-[8%]"><BrandMark hero /><p className="signal-mono text-[10px] uppercase tracking-[0.18em]">Zxornatoe / independent learner / systems curious</p></div><div className="grid items-end gap-8 lg:grid-cols-[.7fr_1.7fr_.7fr]"><div data-reveal className="order-2 space-y-6 text-xs leading-5 lg:order-1 lg:pb-8"><span className="clip-label inline-block bg-[#ed8b5a] px-3 py-1 text-[#221f1b]">01 — the intro</span><p className="signal-prose text-base">My second love is Parrot OS.<br />The first one is still under investigation.</p><a data-cursor="SCROLL" className="inline-flex items-center gap-2 border-b border-[#f4efe5] pb-1" href="#about" onClick={(e) => { e.preventDefault(); goTo("about"); }}>keep scrolling <ArrowDown size={13} /></a></div><h1 data-reveal className="signal-display order-1 max-w-4xl text-[17vw] font-semibold leading-[.78] tracking-[-0.08em] lg:order-2 lg:text-[15vw]">zxorna<span className="text-[#ed8b5a]">t</span>oe</h1><div data-reveal className="order-3 justify-self-end pb-2 text-right text-[11px] uppercase tracking-[.12em] lg:pb-8"><span className="block border-b border-[#f4efe5]/60 pb-2">learning the stuff</span><span className="block pt-2 text-[#ed8b5a]">is the actual flex</span></div></div></div><div className="absolute bottom-5 left-5 right-5 flex items-center justify-between text-[10px] uppercase tracking-[.16em] sm:left-10 sm:right-10"><span>SCROLL DOWN</span><span>∞ / 100</span><span className="hidden sm:inline">BUILT FROM CURIOSITY</span></div></section>
 

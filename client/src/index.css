@@ -80,6 +80,31 @@ button { font: inherit; }
 .clip-label { clip-path: polygon(0 0, 96% 0, 100% 50%, 96% 100%, 0 100%); }
 .offset-rule { box-shadow: 5px 5px 0 #3e4cff; }
 .signal-world { --ease-signal: cubic-bezier(0.16, 1, 0.3, 1); }
+.signal-stage { position: relative; overflow: clip; }
+.ink-route-layer { position: absolute; z-index: 2; width: min(86vw, 980px); pointer-events: none; opacity: .82; mix-blend-mode: multiply; }
+.ink-route-layer--hero { top: 8vh; right: -4vw; transform: rotate(-7deg); color: #ed8b5a; }
+.ink-route-layer--origin { top: 116vh; left: -10vw; transform: rotate(4deg); color: #3e4cff; }
+.ink-route-layer--signal { top: 340vh; right: -12vw; transform: rotate(-3deg); color: #ed8b5a; mix-blend-mode: screen; }
+.ink-route-layer--close { top: 570vh; left: 4vw; transform: rotate(2deg); color: #3e4cff; }
+.ink-route { display: block; width: 100%; height: 180px; overflow: visible; }
+.ink-route__path, .ink-route__curl { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 5; stroke-dasharray: 2400; stroke-dashoffset: 2400; }
+.ink-route__shadow { fill: none; stroke: currentColor; stroke-linecap: round; stroke-width: 11; opacity: .12; filter: blur(3px); }
+.ink-route__curl { stroke-width: 3; stroke-dasharray: 520; stroke-dashoffset: 520; }
+.ink-route__node { fill: #ede5d7; stroke: currentColor; stroke-width: 4; opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(.2); }
+.ink-route.is-drawn .ink-route__path, .ink-route.is-drawn .ink-route__curl { stroke-dashoffset: 0; }
+.ink-route.is-drawn .ink-route__node { opacity: 1; transform: scale(1); }
+#home { background-image: radial-gradient(circle at 28% 35%, rgba(244,239,229,.12), transparent 28%), linear-gradient(125deg, transparent 0 42%, rgba(244,239,229,.14) 42.2%, transparent 42.7%), linear-gradient(25deg, transparent 0 66%, rgba(20,15,15,.26) 66.2%, transparent 66.8%); }
+#about { background-image: linear-gradient(rgba(34,31,27,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(34,31,27,.035) 1px, transparent 1px); background-size: 28px 28px; }
+#work { background-image: radial-gradient(circle at 78% 24%, rgba(62,76,255,.16), transparent 24%), repeating-linear-gradient(0deg, transparent 0 44px, rgba(237,229,215,.035) 45px, transparent 46px); }
+#featured { background-image: radial-gradient(circle at 75% 32%, rgba(237,139,90,.22), transparent 23%), linear-gradient(135deg, transparent 0 52%, rgba(244,239,229,.08) 52.2%, transparent 52.7%); }
+#visuals { background-image: repeating-linear-gradient(-12deg, transparent 0 38px, rgba(34,31,27,.035) 39px, transparent 40px); }
+#contact { background-image: radial-gradient(circle at 20% 70%, rgba(62,76,255,.22), transparent 24%), repeating-linear-gradient(90deg, transparent 0 58px, rgba(237,229,215,.04) 59px, transparent 60px); }
+.scan-surface { position: relative; overflow: hidden; }
+.scan-surface::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, transparent 0 44%, rgba(62,76,255,.3) 48%, rgba(237,139,90,.18) 50%, transparent 56%); transform: translateY(-110%); transition: transform 1.2s var(--ease-signal); }
+.scan-surface:hover::before, .scan-surface:focus-within::before { transform: translateY(110%); }
+#visuals [data-cursor="INSPECT"] { position: relative; overflow: hidden; }
+#visuals [data-cursor="INSPECT"]::after { content: "SCAN / 04"; position: absolute; left: .75rem; right: .75rem; top: 0; padding: .35rem 0; color: rgba(34,31,27,.75); border-bottom: 1px solid rgba(34,31,27,.45); font: 9px "IBM Plex Mono", monospace; letter-spacing: .16em; opacity: 0; transform: translateY(-140%); transition: transform .6s var(--ease-signal), opacity .25s ease; pointer-events: none; }
+#visuals [data-cursor="INSPECT"]:hover::after, #visuals [data-cursor="INSPECT"]:focus-visible::after { opacity: 1; transform: translateY(0); }
 .scene-section { position: relative; scroll-margin-top: 64px; }
 .scene-section::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .14; background: linear-gradient(90deg, transparent 0 12%, rgba(34,31,27,.25) 12.1%, transparent 12.2% 86%, rgba(34,31,27,.22) 86.1%, transparent 86.2%); }
 .boot-screen { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; pointer-events: none; color: #f4efe5; background: #221f1b; transition: clip-path 1s var(--ease-signal), opacity .6s ease; clip-path: inset(0 0 0 0); }
@@ -125,7 +150,12 @@ button { font: inherit; }
 .scene-route path.is-active { stroke-dashoffset: 0; }
 .scene-route circle { fill: #ed8b5a; opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(.5); transition: opacity .4s ease .8s, transform .5s var(--ease-signal) .8s; }
 .scene-route path.is-active ~ circle { opacity: 1; transform: scale(1); }
-.project-record { transition: background-color .35s ease; }
+.project-record { position: relative; isolation: isolate; transition: background-color .35s ease, box-shadow .45s var(--ease-signal), clip-path .45s var(--ease-signal); }
+.project-record::before { content: ""; position: absolute; inset: 0 auto 0 0; z-index: -1; width: 4px; background: linear-gradient(#ed8b5a, #3e4cff); transform: scaleY(0); transform-origin: top; transition: transform .5s var(--ease-signal); }
+.project-record::after { content: "TRACE / LIVE"; position: absolute; right: 1rem; top: .55rem; color: rgba(237,229,215,.35); font: 8px "IBM Plex Mono", monospace; letter-spacing: .14em; opacity: 0; transform: translateX(12px); transition: opacity .3s ease, transform .45s var(--ease-signal); pointer-events: none; }
+.project-record:hover, .project-record.is-open { background: linear-gradient(90deg, rgba(62,76,255,.13), transparent 42%); box-shadow: inset 10px 0 0 rgba(237,139,90,.12), 0 10px 0 rgba(34,31,27,.18); }
+.project-record:hover::before, .project-record.is-open::before { transform: scaleY(1); }
+.project-record:hover::after, .project-record.is-open::after { opacity: 1; transform: translateX(0); }
 .project-record.is-open { background: rgba(62,76,255,.08); }
 .project-detail { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .6s var(--ease-signal), opacity .35s ease; }
 .project-detail > div { overflow: hidden; }
