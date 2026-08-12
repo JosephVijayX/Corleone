@@ -1,6 +1,7 @@
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Copy, Github, Menu, Radio, Send, Terminal, X } from "lucide-react";
+import Lenis from "lenis";
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { PointerEvent as ReactPointerEvent } from "react";
+import type { PointerEvent as ReactPointerEvent, ReactNode } from "react";
 
 // STYLE NOTE: Signal / Clay / Blue — this page is a moving editorial stage,
 // not a stack of static pages. Scene state, route lines, jump transitions,
@@ -69,6 +70,25 @@ function BrandMark({ hero = false }: { hero?: boolean }) {
   return <span aria-hidden="true" className={`brand-mark ${hero ? "brand-mark--hero" : ""}`} />;
 }
 
+function DraggableSticker({ children, className = "" }: { children: ReactNode; className?: string }) {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const start = useRef({ x: 0, y: 0, pointerX: 0, pointerY: 0 });
+  const dragging = useRef(false);
+
+  useEffect(() => {
+    const move = (event: PointerEvent) => {
+      if (!dragging.current) return;
+      setPosition({ x: start.current.x + event.clientX - start.current.pointerX, y: start.current.y + event.clientY - start.current.pointerY });
+    };
+    const end = () => { dragging.current = false; };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", end);
+    return () => { window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", end); };
+  }, []);
+
+  return <div className={`draggable-sticker ${dragging.current ? "is-dragging" : ""} ${className}`} style={{ transform: `translate3d(${position.x}px, ${position.y}px, 0)` }} onPointerDown={(event) => { dragging.current = true; start.current = { x: position.x, y: position.y, pointerX: event.clientX, pointerY: event.clientY }; event.currentTarget.setPointerCapture(event.pointerId); }} role="img" aria-label="Draggable signal note">{children}</div>;
+}
+
 function useSceneState() {
   const [progress, setProgress] = useState(0);
   const [activeSection, setActiveSection] = useState("home");
@@ -81,6 +101,22 @@ function useSceneState() {
 
     updateProgress();
     window.addEventListener("scroll", updateProgress, { passive: true });
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let lenis: Lenis | null = null;
+    let frame = 0;
+    if (!reducedMotion) {
+      lenis = new Lenis({ autoRaf: false, lerp: 0.09, smoothWheel: true, syncTouch: false });
+      lenis.on("scroll", ({ scroll }) => {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        setProgress(max > 0 ? (scroll / max) * 100 : 0);
+      });
+      const loop = (time: number) => {
+        lenis?.raf(time);
+        frame = requestAnimationFrame(loop);
+      };
+      frame = requestAnimationFrame(loop);
+    }
 
     const sectionObserver = new IntersectionObserver(
       (entries) => entries.forEach((entry) => entry.isIntersecting && setActiveSection(entry.target.id)),
@@ -96,6 +132,8 @@ function useSceneState() {
 
     return () => {
       window.removeEventListener("scroll", updateProgress);
+      if (frame) cancelAnimationFrame(frame);
+      lenis?.destroy();
       sectionObserver.disconnect();
       revealObserver.disconnect();
     };
@@ -106,20 +144,32 @@ function useSceneState() {
 
 function usePointerField() {
   const [pointer, setPointer] = useState({ x: 0, y: 0, visible: false, label: "MOVE" });
+  const frame = useRef<number | null>(null);
+  const latest = useRef({ x: 0, y: 0, visible: false, label: "MOVE" });
 
   useEffect(() => {
     if (!window.matchMedia("(pointer: fine)").matches) return;
     const onMove = (event: PointerEvent) => {
       const target = event.target as HTMLElement | null;
       const label = target?.closest<HTMLElement>("[data-cursor]")?.dataset.cursor ?? "MOVE";
-      setPointer({ x: event.clientX, y: event.clientY, visible: true, label });
+      latest.current = { x: event.clientX, y: event.clientY, visible: true, label };
+      if (frame.current === null) {
+        frame.current = requestAnimationFrame(() => {
+          setPointer(latest.current);
+          frame.current = null;
+        });
+      }
     };
-    const onLeave = () => setPointer((current) => ({ ...current, visible: false }));
+    const onLeave = () => {
+      latest.current = { ...latest.current, visible: false };
+      setPointer((current) => ({ ...current, visible: false }));
+    };
     window.addEventListener("pointermove", onMove);
     document.documentElement.addEventListener("mouseleave", onLeave);
     return () => {
       window.removeEventListener("pointermove", onMove);
       document.documentElement.removeEventListener("mouseleave", onLeave);
+      if (frame.current !== null) cancelAnimationFrame(frame.current);
     };
   }, []);
 
@@ -147,8 +197,11 @@ export default function Home() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "ArrowRight") changeFeatured(1);
-      if (event.key === "ArrowLeft") changeFeatured(-1);
+      if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+        const direction = event.key === "ArrowRight" ? 1 : -1;
+        setSlideDirection(direction === 1 ? "next" : "prev");
+        setFeaturedIndex((value) => (value + direction + featured.length) % featured.length);
+      }
       if (event.key === "Escape") {
         setActiveProject(null);
         setMenuOpen(false);
@@ -156,7 +209,7 @@ export default function Home() {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  });
+  }, []);
 
   const changeFeatured = (direction: 1 | -1) => {
     setSlideDirection(direction === 1 ? "next" : "prev");
@@ -198,6 +251,7 @@ export default function Home() {
       </div>
 
       <div className={`signal-jump ${jumping ? "is-active" : ""}`} aria-hidden="true"><span className="signal-jump__line" /><span className="signal-jump__label">routing signal / {activeSection}</span></div>
+      <div className={`cinematic-vignette ${jumping ? "is-active" : ""}`} aria-hidden="true" />
       <div className={`pointer-field ${pointer.visible ? "is-visible" : ""}`} style={{ transform: `translate3d(${pointer.x}px, ${pointer.y}px, 0)` }} aria-hidden="true"><span>{pointer.label}</span><i /></div>
 
       <header className="fixed left-0 right-0 top-0 z-40 border-b border-black/15 bg-[#ede5d7]/85 px-4 py-2 backdrop-blur-md sm:px-6">
@@ -218,7 +272,7 @@ export default function Home() {
 
       <div className="signal-ticker flex gap-10 overflow-hidden border-y border-black bg-[#221f1b] px-4 py-3 text-[10px] uppercase tracking-[.2em] text-[#ede5d7]"><span>signal ticker — parrot_os / telegram / always_learning / no fake guru energy</span><span aria-hidden="true">signal ticker — parrot_os / telegram / always_learning</span></div>
 
-      <section id="about" className="scene-section grain relative bg-[#ede5d7] px-5 py-24 sm:px-10 lg:px-16 lg:py-36"><div className="absolute right-8 top-12 hidden text-[#3e4cff] lg:block scene-float"><BrandMark /></div><div data-reveal className="mb-16 flex items-start justify-between gap-6"><div><p className="signal-mono mb-3 text-[10px] uppercase tracking-[.2em] text-[#3e4cff]">01 / origin — the learning log</p><h2 className="signal-display max-w-3xl text-5xl leading-[.95] sm:text-7xl lg:text-8xl">I keep pulling<br /><em>the thread.</em></h2></div><span className="signal-mono hidden pt-1 text-[10px] uppercase sm:block">open book / no final form</span></div><svg className="scene-route" viewBox="0 0 1000 90" preserveAspectRatio="none" aria-hidden="true"><path className={`route-path ${activeSection === "about" || activeSection === "work" ? "is-active" : ""}`} d="M0,45 C120,45 140,15 240,15 S390,75 520,42 S770,10 1000,48" /><circle cx="240" cy="15" r="5" /><circle cx="520" cy="42" r="5" /><circle cx="1000" cy="48" r="5" /></svg><div data-reveal className="grid gap-12 lg:grid-cols-[.8fr_1.4fr_.7fr] lg:items-end"><div className="offset-rule rotate-[-3deg] border border-black bg-[#3e4cff] p-6 text-[#f4efe5]"><Terminal size={24} /><p className="signal-condensed mt-10 text-4xl uppercase leading-[.85]">Started with<br />questions.<br /><span className="text-[#ed8b5a]">Stayed for<br />the rabbit hole.</span></p><p className="signal-mono mt-12 text-[10px] uppercase leading-5">note / curiosity has<br />excellent uptime</p></div><div className="signal-prose space-y-8 text-lg leading-[1.55] sm:text-2xl"><p>I love hacking, cracking, and techy things — the ethical kind, the kind that happens in labs, write-ups, and authorised spaces where learning is the point.</p><p className="max-w-2xl">I’m active on Telegram, collecting better questions and sharing the things I’m learning. I don’t pretend to know everything. I just keep opening the next tab.</p></div><div className="border-t border-black pt-4 text-xs leading-5"><p className="mb-6 uppercase tracking-[.15em] text-[#3e4cff]">current operating notes</p><p>01. learn by doing</p><p>02. document the weird parts</p><p>03. stay curious longer</p></div></div><div className="mt-20 grid gap-4 border-t border-black pt-4 text-[10px] uppercase tracking-[.12em] sm:grid-cols-3"><span>favorite environment: Parrot OS</span><span>public trail: Telegram</span><span>default state: learning</span></div></section>
+      <section id="about" className="scene-section grain relative bg-[#ede5d7] px-5 py-24 sm:px-10 lg:px-16 lg:py-36"><div className="absolute right-8 top-12 hidden text-[#3e4cff] lg:block scene-float"><BrandMark /></div><DraggableSticker className="left-[68%] top-[13%] hidden rotate-6 border border-black bg-[#ed8b5a] p-3 text-[10px] uppercase shadow-[5px_5px_0_#3e4cff] lg:block"><span className="signal-mono block text-[9px] text-[#221f1b]/70">drag note / 001</span><span className="signal-condensed mt-5 block text-3xl leading-[.8]">ask<br />better<br />questions</span></DraggableSticker><DraggableSticker className="left-[76%] top-[34%] hidden -rotate-3 border border-black bg-[#3e4cff] p-3 text-[#f4efe5] shadow-[5px_5px_0_#221f1b] lg:block"><span className="signal-mono block text-[9px]">parrot os / second love</span><span className="mt-5 block text-3xl">↗</span></DraggableSticker><div data-reveal className="mb-16 flex items-start justify-between gap-6"><div><p className="signal-mono mb-3 text-[10px] uppercase tracking-[.2em] text-[#3e4cff]">01 / origin — the learning log</p><h2 className="signal-display max-w-3xl text-5xl leading-[.95] sm:text-7xl lg:text-8xl">I keep pulling<br /><em>the thread.</em></h2></div><span className="signal-mono hidden pt-1 text-[10px] uppercase sm:block">open book / no final form</span></div><svg className="scene-route" viewBox="0 0 1000 90" preserveAspectRatio="none" aria-hidden="true"><path className={`route-path ${activeSection === "about" || activeSection === "work" ? "is-active" : ""}`} d="M0,45 C120,45 140,15 240,15 S390,75 520,42 S770,10 1000,48" /><circle cx="240" cy="15" r="5" /><circle cx="520" cy="42" r="5" /><circle cx="1000" cy="48" r="5" /></svg><div data-reveal className="grid gap-12 lg:grid-cols-[.8fr_1.4fr_.7fr] lg:items-end"><div className="offset-rule rotate-[-3deg] border border-black bg-[#3e4cff] p-6 text-[#f4efe5]"><Terminal size={24} /><p className="signal-condensed mt-10 text-4xl uppercase leading-[.85]">Started with<br />questions.<br /><span className="text-[#ed8b5a]">Stayed for<br />the rabbit hole.</span></p><p className="signal-mono mt-12 text-[10px] uppercase leading-5">note / curiosity has<br />excellent uptime</p></div><div className="signal-prose space-y-8 text-lg leading-[1.55] sm:text-2xl"><p>I love hacking, cracking, and techy things — the ethical kind, the kind that happens in labs, write-ups, and authorised spaces where learning is the point.</p><p className="max-w-2xl">I’m active on Telegram, collecting better questions and sharing the things I’m learning. I don’t pretend to know everything. I just keep opening the next tab.</p></div><div className="border-t border-black pt-4 text-xs leading-5"><p className="mb-6 uppercase tracking-[.15em] text-[#3e4cff]">current operating notes</p><p>01. learn by doing</p><p>02. document the weird parts</p><p>03. stay curious longer</p></div></div><div className="mt-20 grid gap-4 border-t border-black pt-4 text-[10px] uppercase tracking-[.12em] sm:grid-cols-3"><span>favorite environment: Parrot OS</span><span>public trail: Telegram</span><span>default state: learning</span></div></section>
 
       <section id="work" className="scene-section grain bg-[#221f1b] px-5 py-24 text-[#ede5d7] sm:px-10 lg:px-16 lg:py-36"><div data-reveal className="mb-14 flex flex-wrap items-end justify-between gap-5"><div><p className="signal-mono mb-3 text-[10px] uppercase tracking-[.2em] text-[#ed8b5a]">02 / labs — index active</p><h2 className="signal-display text-6xl leading-[.9] sm:text-8xl">Things I’m<br /><em>figuring out.</em></h2></div><p className="signal-prose max-w-xs text-base leading-6 text-[#ede5d7]/75">A work index for experiments, systems, notes, and the public trail. Open a record for the longer version.</p></div><div className="route-line mb-5 w-full opacity-70" /><div className="border-y border-[#ede5d7]/35">{projects.map((project, index) => { const isOpen = activeProject === index; return <div key={project.code} className={`project-record ${isOpen ? "is-open" : ""}`}><button data-cursor="OPEN RECORD" className="group grid w-full gap-4 py-6 text-left sm:grid-cols-[90px_1fr_150px_30px] sm:items-center" onClick={() => setActiveProject(isOpen ? null : index)} aria-expanded={isOpen}><span className="signal-mono text-[10px] text-[#ed8b5a]">{project.code}</span><span className="signal-condensed text-4xl uppercase leading-none transition group-hover:translate-x-2 group-hover:text-[#3e4cff] sm:text-5xl">{project.title}</span><span className="signal-mono text-[10px] uppercase text-[#ede5d7]/55">{project.status}<br />{project.year}</span><span className="text-[#3e4cff]">{isOpen ? <X size={18} /> : <ArrowUpRight size={18} />}</span></button><div className="project-detail"><div className="grid gap-8 border-t border-[#ede5d7]/25 py-8 sm:grid-cols-[90px_1.2fr_1fr]"><div className="signal-mono text-[10px] uppercase text-[#ed8b5a]">trace<br />0{index + 1}</div><div><p className="signal-prose mb-5 text-lg leading-7">{project.description}</p><p className="signal-mono text-[10px] uppercase tracking-[.12em] text-[#ed8b5a]">{project.type}</p><p className="signal-mono mt-6 border-l border-[#3e4cff] pl-3 text-[10px] uppercase leading-5 text-[#ede5d7]/55">evidence trail / {project.tags.join(" → ")}</p></div><div><p className="signal-mono mb-4 text-[10px] uppercase tracking-[.12em]">what stayed with me</p><ul className="space-y-2 text-sm text-[#ede5d7]/75">{project.learnings.map((learning) => <li key={learning}>// {learning}</li>)}</ul><div className="mt-6 flex flex-wrap gap-2">{project.tags.map((tag) => <span key={tag} className="border border-[#ede5d7]/30 px-2 py-1 text-[10px] uppercase">{tag}</span>)}</div></div></div></div></div>; })}</div></section>
 

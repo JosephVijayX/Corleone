@@ -27,6 +27,14 @@ The GSAP ScrollTrigger documentation explicitly supports pinned sections, scrubb
 
 The next revision should have a single scroll controller or an equivalent centralized progress model; at least two visibly pinned scenes; continuous transforms driven by scene progress instead of only enter/exit classes; a transition timeline that temporarily owns navigation jumps; a featured browser whose content, geometry, and indicator move with direction; and mobile behavior that preserves the sequence without requiring a fine pointer. A static screenshot should still show a coherent page, but live scrolling should make it clear that the site is a moving instrument.
 
+## Latest live check
+
+After installing Lenis and restarting the preview, the live page reports the expected route updates during scrolling and remains interactive. The Origin chapter now visibly arrives through a blurred-to-sharp reveal, while its blue route path enters as an animated curve. The browser screenshot catches the choreography mid-transition, which is expected for a smooth-scroll scene; a settled capture should be taken after the scroll easing completes.
+
+The next live scroll reached the Labs route at 46%. The dark Labs chapter maintained its composition while the project records moved through the scene, and the Featured blue chapter began entering after the project index. This confirms the new sticky scene architecture is active in the live preview rather than existing only as CSS declarations.
+
+The live navigation then routed into Featured at 58% progress. The blue Signal scene occupied the viewport with its orbit, route label, usage instructions, and active content while the rest of the document stayed outside the held composition. This is materially closer to the reference’s scene takeover behavior than the previous normal-flow version.
+
 ## Boundary
 
 The audit observes the supplied site’s behavior and source-level patterns only to understand interaction mechanics. The implementation remains original and will not extract, redeploy, or modify that creator’s source code, images, personal identity, copy, or exact branded concept.
