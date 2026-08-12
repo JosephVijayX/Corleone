@@ -1,10 +1,9 @@
-# Motion Revision Todo
+# Comparative Parity Audit Todo
 
-- [x] Audit the supplied reference’s scroll choreography, line transitions, cursor behavior, section pinning, and featured-work interaction states.
-- [x] Audit the current portfolio’s static-feeling gaps and map each gap to a concrete motion or interaction fix.
-- [x] Add an original route-line transition system between major chapters.
-- [x] Add scroll-linked scene reveals, parallax layers, and active section indicators.
-- [x] Add a responsive custom cursor / pointer field on fine pointers with an accessible fallback.
-- [x] Transform the featured signal area into a more alive, draggable and keyboard-navigable interface.
-- [x] Add richer project open/close choreography and technical evidence fragments.
-- [x] Verify reduced-motion, keyboard access, mobile touch behavior, and production build output.
+- [ ] Audit the supplied reference’s full motion, layout, interaction, responsive, and visual systems.
+- [ ] Audit the current Zxornatoe build through the same checklist and capture concrete gaps.
+- [ ] Research distinctive UI/UX and animation patterns that can improve the build without copying source code or assets.
+- [ ] Produce a prioritized original parity specification with acceptance criteria.
+- [ ] Implement the highest-impact missing interactions and animation states.
+- [ ] Repeat desktop, mobile, keyboard, pointer, reduced-motion, and build verification.
+- [ ] Checkpoint and deliver the final comparative revision with remaining limitations stated plainly.
