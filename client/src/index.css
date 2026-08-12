@@ -117,6 +117,23 @@ button { font: inherit; }
 .project-detail { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .6s var(--ease-signal), opacity .35s ease; }
 .project-detail > div { overflow: hidden; }
 .project-record.is-open .project-detail { grid-template-rows: 1fr; opacity: 1; }
+.evidence-thumb { display: grid; min-height: 70px; grid-template-columns: auto 1fr auto; align-items: end; gap: .5rem; border: 1px solid rgba(237,229,215,.35); padding: .65rem; text-align: left; color: #ede5d7; background: linear-gradient(135deg, rgba(62,76,255,.75), rgba(34,31,27,.9)); transition: transform .35s var(--ease-signal), border-color .25s ease, background .25s ease; }
+.evidence-thumb:nth-child(2n) { background: linear-gradient(135deg, rgba(237,139,90,.8), rgba(34,31,27,.9)); }
+.evidence-thumb:hover, .evidence-thumb:focus-visible { transform: translateY(-4px) rotate(-1deg); border-color: #ed8b5a; background: #3e4cff; }
+.evidence-thumb span { font: 10px "IBM Plex Mono", monospace; text-transform: uppercase; }
+.media-drawer { position: fixed; inset: 0; z-index: 75; display: grid; place-items: center; gap: 1.25rem; padding: 5rem 1.25rem 2rem; color: #221f1b; background: rgba(237,229,215,.96); backdrop-filter: blur(12px); animation: media-drawer-in .42s var(--ease-signal) both; }
+.media-drawer__bar { position: absolute; left: 1.25rem; right: 1.25rem; top: 1.25rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(34,31,27,.25); padding-bottom: .75rem; }
+.media-drawer__bar button { display: grid; height: 40px; width: 40px; place-items: center; border: 1px solid #221f1b; transition: background .2s ease, color .2s ease; }
+.media-drawer__bar button:hover { color: #ede5d7; background: #3e4cff; }
+.evidence-frame { position: relative; display: grid; width: min(78vw, 620px); aspect-ratio: 1.15; place-items: center; overflow: hidden; border: 2px solid #221f1b; background: #3e4cff; color: #ede5d7; box-shadow: 12px 12px 0 #ed8b5a; transform: rotate(-2deg); }
+.evidence-frame--1 { background: #221f1b; box-shadow: 12px 12px 0 #3e4cff; transform: rotate(2deg); }
+.evidence-frame__grid { position: absolute; inset: 0; opacity: .38; background: linear-gradient(90deg, transparent 49.5%, rgba(237,229,215,.65) 49.7%, transparent 50.2%), linear-gradient(transparent 49.5%, rgba(237,229,215,.65) 49.7%, transparent 50.2%); background-size: 34px 34px; }
+.evidence-frame span, .evidence-frame strong, .evidence-frame small, .evidence-frame i { position: relative; z-index: 1; }
+.evidence-frame strong { font: 700 clamp(2.8rem, 8vw, 7rem)/.8 "Barlow Condensed", sans-serif; text-transform: uppercase; }
+.evidence-frame span, .evidence-frame small, .evidence-frame i { font: 10px "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .12em; }
+.evidence-frame small { position: absolute; bottom: 1.2rem; left: 1.2rem; }
+.evidence-frame i { position: absolute; right: 1.2rem; top: 1.2rem; color: #ed8b5a; font-style: normal; }
+@keyframes media-drawer-in { from { opacity: 0; transform: scale(.97); } to { opacity: 1; transform: scale(1); } }
 .draggable-sticker { position: absolute; z-index: 14; width: 155px; min-height: 105px; cursor: grab; user-select: none; touch-action: none; transition: filter .2s ease, box-shadow .2s ease; }
 .draggable-sticker.is-dragging { cursor: grabbing; filter: brightness(1.08); box-shadow: 10px 14px 0 rgba(34,31,27,.2) !important; }
 .motion-card { transition: transform .6s var(--ease-signal), filter .4s ease, box-shadow .4s ease; will-change: transform; }
@@ -157,6 +174,10 @@ button { font: inherit; }
 }
 @media (max-width: 767px) {
   #work { min-height: auto; }
-  #work > div:first-child, #featured > .relative.z-10 { position: static; }
-  #featured { min-height: auto; }
+  #work > div:first-child { position: sticky; top: 56px; z-index: 12; margin-left: -1.25rem; margin-right: -1.25rem; padding: .75rem 1.25rem 1.1rem; }
+  #featured { min-height: 122vh; }
+  #featured > .relative.z-10 { position: sticky; top: 56px; min-height: calc(100svh - 56px); }
+  .media-drawer { padding-left: 1rem; padding-right: 1rem; }
+  .evidence-frame { width: min(86vw, 520px); box-shadow: 8px 8px 0 #ed8b5a; }
+  .evidence-thumb { min-height: 64px; }
 }

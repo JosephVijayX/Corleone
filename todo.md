@@ -1,9 +1,9 @@
-# Comparative Parity Audit Todo
+# Continuation Parity Pass Todo
 
-- [x] Audit the supplied reference’s full motion, layout, interaction, responsive, and visual systems.
-- [x] Audit the current Zxornatoe build through the same checklist and capture concrete gaps.
-- [x] Research distinctive UI/UX and animation patterns that can improve the build without copying source code or assets.
-- [x] Produce a prioritized original parity specification with acceptance criteria.
-- [x] Implement the highest-impact missing interactions and animation states.
-- [x] Repeat desktop, mobile, keyboard, pointer, reduced-motion, and build verification.
-- [x] Checkpoint and deliver the final comparative revision with remaining limitations stated plainly.
+- [x] Audit the current mobile choreography and identify where it still collapses into a static document.
+- [x] Audit project/media states and identify missing evidence, preview, and interaction affordances.
+- [x] Define mobile-specific scene timing, touch gestures, and pinned-content behavior.
+- [x] Add original evidence-media states and richer project preview interactions.
+- [x] Implement mobile motion and remaining interaction refinements.
+- [x] Repeat desktop, mobile, keyboard, pointer, reduced-motion, and production-build verification.
+- [ ] Checkpoint and deliver the continuation revision with remaining limitations stated plainly.

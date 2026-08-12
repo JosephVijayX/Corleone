@@ -35,6 +35,16 @@ The next live scroll reached the Labs route at 46%. The dark Labs chapter mainta
 
 The live navigation then routed into Featured at 58% progress. The blue Signal scene occupied the viewport with its orbit, route label, usage instructions, and active content while the rest of the document stayed outside the held composition. This is materially closer to the reference’s scene takeover behavior than the previous normal-flow version.
 
+## Continuation mobile audit
+
+The full mobile capture shows a strong hero but a weaker chapter rhythm below it. The mobile breakpoint disables the sticky scenes entirely, which keeps the page safe but makes Labs and Featured fall back into compressed document sections. Labs records are readable but visually repetitive and lack a media preview state. Featured retains the blue field and direction controls, but its copy and metric need more vertical breathing room on touch screens. The visual-fragment grid has the right color contrast, yet it currently reads as four posters rather than an interactive evidence gallery. The next pass should add mobile scene spacers, touch-sized project preview affordances, and a media drawer that can hold screenshots or future uploads without changing the layout.
+
+The continuation build now exposes two touch-friendly evidence preview buttons per Labs record, with a fullscreen drawer ready to host real screenshots or experiment artifacts. The live page still boots through the signal line, keeps the route rail, and retains the Featured controls while the new project-media affordances remain available in the DOM.
+
+The live Labs scene now presents a sticky dark chapter header with the first project record in view and two evidence actions exposed as separate controls. The route is at 35%, and the original project index remains visually layered rather than collapsing into a generic list.
+
+Packet Map opens successfully as a fullscreen evidence frame with an original blue/clay visual, project title, tags, frame counter, close control, and explicit replacement copy for future real media. Closing the drawer returns to Labs at the same 35% route position, preserving the interaction context.
+
 ## Boundary
 
 The audit observes the supplied site’s behavior and source-level patterns only to understand interaction mechanics. The implementation remains original and will not extract, redeploy, or modify that creator’s source code, images, personal identity, copy, or exact branded concept.
