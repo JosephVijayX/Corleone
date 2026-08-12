@@ -86,6 +86,11 @@ button { font: inherit; }
 .boot-screen.is-done { opacity: 0; clip-path: inset(0 0 100% 0); }
 .boot-screen__copy { display: flex; align-items: center; gap: 1rem; font-size: 10px; text-transform: uppercase; letter-spacing: .17em; }
 .boot-screen__copy strong { color: #ed8b5a; font-weight: 500; }
+.boot-screen__chars { display: inline-flex; }
+.boot-char { display: inline-block; opacity: 0; filter: blur(24px); font-style: normal; }
+.boot-screen__counter { position: absolute; bottom: 2rem; left: 10%; right: 10%; display: flex; align-items: center; gap: 1rem; color: #f4efe5; font: 9px "IBM Plex Mono", monospace; letter-spacing: .14em; }
+.boot-screen__counter > div { height: 1px; flex: 1; background: rgba(244,239,229,.28); }
+.boot-screen__counter [data-boot-bar] { display: block; height: 100%; width: 0%; background: #3e4cff; }
 .boot-screen__line { position: absolute; left: 10%; right: 10%; top: 50%; height: 1px; background: #3e4cff; transform-origin: left; animation: boot-line 1.2s var(--ease-signal) both; }
 @keyframes boot-line { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 .signal-jump { position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: 0; background: rgba(34,31,27,.2); transition: opacity .18s ease; }
@@ -93,6 +98,9 @@ button { font: inherit; }
 .signal-jump__line { position: absolute; left: 0; right: 0; top: 50%; height: 6px; transform: scaleX(0); transform-origin: center; background: #3e4cff; box-shadow: 0 0 0 1px #f4efe5, 0 0 28px rgba(62,76,255,.7); }
 .signal-jump.is-active .signal-jump__line { animation: signal-jump-line .72s var(--ease-signal) both; }
 .signal-jump__label { position: absolute; left: 50%; top: calc(50% + 20px); transform: translateX(-50%); color: #f4efe5; font: 10px "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .16em; }
+.signal-nav-ticks { position: absolute; left: 0; right: 0; top: -13px; display: flex; gap: 5px; height: 8px; overflow: hidden; opacity: .75; pointer-events: none; }
+.signal-nav-ticks i { display: block; flex: 0 0 2px; height: 5px; background: #221f1b; opacity: .4; }
+.signal-nav-ticks i.is-major { height: 10px; opacity: .85; }
 @keyframes signal-jump-line { 0% { transform: scaleX(0); } 45% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
 .cinematic-vignette { position: fixed; inset: 0; z-index: 89; pointer-events: none; opacity: 0; background: radial-gradient(circle at center, transparent 18%, rgba(34,31,27,.82) 100%); transition: opacity .7s ease; }
 .cinematic-vignette.is-active { opacity: 1; }
@@ -100,6 +108,11 @@ button { font: inherit; }
 .pointer-field.is-visible { opacity: 1; }
 .pointer-field span { position: absolute; left: 17px; top: -12px; padding: 4px 6px; color: #f4efe5; background: #221f1b; font: 9px "IBM Plex Mono", monospace; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
 .pointer-field i { display: block; height: 15px; width: 15px; border: 1px solid #f4efe5; border-radius: 50%; transform: translate(-50%, -50%); }
+.pointer-field--gsap { width: 100vw; height: 100vh; }
+.pointer-field--gsap b { position: absolute; left: 0; top: 0; display: block; width: 9px; height: 9px; border-radius: 50%; background: #f4efe5; transform: translate(-50%, -50%); }
+.pointer-field--gsap .cursor-trail { position: absolute; inset: 0; }
+.pointer-field--gsap .cursor-trail i { position: absolute; left: 0; top: 0; height: 16px; width: 16px; transform: translate(-50%, -50%); border: 0; border-radius: 50%; background: #f4efe5; }
+.cursor-ripple { position: fixed; left: 0; top: 0; pointer-events: none; border: 2px solid #f4efe5; border-radius: 50%; mix-blend-mode: difference; }
 [data-reveal] { opacity: 0; transform: translateY(38px); filter: blur(6px); transition: opacity .9s var(--ease-signal), transform .9s var(--ease-signal), filter .9s var(--ease-signal); }
 [data-reveal].is-visible { opacity: 1; transform: none; filter: none; }
 .scene-orbit { animation: orbit-breathe 7s ease-in-out infinite; transform-origin: center; }

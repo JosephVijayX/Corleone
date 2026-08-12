@@ -1,7 +1,12 @@
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Copy, Github, Image as ImageIcon, Menu, Radio, ScanLine, Send, Terminal, X } from "lucide-react";
+import { gsap } from "gsap";
+import { Draggable } from "gsap/Draggable";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent, ReactNode } from "react";
+
+if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger, Draggable);
 
 // STYLE NOTE: Signal / Clay / Blue — this page is a moving editorial stage,
 // not a stack of static pages. Scene state, route lines, jump transitions,
@@ -75,27 +80,27 @@ function BrandMark({ hero = false }: { hero?: boolean }) {
 }
 
 function DraggableSticker({ children, className = "" }: { children: ReactNode; className?: string }) {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const start = useRef({ x: 0, y: 0, pointerX: 0, pointerY: 0 });
-  const dragging = useRef(false);
+  const stickerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const move = (event: PointerEvent) => {
-      if (!dragging.current) return;
-      setPosition({ x: start.current.x + event.clientX - start.current.pointerX, y: start.current.y + event.clientY - start.current.pointerY });
-    };
-    const end = () => { dragging.current = false; };
-    window.addEventListener("pointermove", move);
-    window.addEventListener("pointerup", end);
-    return () => { window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", end); };
+  useLayoutEffect(() => {
+    if (!stickerRef.current || !window.matchMedia("(pointer: fine)").matches) return;
+    const instance = Draggable.create(stickerRef.current, {
+      type: "x,y",
+      edgeResistance: .7,
+      bounds: stickerRef.current.parentElement ?? undefined,
+      onPress: function () { gsap.to(this.target, { scale: 1.06, rotation: "+=2", duration: .18, ease: "power2.out" }); },
+      onRelease: function () { gsap.to(this.target, { scale: 1, rotation: "-=2", duration: .45, ease: "elastic.out(1, .45)" }); },
+    })[0];
+    return () => { instance.kill(); };
   }, []);
 
-  return <div className={`draggable-sticker ${dragging.current ? "is-dragging" : ""} ${className}`} style={{ transform: `translate3d(${position.x}px, ${position.y}px, 0)` }} onPointerDown={(event) => { dragging.current = true; start.current = { x: position.x, y: position.y, pointerX: event.clientX, pointerY: event.clientY }; event.currentTarget.setPointerCapture(event.pointerId); }} role="img" aria-label="Draggable signal note">{children}</div>;
+  return <div ref={stickerRef} className={`draggable-sticker ${className}`} role="img" aria-label="Draggable signal note">{children}</div>;
 }
 
 function useSceneState() {
   const [progress, setProgress] = useState(0);
   const [activeSection, setActiveSection] = useState("home");
+  const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
     const updateProgress = () => {
@@ -106,83 +111,174 @@ function useSceneState() {
     updateProgress();
     window.addEventListener("scroll", updateProgress, { passive: true });
 
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let lenis: Lenis | null = null;
-    let frame = 0;
-    if (!reducedMotion) {
-      lenis = new Lenis({ autoRaf: false, lerp: 0.09, smoothWheel: true, syncTouch: false });
-      lenis.on("scroll", ({ scroll }) => {
-        const max = document.documentElement.scrollHeight - window.innerHeight;
-        setProgress(max > 0 ? (scroll / max) * 100 : 0);
-      });
-      const loop = (time: number) => {
-        lenis?.raf(time);
-        frame = requestAnimationFrame(loop);
-      };
-      frame = requestAnimationFrame(loop);
-    }
-
     const sectionObserver = new IntersectionObserver(
       (entries) => entries.forEach((entry) => entry.isIntersecting && setActiveSection(entry.target.id)),
       { rootMargin: "-35% 0px -55% 0px", threshold: 0 },
     );
-    const revealObserver = new IntersectionObserver(
-      (entries) => entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add("is-visible")),
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
-    );
-
     document.querySelectorAll("section[id]").forEach((section) => sectionObserver.observe(section));
-    document.querySelectorAll("[data-reveal]").forEach((element) => revealObserver.observe(element));
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let lenis: Lenis | null = null;
+    if (!reducedMotion) {
+      lenis = new Lenis({ autoRaf: false, duration: 0.8, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true, syncTouch: false });
+      lenisRef.current = lenis;
+      lenis.on("scroll", ({ scroll }) => {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        setProgress(max > 0 ? (scroll / max) * 100 : 0);
+        ScrollTrigger.update();
+      });
+      const ticker = (time: number) => lenis?.raf(time * 1000);
+      gsap.ticker.add(ticker);
+      gsap.ticker.lagSmoothing(0);
+      lenis.stop();
+      window.setTimeout(() => lenis?.start(), 950);
+      return () => {
+        window.removeEventListener("scroll", updateProgress);
+        gsap.ticker.remove(ticker);
+        lenis?.destroy();
+        lenisRef.current = null;
+        sectionObserver.disconnect();
+      };
+    }
 
     return () => {
       window.removeEventListener("scroll", updateProgress);
-      if (frame) cancelAnimationFrame(frame);
-      lenis?.destroy();
       sectionObserver.disconnect();
-      revealObserver.disconnect();
     };
   }, []);
 
-  return { progress, activeSection };
+  const scrollTo = (target: number) => {
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(target, { duration: 1.4, easing: (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2 });
+    } else {
+      window.scrollTo({ top: target, behavior: "smooth" });
+    }
+  };
+
+  return { progress, activeSection, scrollTo };
 }
 
-function usePointerField() {
-  const [pointer, setPointer] = useState({ x: 0, y: 0, visible: false, label: "MOVE" });
-  const frame = useRef<number | null>(null);
-  const latest = useRef({ x: 0, y: 0, visible: false, label: "MOVE" });
+function useGsapCursor() {
+  const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!window.matchMedia("(pointer: fine)").matches) return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches || !cursorRef.current) return;
+    const cursor = cursorRef.current;
+    const label = cursor.querySelector<HTMLElement>("[data-cursor-label]");
+    const core = cursor.querySelector<HTMLElement>("[data-cursor-core]");
+    const trail = Array.from(cursor.querySelectorAll<HTMLElement>("[data-cursor-trail]"));
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let leaderX = mouseX;
+    let leaderY = mouseY;
+    const points = trail.map((el, index) => ({ el, x: mouseX, y: mouseY, size: Math.max(2, 16 - index * 1.1), opacity: 1 - index * .05 }));
+
     const onMove = (event: PointerEvent) => {
-      const target = event.target as HTMLElement | null;
-      const label = target?.closest<HTMLElement>("[data-cursor]")?.dataset.cursor ?? "MOVE";
-      latest.current = { x: event.clientX, y: event.clientY, visible: true, label };
-      if (frame.current === null) {
-        frame.current = requestAnimationFrame(() => {
-          setPointer(latest.current);
-          frame.current = null;
-        });
-      }
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+      const target = (event.target as HTMLElement | null)?.closest<HTMLElement>("[data-cursor]");
+      if (label) label.textContent = target?.dataset.cursor ?? "MOVE";
+      gsap.to(cursor, { opacity: 1, duration: .18, overwrite: true });
     };
-    const onLeave = () => {
-      latest.current = { ...latest.current, visible: false };
-      setPointer((current) => ({ ...current, visible: false }));
+    const onLeave = () => gsap.to(cursor, { opacity: 0, duration: .18, overwrite: true });
+    const onDown = () => gsap.to(core, { scale: .5, duration: .1, overwrite: true });
+    const onUp = () => {
+      gsap.to(core, { scale: 1, duration: .4, ease: "back.out(3)", overwrite: true });
+      const ripple = document.createElement("span");
+      ripple.className = "cursor-ripple";
+      cursor.appendChild(ripple);
+      gsap.set(ripple, { x: mouseX, y: mouseY, xPercent: -50, yPercent: -50, width: 20, height: 20 });
+      gsap.to(ripple, { width: 120, height: 120, opacity: 0, duration: .6, ease: "power2.out", onComplete: () => ripple.remove() });
     };
+    const onOver = (event: MouseEvent) => {
+      const target = (event.target as HTMLElement | null)?.closest<HTMLElement>("a, button, [data-cursor]");
+      if (!target) return;
+      gsap.to(core, { scale: 0, duration: .2, overwrite: true });
+      gsap.to(points[0]?.el, { width: 46, height: 46, backgroundColor: "transparent", borderWidth: 2, duration: .4, ease: "back.out(2)", overwrite: true });
+      points.slice(1).forEach((point) => gsap.to(point.el, { scale: 0, opacity: 0, duration: .2, overwrite: true }));
+    };
+    const onOut = (event: MouseEvent) => {
+      const target = (event.target as HTMLElement | null)?.closest<HTMLElement>("a, button, [data-cursor]");
+      if (!target || target.contains(event.relatedTarget as Node | null)) return;
+      gsap.to(core, { scale: 1, duration: .2, overwrite: true });
+      points.forEach((point, index) => gsap.to(point.el, { width: point.size, height: point.size, scale: 1, opacity: point.opacity, backgroundColor: "#f4efe5", borderWidth: 0, duration: .3 + index * .015, ease: "back.out(1.5)", overwrite: true }));
+    };
+    const tick = () => {
+      leaderX = mouseX;
+      leaderY = mouseY;
+      if (label) gsap.set(label, { x: mouseX, y: mouseY });
+      if (core) gsap.set(core, { x: mouseX, y: mouseY });
+      points.forEach((point) => { point.x += (leaderX - point.x) * .4; point.y += (leaderY - point.y) * .4; gsap.set(point.el, { x: point.x, y: point.y }); leaderX = point.x; leaderY = point.y; });
+    };
+
     window.addEventListener("pointermove", onMove);
-    document.documentElement.addEventListener("mouseleave", onLeave);
-    return () => {
-      window.removeEventListener("pointermove", onMove);
-      document.documentElement.removeEventListener("mouseleave", onLeave);
-      if (frame.current !== null) cancelAnimationFrame(frame.current);
-    };
+    window.addEventListener("pointerleave", onLeave);
+    window.addEventListener("mousedown", onDown);
+    window.addEventListener("mouseup", onUp);
+    document.addEventListener("mouseover", onOver);
+    document.addEventListener("mouseout", onOut);
+    gsap.ticker.add(tick);
+    return () => { window.removeEventListener("pointermove", onMove); window.removeEventListener("pointerleave", onLeave); window.removeEventListener("mousedown", onDown); window.removeEventListener("mouseup", onUp); document.removeEventListener("mouseover", onOver); document.removeEventListener("mouseout", onOut); gsap.ticker.remove(tick); };
   }, []);
 
-  return pointer;
+  return cursorRef;
+}
+
+function useReferenceMotion() {
+  useLayoutEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const context = gsap.context(() => {
+      if (reducedMotion) {
+        gsap.set("[data-reveal]", { autoAlpha: 1, y: 0, filter: "blur(0px)" });
+        gsap.set(".boot-screen", { autoAlpha: 0, display: "none" });
+        return;
+      }
+
+      gsap.set("[data-reveal]", { autoAlpha: 0, y: 38, filter: "blur(6px)" });
+      gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((element) => {
+        gsap.to(element, {
+          autoAlpha: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: .9,
+          ease: "power2.out",
+          scrollTrigger: { trigger: element, start: "top 88%", end: "top 58%", scrub: .7, once: true },
+        });
+      });
+
+      const heroTl = gsap.timeline({ defaults: { overwrite: "auto" } });
+      const loading = { value: 0 };
+      heroTl.fromTo(".boot-screen__line", { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "power4.inOut" }, 0)
+        .fromTo(".boot-screen__copy", { autoAlpha: 0, y: 18, filter: "blur(24px)" }, { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 1, ease: "power2.out" }, .15)
+        .to(".boot-char", { autoAlpha: 1, filter: "blur(0px)", duration: 1, stagger: .025, ease: "power2.out" }, .25)
+        .to(loading, { value: 100, duration: 4.9, ease: "power1.inOut", onUpdate: () => { const percent = document.querySelector<HTMLElement>("[data-boot-percent]"); const bar = document.querySelector<HTMLElement>("[data-boot-bar]"); const value = Math.floor(loading.value).toString().padStart(2, "0"); if (percent) percent.textContent = `${value}%`; if (bar) bar.style.width = `${loading.value}%`; } }, 0)
+        .fromTo("#home .scene-parallax", { scale: .88, autoAlpha: 0, filter: "blur(18px)" }, { scale: 1, autoAlpha: 1, filter: "blur(0px)", duration: 1.5, ease: "expo.out" }, .45)
+        .fromTo("#home .brand-mark--hero", { scale: .12, rotation: -4, y: -114, autoAlpha: 0 }, { scale: 1, rotation: -4, y: 0, autoAlpha: 1, duration: 1.65, ease: "expo.out" }, .7)
+        .fromTo("#home h1", { y: 90, autoAlpha: 0, filter: "blur(24px)" }, { y: 0, autoAlpha: 1, filter: "blur(0px)", duration: 1.35, ease: "expo.out" }, .85)
+        .fromTo(".signal-nav-shell", { autoAlpha: 0, y: 30, filter: "blur(8px)" }, { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 1, ease: "expo.out" }, 1.45)
+        .to(".boot-screen", { autoAlpha: 0, clipPath: "inset(0 0 100% 0)", duration: .9, ease: "power4.inOut" }, 1.9);
+
+      const sections = ["#about", "#work", "#featured", "#visuals", "#contact"];
+      sections.forEach((selector) => {
+        const section = document.querySelector<HTMLElement>(selector);
+        if (!section) return;
+        gsap.fromTo(section, { "--scene-depth": 0 }, { "--scene-depth": 1, ease: "none", scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: true } });
+      });
+
+      gsap.to("#about .scene-route path", { strokeDashoffset: 0, duration: 2.4, ease: "sine.inOut", scrollTrigger: { trigger: "#about", start: "top 72%", end: "top 26%", scrub: 1 } });
+      gsap.fromTo("#about .draggable-sticker", { autoAlpha: 0, y: 42 }, { autoAlpha: 1, y: 0, duration: .8, stagger: .12, ease: "back.out(1.2)", scrollTrigger: { trigger: "#about", start: "top 72%", once: true } });
+      gsap.fromTo("#work .project-record", { x: -18, autoAlpha: .2 }, { x: 0, autoAlpha: 1, duration: .7, stagger: .12, ease: "power3.out", scrollTrigger: { trigger: "#work", start: "top 72%", once: true } });
+      gsap.fromTo("#featured .scene-orbit", { rotation: -18, scale: .85, autoAlpha: .2 }, { rotation: 12, scale: 1, autoAlpha: 1, duration: 1.8, ease: "power3.out", scrollTrigger: { trigger: "#featured", start: "top 78%", once: true } });
+    });
+
+    return () => context.revert();
+  }, []);
 }
 
 export default function Home() {
-  const { progress, activeSection } = useSceneState();
-  const pointer = usePointerField();
+  const { progress, activeSection, scrollTo } = useSceneState();
+  const cursorRef = useGsapCursor();
+  useReferenceMotion();
   const [activeProject, setActiveProject] = useState<number | null>(null);
   const [activeMedia, setActiveMedia] = useState<{ project: number; frame: number } | null>(null);
   const [featuredIndex, setFeaturedIndex] = useState(0);
@@ -190,15 +286,9 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [jumping, setJumping] = useState(false);
-  const [booted, setBooted] = useState(false);
   const dragStart = useRef<number | null>(null);
   const current = featured[featuredIndex];
   const progressLabel = useMemo(() => `${Math.round(progress).toString().padStart(2, "0")}%`, [progress]);
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => setBooted(true), 900);
-    return () => window.clearTimeout(timer);
-  }, []);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -223,12 +313,28 @@ export default function Home() {
   };
 
   const goTo = (id: string) => {
+    if (jumping) return;
     setMenuOpen(false);
     setJumping(true);
-    window.setTimeout(() => {
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-      window.setTimeout(() => setJumping(false), 620);
-    }, 120);
+    document.body.classList.add("traveling");
+    const target = document.getElementById(id);
+    let targetScroll = target ? window.scrollY + target.getBoundingClientRect().top : 0;
+    if (id === "about") targetScroll += window.innerHeight * .4;
+    const sectionName = navItems.find(([sectionId]) => sectionId === id)?.[1] ?? id;
+    const label = document.querySelector<HTMLElement>(".signal-jump__label");
+    if (label) label.textContent = `routing signal / ${sectionName}`;
+
+    const timeline = gsap.timeline({ onComplete: () => { setJumping(false); document.body.classList.remove("traveling"); } });
+    timeline.to(".signal-nav-item", { autoAlpha: 0, duration: .2, ease: "power2.out" }, 0)
+      .to(".signal-nav-shell", { width: "110vw", padding: "30px 0", borderWidth: "8px", borderColor: "#ede5d7", duration: .6, ease: "power4.inOut" }, .1)
+      .to(".signal-stage", { scale: .82, rotationX: 28, y: "-4vh", transformPerspective: 1200, transformOrigin: "center center", borderRadius: "24px", filter: "brightness(.35) blur(6px)", duration: .6, ease: "power3.inOut" }, .1)
+      .to(".signal-jump__line", { scaleX: 1, duration: .3, ease: "power4.inOut" }, 0)
+      .add(() => scrollTo(targetScroll), .6)
+      .to(".signal-nav-ticks", { x: "-200%", duration: 1.8, ease: "power2.inOut" }, .4)
+      .to(".signal-jump__line", { scaleX: 0, duration: .8, ease: "power2.inOut" }, .5)
+      .to(".signal-stage", { scale: 1, rotationX: 0, y: "0vh", borderRadius: "0px", filter: "brightness(1) blur(0px)", duration: .9, ease: "expo.out" }, 2)
+      .to(".signal-nav-shell", { width: "auto", padding: "4px", borderWidth: "1px", borderColor: "#221f1b", duration: .7, ease: "expo.out" }, 2)
+      .to(".signal-nav-item", { autoAlpha: 1, duration: .4, ease: "power2.out" }, 2.3);
   };
 
   const copyHandle = async () => {
@@ -251,14 +357,15 @@ export default function Home() {
 
   return (
     <main data-scene={activeSection} className="signal-world overflow-hidden bg-[#ede5d7] text-[#221f1b]">
-      <div className={`boot-screen ${booted ? "is-done" : ""}`} aria-hidden="true">
+      <div className="boot-screen" aria-hidden="true">
         <div className="boot-screen__line" />
-        <div className="boot-screen__copy"><BrandMark hero /><span>opening signal / zxornatoe</span><strong>READY</strong></div>
+        <div className="boot-screen__copy"><BrandMark hero /><span className="boot-screen__chars">{"opening signal / zxornatoe".split("").map((character, index) => <i className="boot-char" key={`${character}-${index}`}>{character === " " ? "\u00a0" : character}</i>)}</span><strong>READY</strong></div>
+        <div className="boot-screen__counter"><span data-boot-percent>00%</span><div><span data-boot-bar /></div></div>
       </div>
 
       <div className={`signal-jump ${jumping ? "is-active" : ""}`} aria-hidden="true"><span className="signal-jump__line" /><span className="signal-jump__label">routing signal / {activeSection}</span></div>
       <div className={`cinematic-vignette ${jumping ? "is-active" : ""}`} aria-hidden="true" />
-      <div className={`pointer-field ${pointer.visible ? "is-visible" : ""}`} style={{ transform: `translate3d(${pointer.x}px, ${pointer.y}px, 0)` }} aria-hidden="true"><span>{pointer.label}</span><i /></div>
+      <div ref={cursorRef} className="pointer-field pointer-field--gsap" aria-hidden="true"><span data-cursor-label>MOVE</span><b data-cursor-core /><div className="cursor-trail">{Array.from({ length: 10 }, (_, index) => <i key={index} data-cursor-trail />)}</div></div>
 
       <header className="fixed left-0 right-0 top-0 z-40 border-b border-black/15 bg-[#ede5d7]/85 px-4 py-2 backdrop-blur-md sm:px-6">
         <div className="flex items-center justify-between gap-4 text-[10px] uppercase tracking-[0.14em] sm:text-xs">
@@ -270,9 +377,11 @@ export default function Home() {
         {menuOpen && <nav className="absolute left-0 right-0 top-full grid grid-cols-3 gap-px border-b border-black bg-[#ede5d7] p-2 sm:hidden">{navItems.map(([id, label]) => <button data-cursor={label.toUpperCase()} className="border border-black/15 px-2 py-3 text-left text-[10px] uppercase" key={id} onClick={() => goTo(id)}>{label}</button>)}</nav>}
       </header>
 
-      <nav className="fixed bottom-5 left-1/2 z-40 hidden -translate-x-1/2 border border-black bg-[#ede5d7] p-1 shadow-[5px_5px_0_#221f1b] sm:block" aria-label="Section navigation"><div className="flex items-center gap-1">{navItems.map(([id, label]) => <button data-cursor={label.toUpperCase()} key={id} onClick={() => goTo(id)} className={`px-3 py-2 text-[10px] uppercase tracking-[0.12em] transition hover:bg-[#3e4cff] hover:text-[#ede5d7] ${activeSection === id ? "bg-[#3e4cff] text-[#ede5d7]" : ""}`}>{label}</button>)}</div></nav>
+      <nav className="signal-nav-shell fixed bottom-5 left-1/2 z-40 hidden -translate-x-1/2 border border-black bg-[#ede5d7] p-1 shadow-[5px_5px_0_#221f1b] sm:block" aria-label="Section navigation"><div className="signal-nav-ticks" aria-hidden="true">{Array.from({ length: 60 }, (_, index) => <i key={index} className={index % 5 === 0 ? "is-major" : ""} />)}</div><div className="flex items-center gap-1">{navItems.map(([id, label]) => <button data-cursor={label.toUpperCase()} key={id} onClick={() => goTo(id)} className={`signal-nav-item px-3 py-2 text-[10px] uppercase tracking-[0.12em] transition hover:bg-[#3e4cff] hover:text-[#ede5d7] ${activeSection === id ? "bg-[#3e4cff] text-[#ede5d7]" : ""}`}>{label}</button>)}</div></nav>
 
       <div className="fixed bottom-0 left-0 top-0 z-30 hidden w-8 flex-col items-center justify-center gap-3 border-r border-black/10 bg-[#ede5d7]/35 lg:flex"><span className="signal-mono -rotate-90 whitespace-nowrap text-[9px] uppercase tracking-[.18em]">signal route / {activeSection}</span><div className="h-32 w-px bg-black/20"><div className="w-full bg-[#3e4cff] transition-[height] duration-500" style={{ height: `${progress}%` }} /></div></div>
+
+      <div className="signal-stage">
 
       <section id="home" className="scene-section grain relative flex min-h-[100svh] items-end overflow-hidden bg-[#3e4cff] px-5 pb-16 pt-32 text-[#f4efe5] sm:px-10 lg:px-16"><div className="absolute inset-0 opacity-50 [background-image:linear-gradient(125deg,transparent_0_48%,rgba(244,239,229,.24)_48.2%,transparent_48.5%),linear-gradient(25deg,transparent_0_65%,rgba(20,15,15,.3)_65.2%,transparent_65.5%)]" /><div className="scene-parallax absolute left-[9%] top-[23%] h-[42vw] w-[42vw] max-h-[540px] max-w-[540px] rounded-full bg-[#191512] shadow-[18px_18px_0_rgba(244,239,229,.16)]" style={{ transform: `translate3d(0, ${progress * -0.16}px, 0)` }} /><div className="absolute left-[11%] top-[31%] h-px w-[32vw] bg-[#f4efe5]/60 scene-route-line" /><div className="absolute right-[8%] top-[22%] hidden w-56 rotate-3 border border-[#f4efe5]/70 p-3 font-mono text-[10px] uppercase leading-5 scene-float lg:block"><span className="text-[#ed8b5a]">status: curious</span><br />second love: parrot os<br />signal: telegram<br />mode: learning</div><div className="relative z-10 w-full"><div data-reveal className="mb-10 flex items-center gap-4 sm:ml-[8%]"><BrandMark hero /><p className="signal-mono text-[10px] uppercase tracking-[0.18em]">Zxornatoe / independent learner / systems curious</p></div><div className="grid items-end gap-8 lg:grid-cols-[.7fr_1.7fr_.7fr]"><div data-reveal className="order-2 space-y-6 text-xs leading-5 lg:order-1 lg:pb-8"><span className="clip-label inline-block bg-[#ed8b5a] px-3 py-1 text-[#221f1b]">01 — the intro</span><p className="signal-prose text-base">My second love is Parrot OS.<br />The first one is still under investigation.</p><a data-cursor="SCROLL" className="inline-flex items-center gap-2 border-b border-[#f4efe5] pb-1" href="#about" onClick={(e) => { e.preventDefault(); goTo("about"); }}>keep scrolling <ArrowDown size={13} /></a></div><h1 data-reveal className="signal-display order-1 max-w-4xl text-[17vw] font-semibold leading-[.78] tracking-[-0.08em] lg:order-2 lg:text-[15vw]">zxorna<span className="text-[#ed8b5a]">t</span>oe</h1><div data-reveal className="order-3 justify-self-end pb-2 text-right text-[11px] uppercase tracking-[.12em] lg:pb-8"><span className="block border-b border-[#f4efe5]/60 pb-2">learning the stuff</span><span className="block pt-2 text-[#ed8b5a]">is the actual flex</span></div></div></div><div className="absolute bottom-5 left-5 right-5 flex items-center justify-between text-[10px] uppercase tracking-[.16em] sm:left-10 sm:right-10"><span>SCROLL DOWN</span><span>∞ / 100</span><span className="hidden sm:inline">BUILT FROM CURIOSITY</span></div></section>
 
@@ -287,6 +396,7 @@ export default function Home() {
       <section id="visuals" className="scene-section grain relative bg-[#ede5d7] px-5 py-24 sm:px-10 lg:px-16 lg:py-36"><div data-reveal className="mb-16 grid gap-8 lg:grid-cols-[1fr_.8fr]"><div><p className="signal-mono mb-3 flex items-center gap-3 text-[10px] uppercase tracking-[.2em] text-[#3e4cff]"><BrandMark /> 04 / notes — visual fragments</p><h2 className="signal-display text-6xl leading-[.9] sm:text-8xl">A brain full<br /><em>of tabs.</em></h2></div><p className="signal-prose max-w-sm self-end text-base leading-6">Screenshots will come later. For now, the visual language is made from signal, texture, terminal geometry, and the small satisfaction of a route finally making sense.</p></div><div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"><div data-reveal data-cursor="INSPECT" className="offset-rule aspect-[4/5] rotate-[-2deg] bg-[#3e4cff] p-4 text-[#f4efe5]"><div className="flex justify-between text-[10px]"><span>01</span><BrandMark /></div><div className="flex h-full items-center justify-center"><p className="signal-condensed text-center text-5xl uppercase leading-[.8]">curious<br /><span className="text-[#ed8b5a]">by<br />default</span></p></div></div><div data-reveal data-cursor="INSPECT" className="aspect-[4/5] border border-black bg-[#ed8b5a] p-4"><div className="flex justify-between text-[10px]"><span>02</span><BrandMark /></div><div className="mt-16 space-y-3 text-[10px] uppercase"><div className="border-b border-black/50 pb-2">parrot_os — open</div><div className="border-b border-black/50 pb-2">telegram — active</div><div className="border-b border-black/50 pb-2">learning — ongoing</div></div><div className="mt-16 text-right text-6xl">?</div></div><div data-reveal data-cursor="INSPECT" className="relative aspect-[4/5] overflow-hidden bg-[#221f1b] p-4 text-[#ede5d7]"><div className="absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#3e4cff] shadow-[0_0_0_20px_#221f1b,0_0_0_21px_#3e4cff] scene-orbit" /><div className="relative flex justify-between text-[10px]"><span>03</span><BrandMark /></div><p className="signal-mono absolute bottom-4 left-4 text-[10px] uppercase">signal acquired</p></div><div data-reveal data-cursor="INSPECT" className="aspect-[4/5] border border-black bg-[#e5dccd] p-4"><div className="flex justify-between text-[10px]"><span>04</span><ArrowUpRight size={14} /></div><div className="mt-16 h-px bg-black" /><div className="mt-2 h-px bg-[#3e4cff]" /><div className="mt-20"><p className="signal-display text-5xl leading-[.85]">Keep<br /><em>digging.</em></p></div><p className="signal-mono mt-20 text-[10px] uppercase">note to self / repeat</p></div></div></section>
 
       <section id="contact" className="scene-section grain relative overflow-hidden bg-[#221f1b] px-5 py-24 text-[#ede5d7] sm:px-10 lg:px-16 lg:py-36"><div className="absolute -left-24 bottom-[-140px] h-80 w-80 rounded-full border border-[#3e4cff] shadow-[0_0_0_24px_#221f1b,0_0_0_25px_#3e4cff] scene-orbit" /><div data-reveal className="relative z-10 grid gap-16 lg:grid-cols-[1fr_.8fr]"><div><p className="signal-mono mb-5 flex items-center gap-3 text-[10px] uppercase tracking-[.2em] text-[#ed8b5a]"><BrandMark /> 05 / contact — transmission end</p><h2 className="signal-display max-w-4xl text-6xl leading-[.88] sm:text-8xl lg:text-[9rem]">Say hi<br /><em>before</em><br />overthinking it.</h2><a data-cursor="MAIL" href="mailto:hello@zxornatoe.dev" className="group mt-12 inline-flex items-center gap-3 border-b border-[#ede5d7] pb-2 text-lg transition hover:text-[#3e4cff]">hello@zxornatoe.dev <ArrowUpRight size={18} className="transition group-hover:translate-x-1 group-hover:-translate-y-1" /></a></div><div className="flex flex-col justify-end gap-8 lg:pb-3"><p className="signal-prose max-w-sm text-base leading-6 text-[#ede5d7]/80">If you like learning in public, opening the terminal again, or following a weird question until it turns into something useful, we’ll probably get along.</p><div className="grid gap-2 text-xs uppercase"><a data-cursor="TELEGRAM" className="flex items-center justify-between border-t border-[#ede5d7]/30 py-3 transition hover:text-[#3e4cff]" href="https://t.me/zxornatoe" target="_blank" rel="noreferrer"><span className="flex items-center gap-3"><Send size={15} /> Telegram</span><ArrowUpRight size={14} /></a><a data-cursor="GITHUB" className="flex items-center justify-between border-t border-[#ede5d7]/30 py-3 transition hover:text-[#3e4cff]" href="https://github.com/zxornatoe" target="_blank" rel="noreferrer"><span className="flex items-center gap-3"><Github size={15} /> GitHub</span><ArrowUpRight size={14} /></a><button data-cursor="COPY" className="flex items-center justify-between border-t border-[#ede5d7]/30 py-3 text-left uppercase transition hover:text-[#3e4cff]" onClick={copyHandle}><span className="flex items-center gap-3"><Copy size={15} /> {copied ? "Handle copied" : "Copy Telegram handle"}</span><span className="signal-mono text-[10px]">@zxornatoe</span></button></div></div></div><footer className="relative z-10 mt-24 flex flex-wrap items-center justify-between gap-4 border-t border-[#ede5d7]/30 pt-4 text-[10px] uppercase tracking-[.14em] text-[#ede5d7]/55"><span>built from curiosity / powered by late tabs</span><span>zxornatoe © 2026</span><a data-cursor="TOP" href="#home" onClick={(e) => { e.preventDefault(); goTo("home"); }}>back to top ↑</a></footer></section>
+      </div>
       {activeMedia && <div className="media-drawer" role="dialog" aria-modal="true" aria-labelledby="media-drawer-title"><div className="media-drawer__bar"><span className="signal-mono text-[10px] uppercase">evidence frame / {projects[activeMedia.project].code}</span><button data-cursor="CLOSE" onClick={() => setActiveMedia(null)} aria-label="Close evidence frame"><X size={18} /></button></div><div className={`evidence-frame evidence-frame--${activeMedia.frame}`}><div className="evidence-frame__grid" /><ScanLine size={28} /><span className="signal-mono">{projects[activeMedia.project].media[activeMedia.frame]}</span><strong id="media-drawer-title">{projects[activeMedia.project].title}</strong><small>{projects[activeMedia.project].tags.join(" / ")}</small><i>{String(activeMedia.frame + 1).padStart(2, "0")} / 02</i></div><p className="signal-prose max-w-md text-center text-lg">Visual evidence placeholder — replace this frame with a real project screenshot or experiment artifact when the work is ready.</p></div>}
     </main>
   );

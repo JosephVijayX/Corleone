@@ -41,6 +41,20 @@ The full mobile capture shows a strong hero but a weaker chapter rhythm below it
 
 The continuation build now exposes two touch-friendly evidence preview buttons per Labs record, with a fullscreen drawer ready to host real screenshots or experiment artifacts. The live page still boots through the signal line, keeps the route rail, and retains the Featured controls while the new project-media affordances remain available in the DOM.
 
+## GSAP fidelity pass
+
+The explicit GSAP/Lenis runtime now boots through a staged line reveal and restores the section navigation after the intro. Triggering Origin drives the destination to the correct route at roughly 25% scroll progress and the settled Origin copy is readable. The warp currently exposes a brief blank/over-scaled frame during the viewport transform before settling; this is a tuning target, not a runtime crash. The next fix should keep the world stage visually present during the `scale(.82) + rotationX(28deg) + blur(6px)` phase while avoiding the current desktop frame collapse.
+
+After isolating `.signal-stage` from fixed overlays, the refreshed preview now restores the hero and nav cleanly after boot. The next Origin warp test should confirm whether the stage-only transform removes the prior blank frame without changing the intended route handoff.
+
+The second Origin warp now preserves the fixed signal/header context, briefly shows the intended clay/blur route handoff, and lands at 25% progress with the Origin scene readable. The previous full-viewport blank collapse is gone; remaining differences are fidelity refinements such as route ticks, richer character-level intro timing, and more exact pinned-scrub sequencing.
+
+The latest refreshed preview restores the staged hero cleanly after the Draggable conversion. The browser console reports no runtime output or errors after GSAP, ScrollTrigger, Lenis, and the multi-dot cursor runtime initialize.
+
+The latest live boot now exposes the reference-style character spans and a progress counter during the dark intro; after the timeline settles, the blue hero and full navigation return cleanly at 00% home state. This confirms the explicit boot sequence is not leaving stale preloader state behind.
+
+The latest navigation test lands at 25% / Origin, with the route label updated, the clay scene readable, both GSAP Draggable notes exposed, and the fixed nav still available. The nav tick rail is present in the DOM and the stage-only transform no longer collapses the entire viewport during the warp.
+
 The live Labs scene now presents a sticky dark chapter header with the first project record in view and two evidence actions exposed as separate controls. The route is at 35%, and the original project index remains visually layered rather than collapsing into a generic list.
 
 Packet Map opens successfully as a fullscreen evidence frame with an original blue/clay visual, project title, tags, frame counter, close control, and explicit replacement copy for future real media. Closing the drawer returns to Labs at the same 35% route position, preserving the interaction context.
