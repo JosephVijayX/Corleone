@@ -1,0 +1,3 @@
+# Compact Rhythmic Route Probe
+
+The revised runtime remains deterministic and stationary at rest: parent, Lottie plane, and micro-motion wrapper transforms are identical across a 500 ms idle sample and after a full reverse return. Seven normalized scroll samples now show repeated non-identical parent rotations and wrapper micro-rotations rather than one alternating pair. The route still spans more vertical space than desired at the current `.78` end multiplier, so the next refinement should tighten the normalized Y anchors and reduce the timeline span further while preserving the multi-beat rhythm.

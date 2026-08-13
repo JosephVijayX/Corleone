@@ -88,7 +88,9 @@ button { font: inherit; }
 .ink-route-layer--signal { top: 340vh; right: -12vw; transform: rotate(-3deg); color: #ed8b5a; mix-blend-mode: screen; }
 .ink-route-layer--close { top: 570vh; left: 4vw; transform: rotate(2deg); color: #3e4cff; }
 .telegram-signal-object { position: fixed; left: 0; top: 0; z-index: 18; width: clamp(3.5rem, 6vw, 6rem); aspect-ratio: 7 / 5; pointer-events: none; transform: translate3d(0, 0, 0) rotate(-8deg) scale(.96); transform-origin: 50% 50%; will-change: transform, opacity; filter: drop-shadow(9px 10px 0 rgba(34,31,27,.24)); }
-.telegram-signal-object__lottie, .telegram-signal-object__fallback { position: absolute; inset: 0; }
+.telegram-signal-object__lottie-motion, .telegram-signal-object__fallback { position: absolute; inset: 0; }
+.telegram-signal-object__lottie-motion { will-change: transform; }
+.telegram-signal-object__lottie { position: absolute; inset: 0; }
 .telegram-signal-object__lottie { top: -1.6rem; left: -3rem; width: clamp(7rem, 11vw, 11rem); height: auto; aspect-ratio: 7 / 5; opacity: 0; transform: scale(.96); transition: opacity .25s var(--ease-signal), transform .45s var(--ease-signal); }
 .telegram-signal-object.is-lottie-ready .telegram-signal-object__lottie { opacity: 1; transform: scale(1); }
 .telegram-signal-object.is-lottie-ready .telegram-signal-object__fallback { opacity: 0; }

@@ -125,7 +125,7 @@ function TelegramSignalObject() {
     return () => { animation.removeEventListener("DOMLoaded", handleReady); animation.destroy(); host.telegramAnimation = undefined; };
   }, []);
 
-  return <div className={`telegram-signal-object ${lottieReady ? "is-lottie-ready" : ""}`} data-telegram-signal data-lottie-ready={lottieReady} aria-hidden="true"><div className="telegram-signal-object__lottie" ref={lottieRef} /><svg className="telegram-signal-object__fallback" viewBox="0 0 120 96"><ellipse className="telegram-signal-object__orbit" cx="60" cy="48" rx="45" ry="18" /><g className="telegram-signal-object__trail-field"><path className="telegram-signal-object__trail telegram-signal-object__trail--one" d="M10 65C28 61 31 72 42 68" /><path className="telegram-signal-object__trail telegram-signal-object__trail--two" d="M17 72C28 70 32 77 38 74" /><path className="telegram-signal-object__trail telegram-signal-object__trail--three" d="M7 56C20 53 28 61 39 59" /><path className="telegram-signal-object__trail telegram-signal-object__trail--four" d="M12 79C23 76 29 83 36 80" /></g><g className="telegram-signal-object__flight"><path className="telegram-signal-object__shadow" d="M19 49 97 24 67 73 56 55Z" /><path className="telegram-signal-object__plane" d="M19 49 97 24 67 73 56 55Z" /><path className="telegram-signal-object__fold" d="m56 55 11 18 3-27Z" /></g></svg><span>telegram / active</span></div>;
+  return <div className={`telegram-signal-object ${lottieReady ? "is-lottie-ready" : ""}`} data-telegram-signal data-lottie-ready={lottieReady} aria-hidden="true"><div className="telegram-signal-object__lottie-motion"><div className="telegram-signal-object__lottie" ref={lottieRef} /></div><svg className="telegram-signal-object__fallback" viewBox="0 0 120 96"><ellipse className="telegram-signal-object__orbit" cx="60" cy="48" rx="45" ry="18" /><g className="telegram-signal-object__trail-field"><path className="telegram-signal-object__trail telegram-signal-object__trail--one" d="M10 65C28 61 31 72 42 68" /><path className="telegram-signal-object__trail telegram-signal-object__trail--two" d="M17 72C28 70 32 77 38 74" /><path className="telegram-signal-object__trail telegram-signal-object__trail--three" d="M7 56C20 53 28 61 39 59" /><path className="telegram-signal-object__trail telegram-signal-object__trail--four" d="M12 79C23 76 29 83 36 80" /></g><g className="telegram-signal-object__flight"><path className="telegram-signal-object__shadow" d="M19 49 97 24 67 73 56 55Z" /><path className="telegram-signal-object__plane" d="M19 49 97 24 67 73 56 55Z" /><path className="telegram-signal-object__fold" d="m56 55 11 18 3-27Z" /></g></svg><span>telegram / active</span></div>;
 }
 
 function DraggableSticker({ children, className = "" }: { children: ReactNode; className?: string }) {
@@ -443,25 +443,37 @@ function useReferenceMotion() {
       const telegram = document.querySelector<HTMLElement>("[data-telegram-signal]");
       if (telegram) {
         const lottieHost = telegram.querySelector<HTMLElement>(".telegram-signal-object__lottie") as TelegramLottieHost | null;
+        const microMotion = telegram.querySelector<HTMLElement>(".telegram-signal-object__lottie-motion");
         const anchors = [
-          { x: .1, y: .24, rotation: -4, scale: .92 },
-          { x: .7, y: .33, rotation: 11, scale: 1.02 },
-          { x: .22, y: .45, rotation: -12, scale: .94 },
-          { x: .72, y: .57, rotation: 12, scale: 1.06 },
-          { x: .26, y: .69, rotation: -10, scale: .96 },
-          { x: .74, y: .81, rotation: 8, scale: 1 },
+          { x: .12, y: .13, rotation: -3, scale: .9 },
+          { x: .34, y: .15, rotation: -8, scale: .98 },
+          { x: .63, y: .18, rotation: 7, scale: 1.04 },
+          { x: .52, y: .22, rotation: 2, scale: .97 },
+          { x: .26, y: .26, rotation: -7, scale: .94 },
+          { x: .32, y: .3, rotation: -1, scale: 1 },
+          { x: .68, y: .35, rotation: 9, scale: 1.06 },
+          { x: .49, y: .39, rotation: 3, scale: .98 },
+          { x: .24, y: .43, rotation: -8, scale: .94 },
+          { x: .4, y: .47, rotation: 4, scale: 1.02 },
+          { x: .72, y: .51, rotation: 11, scale: 1.08 },
+          { x: .6, y: .55, rotation: 5, scale: 1 },
         ];
         const setFrame = (progress: number) => {
           const frame = TELEGRAM_LOTTIE_FIRST_FRAME + (TELEGRAM_LOTTIE_LAST_FRAME - TELEGRAM_LOTTIE_FIRST_FRAME) * gsap.utils.clamp(0, 1, progress);
           lottieHost?.telegramAnimation?.goToAndStop(Math.round(frame), true);
         };
+        const setMicroMotion = (progress: number) => {
+          const phase = progress * Math.PI * 13;
+          gsap.set(microMotion, { x: Math.sin(phase * 1.07 + .35) * 2.4 + Math.sin(phase * .43) * 1.1, y: Math.cos(phase * .71) * 1.7, rotation: Math.sin(phase * .83 + .8) * 2.6 + Math.cos(phase * .31) * 1.1 });
+        };
         gsap.set(telegram, { x: () => window.innerWidth * anchors[0].x, y: () => window.innerHeight * anchors[0].y, rotation: anchors[0].rotation, scale: anchors[0].scale, autoAlpha: .92 });
-        const telegramTimeline = gsap.timeline({ scrollTrigger: { trigger: "#home", start: "top top", end: () => `+=${Math.max(1, document.documentElement.scrollHeight - window.innerHeight)}`, scrub: .65, invalidateOnRefresh: true, onUpdate: (self) => setFrame(self.progress) } });
+        const telegramTimeline = gsap.timeline({ scrollTrigger: { trigger: "#home", start: "top top", end: () => `+=${Math.max(1, (document.documentElement.scrollHeight - window.innerHeight) * .55)}`, scrub: .55, invalidateOnRefresh: true, onUpdate: (self) => { setFrame(self.progress); setMicroMotion(self.progress); } } });
         telegramTimeline.set(telegram, { x: () => window.innerWidth * anchors[0].x, y: () => window.innerHeight * anchors[0].y, rotation: anchors[0].rotation, scale: anchors[0].scale, autoAlpha: .92 }, 0);
         anchors.slice(1).forEach((anchor, index) => {
           telegramTimeline.to(telegram, { x: () => window.innerWidth * anchor.x, y: () => window.innerHeight * anchor.y, rotation: anchor.rotation, scale: anchor.scale, duration: 1 / (anchors.length - 1), ease: "none" }, (index + 1) / (anchors.length - 1));
         });
         setFrame(0);
+        setMicroMotion(0);
       }
     });
 

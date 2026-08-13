@@ -72,3 +72,11 @@
 - [x] Replace autoplay ownership with scroll-scrubbed frame control and a separate parent route-banking layer.
 - [x] Verify idle stationarity, downward/upward scroll direction, horizontal transition rotation, mobile layering, reduced motion, pointer isolation, and clean console behavior.
 - [x] Run the final type check and production build, save a checkpoint, and deliver the scroll-controlled revision.
+
+## Compact rhythmic Telegram flight pass
+
+- [x] Audit the current document route length, vertical anchor span, repeated rotation pattern, and Lottie frame response.
+- [x] Define a compact multi-beat flight path with bounded deterministic variation, rest pauses, and distinct banking beats instead of one repeated alternation.
+- [x] Implement the revised anchors, rhythm, controlled micro-jitter, and scroll-direction handoff without autonomous drift while idle.
+- [x] Verify the route is visibly shorter, banking changes more than once, repeated passes remain deterministic, scroll direction is correct, and mobile/reduced-motion behavior stays safe.
+- [x] Run the final type check and production build, save a checkpoint, and deliver the compact rhythmic revision.
