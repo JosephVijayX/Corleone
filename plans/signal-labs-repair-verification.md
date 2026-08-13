@@ -15,3 +15,7 @@ The live console inspection returned no elements for `#featured .ink-route__shad
 The corrected selector now finds both Signal InkRoute paths at runtime. The route layer's color was also changed from orange to electric blue to match the request. The full-page desktop capture shows the hero wall and the Labs surface now using ruled notebook lines with a red margin; a focused Labs viewport check remains for readability and overlap review.
 
 The live browser navigation reached Labs and displayed the notebook-paper canvas behind the pasted cards. The first screenshot was captured during the cinematic route settle, so the final readability check should be taken after the travel blur clears.
+
+## Blue-route prototype verification
+
+The isolated `/prototype/labs-lines?v=1` route mounted the Notebook Trace direction with the picker and real project cards. Clicking the live `Evidence Route` picker item switched instantly to `?v=2`, changed the direction label to `node-by-node / indexed proof`, and replaced the continuous path with a structured vertical/horizontal route and sequenced nodes. Desktop and 390px screenshots for all three variants are captured; final handoff now waits on the user's choice.

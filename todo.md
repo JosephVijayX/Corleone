@@ -159,3 +159,13 @@
 - [x] Make back/next controls functional and bind both blue Signal lines to scroll-driven SVG draw progress with reverse-scroll support and reduced-motion handling.
 - [x] Rework the Labs backing surface into a ruled notebook/paper board inspired by the supplied screenshot while keeping the pasted cards, notes, route, and project interactions.
 - [x] Test Signal controls and line motion plus desktop/390px layouts, run checks, save a checkpoint, and deliver.
+
+## Labs blue-route animation prototype
+
+- [x] Reconcile the current Labs route paths, node timing, notebook surface, and ScrollTrigger behavior with the requested “draw down on scroll” motion.
+- [x] Prototype three divergent route-animation directions in an isolated picker: continuous notebook trace, node-by-node evidence route, and ink-sweep backtrack.
+- [x] Verify all variants at desktop and 390px with reverse scroll, reduced motion, clean console, and real interaction behavior.
+- [x] Present the picker and wait for the user's selection before changing production Labs motion.
+- [x] Promote **Ink Backtrack** into production Labs and add a physical pin to one pasted note.
+- [x] Refine production notes as tactile paper with grain, stock variation, softened edges, tape/pin depth, and natural shadow offsets.
+- [x] Remove prototype files, run final desktop/390px and type/build checks, save a checkpoint, and deliver.
