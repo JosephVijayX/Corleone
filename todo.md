@@ -261,3 +261,9 @@
 - [x] Inspect the current intro overlay text, controls, autoplay state, and fallback behavior.
 - [x] Remove every visible intro label/control and make video playback sound-enabled by default.
 - [x] Verify clean fullscreen playback, natural handoff, reduced-motion behavior, type/build checks, and checkpoint delivery.
+
+## Video readiness and full-playback gate
+
+- [x] Inspect the current media event, readyState, buffering, and early safety-timeout behavior.
+- [x] Keep the intro black until the video is ready, start playback only after readiness, and remove the early reveal timeout.
+- [x] Verify slow-load, full-duration playback, replay prevention, handoff, type/build checks, and checkpoint delivery.

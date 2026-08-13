@@ -387,6 +387,8 @@ function VideoIntro({ onComplete }: { onComplete: () => void }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const finishedRef = useRef(false);
   const [leaving, setLeaving] = useState(false);
+  const [ready, setReady] = useState(false);
+  const [playing, setPlaying] = useState(false);
 
   const finish = (immediate = false) => {
     if (finishedRef.current) return;
@@ -402,7 +404,9 @@ function VideoIntro({ onComplete }: { onComplete: () => void }) {
   };
 
   const tryPlay = () => {
-    videoRef.current?.play().catch(() => undefined);
+    const video = videoRef.current;
+    if (!video || !ready) return;
+    video.play().catch(() => undefined);
   };
 
   useEffect(() => {
@@ -417,20 +421,24 @@ function VideoIntro({ onComplete }: { onComplete: () => void }) {
         document.body.classList.remove("video-intro-active");
       };
     }
-    tryPlay();
-    const fallbackTimer = window.setTimeout(() => { if (videoRef.current?.paused) finish(true); }, 7000);
     const onKeyDown = (event: KeyboardEvent) => { if (event.key === "Escape") finish(); };
     window.addEventListener("keydown", onKeyDown);
     return () => {
-      window.clearTimeout(fallbackTimer);
       window.removeEventListener("keydown", onKeyDown);
       document.documentElement.classList.remove("video-intro-active");
       document.body.classList.remove("video-intro-active");
     };
   }, []);
 
+  const handleReady = () => {
+    const video = videoRef.current;
+    if (!video || video.readyState < HTMLMediaElement.HAVE_ENOUGH_DATA) return;
+    setReady(true);
+    video.play().catch(() => undefined);
+  };
+
   return <div className={`intro-video ${leaving ? "is-leaving" : ""}`} aria-hidden="true" onPointerDown={tryPlay}>
-    <video ref={videoRef} className="intro-video__media" autoPlay playsInline preload="auto" onEnded={() => finish()} onError={() => finish(true)}>
+    <video ref={videoRef} className={`intro-video__media ${ready ? "is-ready" : ""} ${playing ? "is-playing" : ""}`} autoPlay playsInline preload="auto" onCanPlayThrough={handleReady} onLoadedData={handleReady} onPlay={() => setPlaying(true)} onEnded={() => finish()}>
       <source src={INTRO_VIDEO_URL} type="video/mp4" />
     </video>
     <div className="intro-video__scrim" aria-hidden="true" />
