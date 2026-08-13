@@ -115,6 +115,82 @@ function DraggableSticker({ children, className = "" }: { children: ReactNode; c
   return <div ref={stickerRef} className={`draggable-sticker ${className}`} role="img" aria-label="Draggable signal note">{children}</div>;
 }
 
+function MobileRouteSheet({ activeIndex, onSelect, onMove }: { activeIndex: number; onSelect: (index: number) => void; onMove: (direction: 1 | -1) => void }) {
+  const sheet = featured[activeIndex];
+  const [offset, setOffset] = useState(0);
+  const [pressed, setPressed] = useState(false);
+  const offsetRef = useRef(0);
+  const pointerRef = useRef<{ id: number; start: number; last: number; lastAt: number; velocity: number; grabOffset: number } | null>(null);
+  const frameRef = useRef<number | null>(null);
+  const springVelocityRef = useRef(0);
+
+  const springTo = (target: number, initialVelocity = 0, complete?: () => void) => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      offsetRef.current = target;
+      setOffset(target);
+      springVelocityRef.current = 0;
+      complete?.();
+      return;
+    }
+    if (frameRef.current) cancelAnimationFrame(frameRef.current);
+    let value = offsetRef.current;
+    let velocity = initialVelocity || springVelocityRef.current;
+    const tick = () => {
+      const distance = target - value;
+      velocity = velocity * .78 + distance * .075;
+      value += velocity;
+      springVelocityRef.current = velocity;
+      offsetRef.current = value;
+      setOffset(value);
+      if (Math.abs(distance) < .5 && Math.abs(velocity) < .5) {
+        offsetRef.current = target;
+        setOffset(target);
+        springVelocityRef.current = 0;
+        frameRef.current = null;
+        complete?.();
+        return;
+      }
+      frameRef.current = requestAnimationFrame(tick);
+    };
+    frameRef.current = requestAnimationFrame(tick);
+  };
+
+  useEffect(() => () => { if (frameRef.current) cancelAnimationFrame(frameRef.current); }, []);
+
+  const onPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    if (frameRef.current) cancelAnimationFrame(frameRef.current);
+    pointerRef.current = { id: event.pointerId, start: event.clientY, last: event.clientY, lastAt: performance.now(), velocity: 0, grabOffset: offsetRef.current };
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setPressed(true);
+  };
+  const onPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const pointer = pointerRef.current;
+    if (!pointer || pointer.id !== event.pointerId) return;
+    const now = performance.now();
+    const elapsed = Math.max(8, now - pointer.lastAt);
+    pointer.velocity = (event.clientY - pointer.last) / elapsed * 16;
+    pointer.last = event.clientY;
+    pointer.lastAt = now;
+    const raw = pointer.grabOffset + event.clientY - pointer.start;
+    const next = raw > 0 ? raw * .28 : raw < -260 ? -260 + (raw + 260) * .25 : raw;
+    offsetRef.current = next;
+    setOffset(next);
+  };
+  const onPointerUp = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const pointer = pointerRef.current;
+    if (!pointer || pointer.id !== event.pointerId) return;
+    const projected = offsetRef.current + pointer.velocity * 18;
+    pointerRef.current = null;
+    setPressed(false);
+    if (projected < -70) springTo(-320, pointer.velocity, () => { offsetRef.current = 0; setOffset(0); onMove(1); });
+    else if (projected > 70) springTo(180, pointer.velocity, () => { offsetRef.current = 0; setOffset(0); onMove(-1); });
+    else springTo(0, pointer.velocity);
+  };
+
+  return <div className={`mobile-route-sheet ${pressed ? "is-pressed" : ""}`}><div className="mobile-route-sheet__underlay"><div className="mobile-route-sheet__route">{featured.map((stop, index) => <button key={stop.code} className={index === activeIndex ? "is-active" : ""} aria-label={`Go to ${stop.label}`} aria-current={index === activeIndex ? "step" : undefined} onPointerDown={(event) => event.stopPropagation()} onClick={() => { onSelect(index); springTo(0); }}><i /><span>{stop.code}</span></button>)}</div><div className="mobile-route-sheet__underlay-copy"><span>next action</span><strong>pull up to inspect</strong></div></div><article className="mobile-route-sheet__panel" style={{ transform: `translate3d(0, ${offset}px, 0)` }} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={() => { pointerRef.current = null; setPressed(false); springTo(0); }}><div className="mobile-route-sheet__grabber" /><div className="mobile-route-sheet__panel-head"><span>{sheet.code} / {sheet.label}</span><span>signal / live</span></div><div key={sheet.code} className="mobile-route-sheet__readout"><h3>{sheet.title}</h3><p>{sheet.detail}</p><div className="mobile-route-sheet__trace"><span>trace / {sheet.metricLabel}</span><strong>{sheet.metric}</strong></div></div><div className="mobile-route-sheet__panel-foot"><span>pull / release / continue</span><button data-cursor="NEXT" aria-label="Next featured signal" onPointerDown={(event) => event.stopPropagation()} onClick={() => onMove(1)}><ArrowRight size={15} /></button></div></article></div>;
+}
+
 function useSceneState() {
   const [progress, setProgress] = useState(0);
   const [activeSection, setActiveSection] = useState("home");
@@ -330,7 +406,7 @@ function useReferenceMotion() {
       gsap.fromTo("#work .project-record", { y: 34, rotate: (index) => index % 2 === 0 ? -1.4 : 1.1, clipPath: "inset(0 0 100% 0)" }, { y: 0, rotate: 0, clipPath: "inset(0 0 0% 0)", duration: .9, stagger: .16, ease: "elastic.out(1, .68)", scrollTrigger: { trigger: "#work", start: "top 78%", once: true } });
       gsap.fromTo("#featured .scene-orbit", { rotation: -18, scale: .85, autoAlpha: .2 }, { rotation: 12, scale: 1, autoAlpha: 1, duration: 1.8, ease: "power3.out", scrollTrigger: { trigger: "#featured", start: "top 78%", once: true } });
       gsap.fromTo("#visuals [data-cursor=INSPECT]", { clipPath: "inset(0 0 100% 0)", y: 50, rotation: -3 }, { clipPath: "inset(0 0 0% 0)", y: 0, rotation: 0, duration: .9, stagger: .14, ease: "expo.out", scrollTrigger: { trigger: "#visuals", start: "top 78%", once: true } });
-      gsap.to("#contact .ink-route-layer--close", { x: 70, ease: "none", scrollTrigger: { trigger: "#contact", start: "top bottom", end: "bottom top", scrub: 1.2 } });
+      gsap.to(".ink-route-layer--close", { x: 70, ease: "none", scrollTrigger: { trigger: "#contact", start: "top bottom", end: "bottom top", scrub: 1.2 } });
     });
 
     return () => context.revert();
@@ -390,14 +466,14 @@ export default function Home() {
 
     const timeline = gsap.timeline({ onComplete: () => { setJumping(false); document.body.classList.remove("traveling"); } });
     timeline.to(".signal-nav-item", { autoAlpha: 0, duration: .2, ease: "power2.out" }, 0)
-      .to(".signal-nav-shell", { width: "110vw", padding: "30px 0", borderWidth: "8px", borderColor: "#ede5d7", duration: .6, ease: "power4.inOut" }, .1)
+      .to(".signal-nav-shell", { scaleX: 1.12, scaleY: 1.35, y: 4, duration: .6, ease: "power4.inOut" }, .1)
       .to(".signal-stage", { scale: .82, rotationX: 28, y: "-4vh", transformPerspective: 1200, transformOrigin: "center center", borderRadius: "24px", filter: "brightness(.35) blur(6px)", duration: .6, ease: "power3.inOut" }, .1)
       .to(".signal-jump__line", { scaleX: 1, duration: .3, ease: "power4.inOut" }, 0)
       .add(() => scrollTo(targetScroll), .6)
       .to(".signal-nav-ticks", { x: "-200%", duration: 1.8, ease: "power2.inOut" }, .4)
       .to(".signal-jump__line", { scaleX: 0, duration: .8, ease: "power2.inOut" }, .5)
       .to(".signal-stage", { scale: 1, rotationX: 0, y: "0vh", borderRadius: "0px", filter: "brightness(1) blur(0px)", duration: .9, ease: "expo.out" }, 2)
-      .to(".signal-nav-shell", { width: "auto", padding: "4px", borderWidth: "1px", borderColor: "#221f1b", duration: .7, ease: "expo.out" }, 2)
+      .to(".signal-nav-shell", { scaleX: 1, scaleY: 1, y: 0, duration: .7, ease: "expo.out" }, 2)
       .to(".signal-nav-item", { autoAlpha: 1, duration: .4, ease: "power2.out" }, 2.3);
   };
 
@@ -430,6 +506,7 @@ export default function Home() {
 
       <div className={`signal-jump ${jumping ? "is-active" : ""}`} aria-hidden="true"><span className="signal-jump__line" /><span className="signal-jump__label">routing signal / {activeSection}</span></div>
       <div className={`cinematic-vignette ${jumping ? "is-active" : ""}`} aria-hidden="true" />
+      {activeSection === "featured" && <div className="mobile-touch-feature"><MobileRouteSheet activeIndex={featuredIndex} onSelect={(index) => { setFeaturedIndex(index); setSlideDirection(index >= featuredIndex ? "next" : "prev"); }} onMove={changeFeatured} /></div>}
       <div ref={cursorRef} className="pointer-field pointer-field--gsap" aria-hidden="true"><span data-cursor-label>MOVE</span><b data-cursor-core /><div className="cursor-trail">{Array.from({ length: 10 }, (_, index) => <i key={index} data-cursor-trail />)}</div></div>
 
       <header className="fixed left-0 right-0 top-0 z-40 border-b border-black/15 bg-[#ede5d7]/85 px-4 py-2 backdrop-blur-md sm:px-6">

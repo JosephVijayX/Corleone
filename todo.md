@@ -24,3 +24,15 @@
 - [x] Run a full-codebase animation audit covering purpose, easing, duration, physicality, interruption, performance, accessibility, cohesion, and missed opportunities.
 - [x] Apply the highest-leverage audited motion fixes, then repeat screenshot and live interaction verification until no high-impact motion defects remain.
 - [ ] Save a new checkpoint only after the final loop passes type check, production build, desktop/mobile verification, keyboard checks, reduced-motion checks, and clean console review.
+
+## High-intensity UI/UX and motion pass
+
+- [x] Design and document three new interaction targets: draggable signal artifacts, a tactile mobile Featured browser, and a chapter-transition mask system.
+- [x] Prototype three divergent directions for the next highest-leverage target in an isolated picker, with real Zxornatoe content and no production imports.
+- [x] Verify every prototype at desktop and mobile sizes, with pointer, keyboard, touch, interruption, and reduced-motion behavior.
+- [x] Select and promote the strongest direction only after comparing its interaction grammar, clarity, physicality, and visual distinctiveness.
+- [x] Add Apple-style direct manipulation: pointer-down response, pointer capture, velocity handoff, momentum projection, rubber-banding, and interruptible spring-like settling where appropriate.
+- [x] Add richer UI/UX signatures: tactile material toolbar, cursor-to-control feedback, route memory, intentional depth layers, and a clearer end-state loop.
+- [x] Run a fresh full-codebase animation audit after promotion and write self-contained plans for every remaining high-impact issue.
+- [x] Execute the audit plans in holistic passes and repeat the audit until no high-impact motion, accessibility, or interaction defects remain.
+- [x] Run final desktop/mobile screenshots, touch and keyboard checks, reduced-motion checks, console review, type check, and production build; checkpoint delivery remains the final open item.

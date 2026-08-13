@@ -249,9 +249,32 @@ button { font: inherit; }
 .signal-relay-console__footer .terminal-step-out { color: #221f1b; background: #f4efe5; }
 .archive-hint { position: relative; }
 .archive-hint::before { content: ""; display: inline-block; width: 34px; height: 1px; margin-right: .5rem; vertical-align: middle; background: #ed8b5a; }
+.mobile-touch-feature { display: none; }
+.mobile-route-sheet { position: relative; min-height: 360px; margin: 1.5rem 0 .5rem; overflow: hidden; border: 1px solid rgba(244,239,229,.28); background: rgba(34,31,27,.28); touch-action: pan-y; }
+.mobile-route-sheet__underlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 1rem; background: linear-gradient(135deg, rgba(237,139,90,.26), rgba(34,31,27,.44)); }
+.mobile-route-sheet__route { display: flex; align-self: flex-end; gap: .7rem; }
+.mobile-route-sheet__route button { display: grid; gap: .24rem; justify-items: center; border: 0; color: rgba(244,239,229,.45); background: transparent; font: 8px "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
+.mobile-route-sheet__route button i { display: block; height: .7rem; width: .7rem; border: 1px solid currentColor; border-radius: 50%; }
+.mobile-route-sheet__route button.is-active { color: #ed8b5a; }
+.mobile-route-sheet__route button.is-active i { background: #ed8b5a; box-shadow: 0 0 0 4px rgba(237,139,90,.18); }
+.mobile-route-sheet__underlay-copy { display: grid; gap: .35rem; max-width: 12rem; color: rgba(244,239,229,.58); font: 8px "IBM Plex Mono", monospace; letter-spacing: .11em; text-transform: uppercase; }
+.mobile-route-sheet__underlay-copy strong { color: #f4efe5; font: 1.8rem/.9 "Bodoni Moda", serif; letter-spacing: -.06em; text-transform: none; }
+.mobile-route-sheet__panel { position: absolute; right: 0; bottom: 0; left: 0; min-height: 78%; display: flex; flex-direction: column; padding: 1rem; border: 1px solid rgba(244,239,229,.4); color: #221f1b; background: rgba(244,239,229,.97); box-shadow: 8px 8px 0 rgba(34,31,27,.4); touch-action: none; will-change: transform; }
+.mobile-route-sheet.is-pressed .mobile-route-sheet__panel { cursor: grabbing; }
+.mobile-route-sheet__grabber { width: 2.7rem; height: .22rem; margin: 0 auto 1.1rem; border-radius: 999px; background: rgba(34,31,27,.3); }
+.mobile-route-sheet__panel-head, .mobile-route-sheet__panel-foot { display: flex; align-items: center; justify-content: space-between; gap: .75rem; color: #3e4cff; font: 8px "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
+.mobile-route-sheet__panel h3 { max-width: 8ch; margin: auto 0 .6rem; font: 600 clamp(2.65rem, 12vw, 4.8rem)/.8 "Bodoni Moda", serif; letter-spacing: -.08em; }
+.mobile-route-sheet__panel p { max-width: 28rem; margin-bottom: 1.25rem; font: .92rem/1.45 "Bodoni Moda", serif; }
+.mobile-route-sheet__trace { display: flex; align-items: end; justify-content: space-between; gap: .75rem; border-top: 1px solid rgba(34,31,27,.2); padding-top: .65rem; color: rgba(34,31,27,.55); font: 8px "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
+.mobile-route-sheet__trace strong { color: #ed8b5a; font: 3.8rem/.7 "Barlow Condensed", sans-serif; }
+.mobile-route-sheet__readout { animation: mobile-route-readout-in 220ms cubic-bezier(.23, 1, .32, 1) both; }
+@keyframes mobile-route-readout-in { from { opacity: 0; transform: translate3d(0, 10px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
+.mobile-route-sheet__panel-foot { margin-top: auto; color: rgba(34,31,27,.52); }
+.mobile-route-sheet__panel-foot button { display: grid; height: 2.3rem; width: 2.3rem; place-items: center; border: 1px solid #221f1b; border-radius: 50%; color: #221f1b; background: transparent; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   [data-reveal] { opacity: 1 !important; transform: none !important; filter: none !important; }
+  .mobile-route-sheet__panel, .mobile-route-sheet__readout { transition: none !important; animation: none !important; }
 }
 @media (min-width: 1024px) { body { cursor: crosshair; } }
 @media (hover: none), (pointer: coarse) { .pointer-field { display: none !important; } }
@@ -262,6 +285,9 @@ button { font: inherit; }
   #work > div:first-child { margin-left: -4rem; margin-right: -4rem; padding-left: 4rem; padding-right: 4rem; }
 }
 @media (max-width: 767px) {
+  .signal-relay-scene .signal-relay-console { display: none; }
+  .mobile-touch-feature { position: fixed; right: .8rem; bottom: calc(.8rem + env(safe-area-inset-bottom)); left: .8rem; z-index: 50; display: block; }
+  .signal-relay-scene { min-height: 100svh; }
   .parity-top-ribbon { grid-template-columns: 1fr auto; gap: .5rem; }
   .parity-top-ribbon__mid { display: none; }
   .boot-screen__skip { right: 1rem; bottom: 4.2rem; }
