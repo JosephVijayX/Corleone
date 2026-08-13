@@ -311,3 +311,9 @@
 - [x] Confirm the production treatment: preserve the existing blue, clay, black, and paper/cream card sequence.
 - [x] Promote the chosen direction with the four detailed card backs and remove prototype-only surfaces.
 - [x] Verify hover/focus/touch/reduced-motion behavior, desktop/mobile layout, checks, and checkpoint delivery.
+
+## Silent VideoProject6 autoplay restoration
+
+- [x] Confirm the MP4 has no audio track and inspect the current paused autoplay state.
+- [x] Restore reliable silent autoplay while preserving the black-until-play gate and exactly two complete plays.
+- [x] Verify automatic playback, two-play timing, fade handoff, type/build checks, and checkpoint delivery.

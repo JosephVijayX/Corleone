@@ -467,7 +467,7 @@ function VideoIntro({ onComplete }: { onComplete: () => void }) {
   };
 
   return <div className={`intro-video ${leaving ? "is-leaving" : ""}`} aria-hidden="true" onPointerDown={tryPlay}>
-    <video ref={videoRef} className={`intro-video__media ${ready ? "is-ready" : ""} ${playing ? "is-playing" : ""}`} autoPlay playsInline preload="auto" onCanPlayThrough={handleReady} onLoadedData={handleReady} onPlay={() => setPlaying(true)} onEnded={handleEnded}>
+    <video ref={videoRef} className={`intro-video__media ${ready ? "is-ready" : ""} ${playing ? "is-playing" : ""}`} autoPlay muted playsInline preload="auto" onCanPlayThrough={handleReady} onLoadedData={handleReady} onPlay={() => setPlaying(true)} onEnded={handleEnded}>
       <source src={INTRO_VIDEO_URL} type="video/mp4" />
     </video>
     <div className="intro-video__scrim" aria-hidden="true" />
