@@ -217,3 +217,9 @@
 - [x] Adapt the Labs stage so the heading clears before the notebook begins, with the board acting as a stable paper surface rather than an overlapping overlay.
 - [x] Bind the Labs pen lines to a scoped scroll progress timeline with progressive draw, node/dot reveals, subtle paper pan/parallax, reverse motion, and reduced-motion fallback.
 - [x] Verify the live Labs section at desktop and 390px, run checks, save a checkpoint, and deliver.
+
+## Ticker and Labs margin cleanup
+
+- [x] Inspect the first-page ticker markup and compare Labs section width/margins and line rules with the surrounding portfolio sections.
+- [x] Remove the unwanted ticker copy and correct Labs-only width, margins, overflow, and stray horizontal line treatment.
+- [x] Verify first page and Labs at desktop/390px, run checks, save a checkpoint, and deliver.
