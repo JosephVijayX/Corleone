@@ -152,3 +152,10 @@
 - [x] Inspect the existing hero status cluster and identify the cleanest insertion point for a three-card pasted-paper treatment.
 - [x] Replace the plain status text with original outlined metric cards, handwritten annotations, tape/paper offsets, and a blue route stroke while preserving the same four status facts.
 - [x] Verify the live hero at desktop and 390px, run type/build checks, save a checkpoint, and deliver.
+
+## Signal controls and Labs notebook repair
+
+- [x] Inspect the Signal tab back/next controls, active-stop state, and existing route-line selectors in the live code.
+- [x] Make back/next controls functional and bind both blue Signal lines to scroll-driven SVG draw progress with reverse-scroll support and reduced-motion handling.
+- [x] Rework the Labs backing surface into a ruled notebook/paper board inspired by the supplied screenshot while keeping the pasted cards, notes, route, and project interactions.
+- [x] Test Signal controls and line motion plus desktop/390px layouts, run checks, save a checkpoint, and deliver.
