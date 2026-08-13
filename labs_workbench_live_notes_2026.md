@@ -1,0 +1,3 @@
+# Labs Workbench Live Notes
+
+The alternate Labs composition now differs materially from the previous archive shell. The live scene uses a large Bodoni editorial headline, a blue proof stage, a compact project index rail, and a black practice-metrics margin. With no selection, the stage reads `open the next question`; opening `LAB.01` replaces that prompt with its real project title, status, year, description, tags, and evidence controls while the index marks the selected proof with a blue/orange active state. The layout reads closer to Origin's asymmetrical authored scene than to a dashboard list.

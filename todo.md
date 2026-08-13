@@ -103,3 +103,10 @@
 - [x] Define a warm paper base, ink text hierarchy, electric-blue structural accents, and restrained orange signal highlights without introducing a dark dashboard surface.
 - [x] Re-theme Labs while preserving the archive shell, open/close behavior, evidence drawer, and staggered motion.
 - [x] Verify desktop and 390px mobile contrast, open-record readability, adjacent chapter handoff, console, type check, production build, and checkpoint delivery.
+
+## Labs alternate composition pass
+
+- [x] Compare the authored layout grammar of Hero and Origin with the current Labs archive shell and identify the specific mismatch in type, density, contrast, and storytelling.
+- [x] Choose a genuinely different Labs composition and rewrite the project framing around signal cards, lab notes, and a stronger active-project stage.
+- [x] Implement the alternate layout with a new type/contrast pairing while preserving evidence drawers, project state, keyboard close, and mobile readability.
+- [x] Run the animation review, verify desktop/390px behavior and contrast, then run type check, production build, and checkpoint delivery.
