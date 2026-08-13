@@ -286,3 +286,28 @@
 - [x] Apply sharper, specific copy while preserving animation selectors, layout structure, and Labs interactions.
 - [x] Remove email/GitHub, update Telegram to `t.me/hellrip`, align the copy handle, and replace the footer phrase.
 - [x] Verify desktop/mobile rendering, source cleanup, Telegram links, TypeScript, production build, and checkpoint delivery.
+
+## Notes card flip prototype and integration
+
+- [x] Define three genuinely different flip-card directions and preserve the four supplied content themes.
+- [x] Build an isolated Notes-card prototype picker with hover, focus, keyboard, touch-safe behavior, and reduced-motion handling.
+- [x] Verify each direction and present the picker for user selection before touching production Notes cards.
+- [ ] Promote the selected direction, remove the prototype surface, run checks, and verify desktop/mobile behavior.
+
+## Notes flip prototype route repair
+
+- [x] Inspect why the shared `/prototype/notes-flip?v=1` URL returns 404.
+- [x] Repair the isolated route without changing production Notes cards.
+- [x] Verify the exact URL, picker variants, card flip, and mobile preview before presenting it again.
+
+## Notes flip prototype stable access
+
+- [x] Inspect the router and dev-server fallback for intermittent direct-link 404 behavior.
+- [x] Add a stable isolated fallback entry point if the shared prototype path is not reliable.
+- [x] Verify both access paths, picker variants, card flips, and mobile layout before presenting the final link.
+
+## Notes flip production promotion
+
+- [x] Confirm the production treatment: preserve the existing blue, clay, black, and paper/cream card sequence.
+- [x] Promote the chosen direction with the four detailed card backs and remove prototype-only surfaces.
+- [x] Verify hover/focus/touch/reduced-motion behavior, desktop/mobile layout, checks, and checkpoint delivery.

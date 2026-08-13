@@ -108,6 +108,41 @@ button { font: inherit; }
 #visuals [data-cursor="INSPECT"] { position: relative; overflow: hidden; }
 #visuals [data-cursor="INSPECT"]::after { content: "SCAN / 04"; position: absolute; left: .75rem; right: .75rem; top: 0; padding: .35rem 0; color: rgba(34,31,27,.75); border-bottom: 1px solid rgba(34,31,27,.45); font: 9px "IBM Plex Mono", monospace; letter-spacing: .16em; opacity: 0; transform: translateY(-140%); transition: transform .6s var(--ease-signal), opacity .25s ease; pointer-events: none; }
 #visuals [data-cursor="INSPECT"]:hover::after, #visuals [data-cursor="INSPECT"]:focus-visible::after { opacity: 1; transform: translateY(0); }
+#visuals .notes-flip-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(.75rem, 1.6vw, 1.25rem); }
+#visuals .notes-card { min-width: 0; aspect-ratio: 4 / 5; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; perspective: 1000px; cursor: pointer; }
+#visuals .notes-card:focus-visible { outline: 2px solid #ed8b5a; outline-offset: 6px; }
+#visuals .notes-card__inner { position: relative; display: block; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 240ms cubic-bezier(.23, 1, .32, 1); }
+#visuals .notes-card[data-flipped="true"] .notes-card__inner, #visuals .notes-card:focus-visible .notes-card__inner { transform: rotateY(180deg); }
+@media (hover: hover) and (pointer: fine) {
+  #visuals .notes-card:hover .notes-card__inner { transform: rotateY(180deg); }
+}
+#visuals .notes-card__face { position: absolute; inset: 0; display: flex; flex-direction: column; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+#visuals .notes-card__front { justify-content: space-between; padding: 1rem; border: 1px solid #221f1b; }
+#visuals .notes-card__back { transform: rotateY(180deg); justify-content: space-between; padding: 1rem; border: 1px solid #221f1b; }
+#visuals .notes-card--blue .notes-card__front, #visuals .notes-card--blue .notes-card__back { background: #3e4cff; color: #f4efe5; }
+#visuals .notes-card--clay .notes-card__front, #visuals .notes-card--clay .notes-card__back { background: #ed8b5a; color: #221f1b; }
+#visuals .notes-card--black .notes-card__front, #visuals .notes-card--black .notes-card__back { background: #221f1b; color: #ede5d7; }
+#visuals .notes-card--paper .notes-card__front, #visuals .notes-card--paper .notes-card__back { background: #e5dccd; color: #221f1b; }
+#visuals .notes-card__top { display: flex; justify-content: space-between; font: 9px/1 "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
+#visuals .notes-card__title { font: clamp(2rem, 4vw, 3.4rem)/.82 "Barlow Condensed", sans-serif; text-transform: uppercase; }
+#visuals .notes-card__title em { color: #ed8b5a; font-style: normal; }
+#visuals .notes-card--clay .notes-card__title em, #visuals .notes-card--paper .notes-card__title em { color: #3e4cff; }
+#visuals .notes-card__meta { font: 9px/1.35 "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+#visuals .notes-card__back strong { font: clamp(1.25rem, 2.2vw, 2rem)/.9 "Barlow Condensed", sans-serif; text-transform: uppercase; }
+#visuals .notes-card__copy { font: clamp(.65rem, 1.05vw, .85rem)/1.45 "IBM Plex Mono", monospace; overflow-wrap: anywhere; }
+#visuals .notes-card__back .notes-card__meta { opacity: .75; }
+@media (prefers-reduced-motion: reduce) {
+  #visuals .notes-card__inner { transition: none; }
+  #visuals .notes-card[data-flipped="true"] .notes-card__inner, #visuals .notes-card:focus-visible .notes-card__inner { transform: none; }
+  #visuals .notes-card[data-flipped="true"] .notes-card__front, #visuals .notes-card:focus-visible .notes-card__front { opacity: 0; }
+  #visuals .notes-card[data-flipped="true"] .notes-card__back, #visuals .notes-card:focus-visible .notes-card__back { opacity: 1; }
+}
+@media (max-width: 760px) {
+  #visuals .notes-flip-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; }
+  #visuals .notes-card__front, #visuals .notes-card__back { padding: .7rem; }
+  #visuals .notes-card__title { font-size: 2rem; }
+  #visuals .notes-card__copy { font-size: .62rem; }
+}
 .scene-section { position: relative; scroll-margin-top: 64px; }
 .scene-section::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .14; background: linear-gradient(90deg, transparent 0 12%, rgba(34,31,27,.25) 12.1%, transparent 12.2% 86%, rgba(34,31,27,.22) 86.1%, transparent 86.2%); }
 .boot-screen { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; pointer-events: none; color: #f4efe5; background: #221f1b; transition: clip-path 1s var(--ease-signal), opacity .6s ease; clip-path: inset(0 0 0 0); }
