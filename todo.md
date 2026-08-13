@@ -96,3 +96,10 @@
 - [x] Implement the redesigned Labs layout, hover/open states, scroll choreography, and mobile fallback without breaking project evidence drawers.
 - [x] Run improve-animations findings/plans for the Labs scene and execute the highest-leverage fixes.
 - [x] Verify desktop and 390px mobile previews, keyboard/accessibility behavior, console, type check, production build, and checkpoint delivery.
+
+## Labs clay/paper material refinement
+
+- [x] Compare the Labs background, text contrast, record surfaces, specimen card, and route lines against the clay Origin and Notes chapters.
+- [x] Define a warm paper base, ink text hierarchy, electric-blue structural accents, and restrained orange signal highlights without introducing a dark dashboard surface.
+- [x] Re-theme Labs while preserving the archive shell, open/close behavior, evidence drawer, and staggered motion.
+- [x] Verify desktop and 390px mobile contrast, open-record readability, adjacent chapter handoff, console, type check, production build, and checkpoint delivery.
