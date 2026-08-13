@@ -317,3 +317,9 @@
 - [x] Confirm the MP4 has no audio track and inspect the current paused autoplay state.
 - [x] Restore reliable silent autoplay while preserving the black-until-play gate and exactly two complete plays.
 - [x] Verify automatic playback, two-play timing, fade handoff, type/build checks, and checkpoint delivery.
+
+## ZIP source cleanup audit
+
+- [x] Inventory prototype routes/files, Telegram visual leftovers, unused imports/dependencies, and required production assets.
+- [x] Remove only confirmed-unused artifacts while preserving the live Telegram contact link, VideoProject6 MP4, and production content.
+- [x] Run source sweeps, dependency/type/build checks, live regression checks, and save a clean ZIP-ready checkpoint.
