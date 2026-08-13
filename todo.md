@@ -80,3 +80,10 @@
 - [x] Implement the revised anchors, rhythm, controlled micro-jitter, and scroll-direction handoff without autonomous drift while idle.
 - [x] Verify the route is visibly shorter, banking changes more than once, repeated passes remain deterministic, scroll direction is correct, and mobile/reduced-motion behavior stays safe.
 - [x] Run the final type check and production build, save a checkpoint, and deliver the compact rhythmic revision.
+
+## Telegram removal pass
+
+- [x] Audit and remove the Telegram component mount, Lottie runtime usage, uploaded asset reference, and Telegram-specific scroll hooks.
+- [x] Remove Telegram-only CSS, fallback SVG styles, research artifacts from active code paths, and the `lottie-web` dependency.
+- [x] Verify the remaining hero, scroll scenes, responsive layout, console, type check, and production build without the Telegram object.
+- [x] Save a checkpoint and deliver the Telegram-free portfolio revision.
