@@ -97,6 +97,10 @@ function InkRoute({ variant = "default", className = "" }: { variant?: "default"
   return <svg className={`ink-route ink-route--${variant} ${className}`} viewBox="0 0 1000 180" preserveAspectRatio="none" aria-hidden="true"><path className="ink-route__shadow" d={paths[variant]} /><path className="ink-route__path" d={paths[variant]} /><path className="ink-route__curl" d="M824 64 C852 24 914 42 900 84 C886 122 820 132 796 96 C780 72 798 42 828 46" /><circle className="ink-route__node" cx="286" cy="86" r="7" /><circle className="ink-route__node" cx="744" cy="58" r="7" /></svg>;
 }
 
+function TelegramSignalObject() {
+  return <div className="telegram-signal-object" data-telegram-signal aria-hidden="true"><svg viewBox="0 0 120 96"><ellipse className="telegram-signal-object__orbit" cx="60" cy="48" rx="45" ry="18" /><path className="telegram-signal-object__shadow" d="M19 49 97 24 67 73 56 55Z" /><path className="telegram-signal-object__plane" d="M19 49 97 24 67 73 56 55Z" /><path className="telegram-signal-object__fold" d="m56 55 11 18 3-27Z" /><path className="telegram-signal-object__trail telegram-signal-object__trail--one" d="M10 65C28 61 31 72 42 68" /><path className="telegram-signal-object__trail telegram-signal-object__trail--two" d="M17 72C28 70 32 77 38 74" /></svg><span>telegram / active</span></div>;
+}
+
 function DraggableSticker({ children, className = "" }: { children: ReactNode; className?: string }) {
   const stickerRef = useRef<HTMLDivElement>(null);
 
@@ -347,6 +351,7 @@ function useReferenceMotion() {
       if (reducedMotion) {
         gsap.set("[data-reveal]", { autoAlpha: 1, y: 0, filter: "blur(0px)" });
         gsap.set(".boot-screen", { autoAlpha: 0, display: "none" });
+        gsap.set("[data-telegram-signal]", { x: "72vw", y: "18vh", rotation: -8, scale: .88, autoAlpha: .78 });
         return;
       }
 
@@ -407,6 +412,17 @@ function useReferenceMotion() {
       gsap.fromTo("#featured .scene-orbit", { rotation: -18, scale: .85, autoAlpha: .2 }, { rotation: 12, scale: 1, autoAlpha: 1, duration: 1.8, ease: "power3.out", scrollTrigger: { trigger: "#featured", start: "top 78%", once: true } });
       gsap.fromTo("#visuals [data-cursor=INSPECT]", { clipPath: "inset(0 0 100% 0)", y: 50, rotation: -3 }, { clipPath: "inset(0 0 0% 0)", y: 0, rotation: 0, duration: .9, stagger: .14, ease: "expo.out", scrollTrigger: { trigger: "#visuals", start: "top 78%", once: true } });
       gsap.to(".ink-route-layer--close", { x: 70, ease: "none", scrollTrigger: { trigger: "#contact", start: "top bottom", end: "bottom top", scrub: 1.2 } });
+
+      const telegram = document.querySelector<HTMLElement>("[data-telegram-signal]");
+      if (telegram) {
+        gsap.timeline({ scrollTrigger: { trigger: "#home", start: "top top", end: () => `+=${Math.max(1, document.documentElement.scrollHeight - window.innerHeight)}`, scrub: 1.1, invalidateOnRefresh: true } })
+          .set(telegram, { x: () => window.innerWidth * .1, y: () => window.innerHeight * .24, rotation: -8, scale: .92, autoAlpha: .92 }, 0)
+          .to(telegram, { x: () => window.innerWidth * .7, y: () => window.innerHeight * .26, rotation: 14, scale: 1.05, duration: .18, ease: "none" }, .14)
+          .to(telegram, { x: () => window.innerWidth * .22, y: () => window.innerHeight * .46, rotation: -16, scale: .84, duration: .2, ease: "none" }, .34)
+          .to(telegram, { x: () => window.innerWidth * .72, y: () => window.innerHeight * .52, rotation: 10, scale: 1.1, duration: .2, ease: "none" }, .54)
+          .to(telegram, { x: () => window.innerWidth * .26, y: () => window.innerHeight * .34, rotation: -12, scale: .88, duration: .2, ease: "none" }, .74)
+          .to(telegram, { x: () => window.innerWidth * .74, y: () => window.innerHeight * .6, rotation: 7, scale: .98, duration: .2, ease: "none" }, .88);
+      }
     });
 
     return () => context.revert();
@@ -529,6 +545,7 @@ export default function Home() {
         <div className="ink-route-layer ink-route-layer--origin"><InkRoute variant="default" /></div>
         <div className="ink-route-layer ink-route-layer--signal"><InkRoute variant="signal" /></div>
         <div className="ink-route-layer ink-route-layer--close"><InkRoute variant="close" /></div>
+        <TelegramSignalObject />
 
       <section id="home" className="scene-section grain relative flex min-h-[100svh] items-end overflow-hidden bg-[#3e4cff] px-5 pb-16 pt-32 text-[#f4efe5] sm:px-10 lg:px-16"><div className="hero-field-overlay absolute inset-0" /><div className="absolute inset-0 opacity-50 [background-image:linear-gradient(125deg,transparent_0_48%,rgba(244,239,229,.24)_48.2%,transparent_48.5%),linear-gradient(25deg,transparent_0_65%,rgba(20,15,15,.3)_65.2%,transparent_65.5%)]" /><div className="scene-parallax absolute left-[9%] top-[23%] h-[42vw] w-[42vw] max-h-[540px] max-w-[540px] rounded-full bg-[#191512] shadow-[18px_18px_0_rgba(244,239,229,.16)]" style={{ transform: `translate3d(0, ${progress * -0.16}px, 0)` }} /><div className="absolute left-[11%] top-[31%] h-px w-[32vw] bg-[#f4efe5]/60 scene-route-line" /><div className="absolute right-[8%] top-[22%] hidden w-56 rotate-3 border border-[#f4efe5]/70 p-3 font-mono text-[10px] uppercase leading-5 scene-float lg:block"><span className="text-[#ed8b5a]">status: curious</span><br />second love: parrot os<br />signal: telegram<br />mode: learning</div><div className="relative z-10 w-full"><div data-reveal className="mb-10 flex items-center gap-4 sm:ml-[8%]"><BrandMark hero /><p className="signal-mono text-[10px] uppercase tracking-[0.18em]">Zxornatoe / independent learner / systems curious</p></div><div className="grid items-end gap-8 lg:grid-cols-[.7fr_1.7fr_.7fr]"><div data-reveal className="order-2 space-y-6 text-xs leading-5 lg:order-1 lg:pb-8"><span className="clip-label inline-block bg-[#ed8b5a] px-3 py-1 text-[#221f1b]">01 — the intro</span><p className="signal-prose text-base">My second love is Parrot OS.<br />The first one is still under investigation.</p><a data-cursor="SCROLL" className="inline-flex items-center gap-2 border-b border-[#f4efe5] pb-1" href="#about" onClick={(e) => { e.preventDefault(); goTo("about"); }}>keep scrolling <ArrowDown size={13} /></a></div><h1 data-reveal className="signal-display signal-hand hero-wordmark order-1 max-w-4xl text-[17vw] font-semibold leading-[.78] tracking-[-0.08em] lg:order-2 lg:text-[15vw]">zxorna<span className="text-[#ed8b5a]">t</span>oe</h1><div data-reveal className="order-3 justify-self-end pb-2 text-right text-[11px] uppercase tracking-[.12em] lg:pb-8"><span className="block border-b border-[#f4efe5]/60 pb-2">learning the stuff</span><span className="block pt-2 text-[#ed8b5a]">is the actual flex</span></div></div></div><div className="hero-meter absolute bottom-5 left-5 right-5 flex items-center justify-between gap-4 text-[10px] uppercase tracking-[.16em] sm:left-10 sm:right-10"><span className="hero-meter__value">{progressLabel}</span><span className="hero-meter__line"><i style={{ width: `${progress}%` }} /></span><span>SCROLL DOWN</span><span className="hidden sm:inline">BUILT FROM CURIOSITY</span></div></section>
 

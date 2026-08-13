@@ -23,7 +23,7 @@
 - [x] Promote the selected motion direction into the production portfolio and remove the temporary prototype surface.
 - [x] Run a full-codebase animation audit covering purpose, easing, duration, physicality, interruption, performance, accessibility, cohesion, and missed opportunities.
 - [x] Apply the highest-leverage audited motion fixes, then repeat screenshot and live interaction verification until no high-impact motion defects remain.
-- [ ] Save a new checkpoint only after the final loop passes type check, production build, desktop/mobile verification, keyboard checks, reduced-motion checks, and clean console review.
+- [x] Save a new checkpoint only after the final loop passes type check, production build, desktop/mobile verification, keyboard checks, reduced-motion checks, and clean console review.
 
 ## High-intensity UI/UX and motion pass
 
@@ -36,3 +36,15 @@
 - [x] Run a fresh full-codebase animation audit after promotion and write self-contained plans for every remaining high-impact issue.
 - [x] Execute the audit plans in holistic passes and repeat the audit until no high-impact motion, accessibility, or interaction defects remain.
 - [x] Run final desktop/mobile screenshots, touch and keyboard checks, reduced-motion checks, console review, type check, and production build; checkpoint delivery remains the final open item.
+
+## Living Telegram signal pass
+
+- [x] Audit the current scroll scene geometry and define Telegram object anchors for Home, Origin, Labs, Signal, Notes, and Contact.
+- [x] Inspect the supplied Lottie reference and decide whether to use a self-contained original mark, a compatible dotLottie asset, or a CSS/SVG fallback.
+- [x] Prototype three distinct Telegram travel grammars: chapter pinball, orbital relay, and paper-to-blue signal flight.
+- [x] Verify each prototype with scrubbed scroll, fast scroll, reverse scroll, keyboard navigation, coarse pointer, mobile viewport, and reduced motion.
+- [x] Promote the strongest grammar into production without replacing the desktop and mobile Route Sheet interactions.
+- [x] Add 3D-like depth through transform perspective, rotation, scale, shadow, and parallax while keeping the object compositor-friendly.
+- [x] Run a fresh improve-animations audit of the object, ScrollTrigger handoffs, and adjacent chapter transitions; write self-contained plans for all high-impact findings.
+- [x] Execute the audit plans and repeat live scroll verification until no high-impact object, accessibility, or performance defect remains.
+- [x] Complete final screenshots, console review, type check, production build, and checkpoint delivery.
