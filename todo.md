@@ -146,3 +146,9 @@
 - [x] Replace Bodoni Moda only for the Labs wall heading with a cleaner display face that fits the collage.
 - [x] Tune the new heading's size, tracking, line-height, and blue emphasis against the live desktop render.
 - [x] Verify 390px, run type/build checks, save a checkpoint, and deliver.
+
+## First-page status wall pass
+
+- [x] Inspect the existing hero status cluster and identify the cleanest insertion point for a three-card pasted-paper treatment.
+- [x] Replace the plain status text with original outlined metric cards, handwritten annotations, tape/paper offsets, and a blue route stroke while preserving the same four status facts.
+- [x] Verify the live hero at desktop and 390px, run type/build checks, save a checkpoint, and deliver.
