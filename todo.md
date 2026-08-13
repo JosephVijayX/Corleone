@@ -267,3 +267,9 @@
 - [x] Inspect the current media event, readyState, buffering, and early safety-timeout behavior.
 - [x] Keep the intro black until the video is ready, start playback only after readiness, and remove the early reveal timeout.
 - [x] Verify slow-load, full-duration playback, replay prevention, handoff, type/build checks, and checkpoint delivery.
+
+## VideoProject6 controlled loop intro
+
+- [x] Inspect VideoProject6 metadata, frame composition, and current readiness-gate implementation.
+- [x] Upload VideoProject6 and repeat it with a controlled elapsed-time loop until four seconds, then reveal the portfolio.
+- [x] Verify buffering, repeated playback, exact handoff timing, responsive framing, type/build checks, and checkpoint delivery.
