@@ -43,7 +43,7 @@ The page is a **vertical signal route**. A fixed top status rail and bottom sect
 
 1. A split-orbit cursor mark used in the header, favicon, progress indicator, and section markers.
 2. Blue route lines and clay paper labels that look like annotated research notes.
-3. A repeating “SIGNAL TICKER” strip between chapters, carrying short metadata such as `PARROT_OS / TELEGRAM / ALWAYS_LEARNING`.
+3. A split status wall and field-note labels that carry short metadata such as `PARROT_OS / TELEGRAM / ALWAYS_LEARNING` without adding a separate ticker strip.
 
 ### Interaction Philosophy
 

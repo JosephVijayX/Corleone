@@ -37,57 +37,6 @@
 - [x] Execute the audit plans in holistic passes and repeat the audit until no high-impact motion, accessibility, or interaction defects remain.
 - [x] Run final desktop/mobile screenshots, touch and keyboard checks, reduced-motion checks, console review, type check, and production build; checkpoint delivery remains the final open item.
 
-## Living Telegram signal pass
-
-- [x] Audit the current scroll scene geometry and define Telegram object anchors for Home, Origin, Labs, Signal, Notes, and Contact.
-- [x] Inspect the supplied Lottie reference and decide whether to use a self-contained original mark, a compatible dotLottie asset, or a CSS/SVG fallback.
-- [x] Prototype three distinct Telegram travel grammars: chapter pinball, orbital relay, and paper-to-blue signal flight.
-- [x] Verify each prototype with scrubbed scroll, fast scroll, reverse scroll, keyboard navigation, coarse pointer, mobile viewport, and reduced motion.
-- [x] Promote the strongest grammar into production without replacing the desktop and mobile Route Sheet interactions.
-- [x] Add 3D-like depth through transform perspective, rotation, scale, shadow, and parallax while keeping the object compositor-friendly.
-- [x] Run a fresh improve-animations audit of the object, ScrollTrigger handoffs, and adjacent chapter transitions; write self-contained plans for all high-impact findings.
-- [x] Execute the audit plans and repeat live scroll verification until no high-impact object, accessibility, or performance defect remains.
-- [x] Complete final screenshots, console review, type check, production build, and checkpoint delivery.
-
-## Telegram animation repair pass
-
-- [x] Inspect the supplied airplane motion reference, the live portfolio behavior, and the current SVG/GSAP implementation side by side.
-- [x] Define a non-hardcoded animation contract for arrow thrust, plane rotation/banking, orbital motion, and continuously arriving signal lines.
-- [x] Prototype and promote an animated trail system that reads as signal packets arriving from behind the plane rather than static decoration.
-- [x] Verify the repair at desktop and 390px mobile sizes, including forward/reverse scroll, reduced motion, pointer isolation, and clean console behavior.
-- [x] Run the final type check and production build, save a new checkpoint, and deliver the repaired motion revision.
-
-## Uploaded Telegram Lottie integration pass
-
-- [x] Inspect `AirplaneLottieAnimation.json` for dimensions, frame rate, duration, layers, assets, and trail/plane structure.
-- [x] Confirm the asset can be used in the portfolio and choose the safest runtime integration path without adding unnecessary dependencies.
-- [x] Replace or augment the current SVG signal presentation with the uploaded Lottie motion while keeping the GSAP chapter route and mobile layering intact.
-- [x] Verify playback changes over time, scroll-bound positioning, reverse scroll, 390px mobile, reduced motion, pointer isolation, and clean console behavior.
-- [x] Run type check and production build, save a checkpoint, and deliver the Lottie-backed signal revision.
-
-## Scroll-controlled Telegram Lottie pass
-
-- [x] Inspect the uploaded Lottie position and trim-path keyframes, generated SVG structure, and current autoplay ownership.
-- [x] Define the scroll contract: no autonomous travel between scroll samples, scroll-direction-aware vertical movement, and banking only when the route changes horizontally.
-- [x] Replace autoplay ownership with scroll-scrubbed frame control and a separate parent route-banking layer.
-- [x] Verify idle stationarity, downward/upward scroll direction, horizontal transition rotation, mobile layering, reduced motion, pointer isolation, and clean console behavior.
-- [x] Run the final type check and production build, save a checkpoint, and deliver the scroll-controlled revision.
-
-## Compact rhythmic Telegram flight pass
-
-- [x] Audit the current document route length, vertical anchor span, repeated rotation pattern, and Lottie frame response.
-- [x] Define a compact multi-beat flight path with bounded deterministic variation, rest pauses, and distinct banking beats instead of one repeated alternation.
-- [x] Implement the revised anchors, rhythm, controlled micro-jitter, and scroll-direction handoff without autonomous drift while idle.
-- [x] Verify the route is visibly shorter, banking changes more than once, repeated passes remain deterministic, scroll direction is correct, and mobile/reduced-motion behavior stays safe.
-- [x] Run the final type check and production build, save a checkpoint, and deliver the compact rhythmic revision.
-
-## Telegram removal pass
-
-- [x] Audit and remove the Telegram component mount, Lottie runtime usage, uploaded asset reference, and Telegram-specific scroll hooks.
-- [x] Remove Telegram-only CSS, fallback SVG styles, research artifacts from active code paths, and the `lottie-web` dependency.
-- [x] Verify the remaining hero, scroll scenes, responsive layout, console, type check, and production build without the Telegram object.
-- [x] Save a checkpoint and deliver the Telegram-free portfolio revision.
-
 ## Labs scene redesign pass
 
 - [x] Compare the Labs scene against Hero, Origin, Featured, Notes, and Contact for layout rhythm, material language, typography, and scene transitions.
@@ -323,3 +272,9 @@
 - [x] Inventory prototype routes/files, Telegram visual leftovers, unused imports/dependencies, and required production assets.
 - [x] Remove only confirmed-unused artifacts while preserving the live Telegram contact link, VideoProject6 MP4, and production content.
 - [x] Run source sweeps, dependency/type/build checks, live regression checks, and save a clean ZIP-ready checkpoint.
+
+## Historical artifact cleanup audit
+
+- [x] Inventory obsolete motion-development sources, stylesheets, audit plans, asset references, dependencies, and generated artifacts in the project tree.
+- [x] Remove unused historical artifacts while preserving the intentional `https://t.me/hellrip` contact link and current production copy.
+- [x] Re-run source sweeps, dependency/type/build checks, live regression checks, and save a revised ZIP-ready checkpoint.
