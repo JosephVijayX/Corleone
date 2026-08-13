@@ -398,7 +398,8 @@ function useGsapCursor() {
   return cursorRef;
 }
 
-const INTRO_VIDEO_URL = "/manus-storage/VideoProject6_e70958e7.mp4";
+// The intro clip ships with the repository so GitHub/Vercel deployments behave like the Manus preview.
+const INTRO_VIDEO_URL = "/VideoProject6.mp4";
 function VideoIntro({ onComplete }: { onComplete: () => void }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const finishedRef = useRef(false);
