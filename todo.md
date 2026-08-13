@@ -223,3 +223,9 @@
 - [x] Inspect the first-page ticker markup and compare Labs section width/margins and line rules with the surrounding portfolio sections.
 - [x] Remove the unwanted ticker copy and correct Labs-only width, margins, overflow, and stray horizontal line treatment.
 - [x] Verify first page and Labs at desktop/390px, run checks, save a checkpoint, and deliver.
+
+## Hero and Origin copy margin adjustment
+
+- [x] Inspect the requested hero, Origin, and Labs copy bounds against the main portfolio margin.
+- [x] Shift the affected copy slightly right on desktop with a scoped responsive rule while preserving mobile alignment.
+- [x] Verify desktop/390px renders, run type/build checks, save a checkpoint, and deliver.
