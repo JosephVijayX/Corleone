@@ -198,3 +198,22 @@
 - [x] Inspect the router import/route and current dev-server response for `/prototype/stamp-board`.
 - [x] Repair the route or refresh the dev surface so the exact prototype URL resolves instead of 404.
 - [x] Open the exact URL directly, verify desktop/mobile rendering, and report the working route without promoting production code.
+
+## Stale prototype HMR cleanup
+
+- [x] Confirm deleted prototype files are absent and no production router import still references them.
+- [x] Restart the dev surface to clear stale HMR module errors from the deleted prototype files.
+- [x] Verify the production homepage, `/prototype/stamp-board?from_webdev=1` response, current console, and type/build checks.
+
+## Labs heading overlap repair
+
+- [x] Inspect the live Labs heading panel and notebook stage bounds to identify the overlay source.
+- [x] Fix the heading-to-stage flow and stacking so the notebook begins after the title panel at desktop and mobile.
+- [x] Verify production Labs, route animation, and responsive layout, run checks, save a checkpoint, and deliver.
+
+## Labs corkboard motion-reference pass
+
+- [x] Extract the supplied reference's sticky viewport, long scroll track, line-progress, node reveal, and paper-entry behavior without importing its identity or copy.
+- [x] Adapt the Labs stage so the heading clears before the notebook begins, with the board acting as a stable paper surface rather than an overlapping overlay.
+- [x] Bind the Labs pen lines to a scoped scroll progress timeline with progressive draw, node/dot reveals, subtle paper pan/parallax, reverse motion, and reduced-motion fallback.
+- [x] Verify the live Labs section at desktop and 390px, run checks, save a checkpoint, and deliver.

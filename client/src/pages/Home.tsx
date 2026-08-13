@@ -140,7 +140,7 @@ function LabsScene({ activeProject, onToggleProject, onMedia, onClose }: { activ
     { value: "03", label: "routes mapped", ink: "brown" },
     { value: "OPEN", label: "Telegram trail", ink: "blue" },
   ];
-  return <section id="work" className="scene-section grain stamp-labs relative overflow-hidden px-5 py-24 text-[#221f1b] sm:px-10 lg:px-16 lg:py-36">
+  return <section id="work" className="scene-section grain stamp-labs relative px-5 py-24 text-[#221f1b] sm:px-10 lg:px-16 lg:py-36">
     <div data-reveal className="stamp-labs__header"><div><p className="signal-mono stamp-labs__kicker">02 / labs — source board / signal found</p><h2 className="stamp-labs__title">Questions with a purpose.<br /><em>Proof gets messy.</em></h2><p className="stamp-labs__intro">Same field, different evidence: Packet Weather, Parrot Hours, and Open Channel pinned to the learning trail.</p></div><div className="stamp-labs__stamp signal-mono">WORKING<br />NOT FINISHED</div></div>
     <div className="stamp-labs__stage">
       <div className="stamp-labs__strut" aria-hidden="true" /><div className="stamp-labs__tag">ZXORNATOE / LEARNING LAB</div>
@@ -451,6 +451,7 @@ function useReferenceMotion() {
       gsap.fromTo("#work [data-wall-annotation]", { y: 16, autoAlpha: .12 }, { y: 0, autoAlpha: 1, duration: .5, stagger: .08, ease: "power3.out", scrollTrigger: { trigger: "#work", start: "top 72%", once: true } });
       document.querySelectorAll<SVGPathElement>("#work [data-wall-route]").forEach((path, index) => { const length = path.getTotalLength(); gsap.set(path, { strokeDasharray: length, strokeDashoffset: length }); gsap.to(path, { strokeDashoffset: 0, ease: "sine.inOut", duration: 1, delay: index * .12, scrollTrigger: { trigger: "#work", start: "top 82%", end: "bottom 24%", scrub: 1.05 } }); });
       gsap.to("#work .stamp-labs__route", { rotation: 1.2, transformOrigin: "50% 50%", ease: "sine.inOut", scrollTrigger: { trigger: "#work", start: "top 80%", end: "bottom 24%", scrub: 1 } });
+      gsap.fromTo("#work .stamp-labs__route circle", { autoAlpha: 0, scale: .55 }, { autoAlpha: 1, scale: 1, duration: .3, stagger: .12, ease: "back.out(1.7)", scrollTrigger: { trigger: "#work", start: "top 74%", end: "bottom 30%", scrub: .75 } });
       gsap.fromTo("#featured .scene-orbit", { rotation: -18, scale: .85, autoAlpha: .2 }, { rotation: 12, scale: 1, autoAlpha: 1, duration: 1.8, ease: "power3.out", scrollTrigger: { trigger: "#featured", start: "top 78%", once: true } });
       gsap.fromTo("#visuals [data-cursor=INSPECT]", { clipPath: "inset(0 0 100% 0)", y: 50, rotation: -3 }, { clipPath: "inset(0 0 0% 0)", y: 0, rotation: 0, duration: .9, stagger: .14, ease: "expo.out", scrollTrigger: { trigger: "#visuals", start: "top 78%", once: true } });
       gsap.to(".ink-route-layer--close", { x: 70, ease: "none", scrollTrigger: { trigger: "#contact", start: "top bottom", end: "bottom top", scrub: 1.2 } });
