@@ -48,3 +48,11 @@
 - [x] Run a fresh improve-animations audit of the object, ScrollTrigger handoffs, and adjacent chapter transitions; write self-contained plans for all high-impact findings.
 - [x] Execute the audit plans and repeat live scroll verification until no high-impact object, accessibility, or performance defect remains.
 - [x] Complete final screenshots, console review, type check, production build, and checkpoint delivery.
+
+## Telegram animation repair pass
+
+- [x] Inspect the supplied airplane motion reference, the live portfolio behavior, and the current SVG/GSAP implementation side by side.
+- [x] Define a non-hardcoded animation contract for arrow thrust, plane rotation/banking, orbital motion, and continuously arriving signal lines.
+- [x] Prototype and promote an animated trail system that reads as signal packets arriving from behind the plane rather than static decoration.
+- [x] Verify the repair at desktop and 390px mobile sizes, including forward/reverse scroll, reduced motion, pointer isolation, and clean console behavior.
+- [x] Run the final type check and production build, save a new checkpoint, and deliver the repaired motion revision.
