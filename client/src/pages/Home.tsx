@@ -387,8 +387,6 @@ function VideoIntro({ onComplete }: { onComplete: () => void }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const finishedRef = useRef(false);
   const [leaving, setLeaving] = useState(false);
-  const [muted, setMuted] = useState(true);
-  const [playbackIssue, setPlaybackIssue] = useState(false);
 
   const finish = (immediate = false) => {
     if (finishedRef.current) return;
@@ -404,8 +402,7 @@ function VideoIntro({ onComplete }: { onComplete: () => void }) {
   };
 
   const tryPlay = () => {
-    const promise = videoRef.current?.play();
-    promise?.then(() => setPlaybackIssue(false)).catch(() => setPlaybackIssue(true));
+    videoRef.current?.play().catch(() => undefined);
   };
 
   useEffect(() => {
@@ -421,34 +418,22 @@ function VideoIntro({ onComplete }: { onComplete: () => void }) {
       };
     }
     tryPlay();
+    const fallbackTimer = window.setTimeout(() => { if (videoRef.current?.paused) finish(true); }, 7000);
     const onKeyDown = (event: KeyboardEvent) => { if (event.key === "Escape") finish(); };
     window.addEventListener("keydown", onKeyDown);
     return () => {
+      window.clearTimeout(fallbackTimer);
       window.removeEventListener("keydown", onKeyDown);
       document.documentElement.classList.remove("video-intro-active");
       document.body.classList.remove("video-intro-active");
     };
   }, []);
 
-  const toggleSound = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = !video.muted;
-    setMuted(video.muted);
-    tryPlay();
-  };
-
-  return <div className={`intro-video ${leaving ? "is-leaving" : ""}`} role="dialog" aria-modal="true" aria-label="Zxornatoe opening video">
-    <video ref={videoRef} className="intro-video__media" autoPlay muted playsInline preload="auto" onEnded={() => finish()} onError={() => setPlaybackIssue(true)}>
+  return <div className={`intro-video ${leaving ? "is-leaving" : ""}`} aria-hidden="true" onPointerDown={tryPlay}>
+    <video ref={videoRef} className="intro-video__media" autoPlay playsInline preload="auto" onEnded={() => finish()} onError={() => finish(true)}>
       <source src={INTRO_VIDEO_URL} type="video/mp4" />
     </video>
     <div className="intro-video__scrim" aria-hidden="true" />
-    <div className="intro-video__meta"><span>ZXORNATOE / OPENING SIGNAL</span><span>04.67 SEC / ONCE</span></div>
-    <div className="intro-video__controls">
-      {playbackIssue && <button type="button" className="intro-video__enter" onClick={() => { setPlaybackIssue(false); tryPlay(); }}>PLAY VIDEO →</button>}
-      <button type="button" className="intro-video__sound" onClick={toggleSound}>{muted ? "SOUND / OFF" : "SOUND / ON"}</button>
-      <button type="button" className="intro-video__skip" onClick={() => finish()}>{playbackIssue ? "ENTER PORTFOLIO →" : "SKIP INTRO →"}</button>
-    </div>
   </div>;
 }
 

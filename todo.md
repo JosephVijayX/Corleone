@@ -255,3 +255,9 @@
 - [x] Add a one-shot fullscreen video gate with muted autoplay, skip/Escape, sound toggle, fallback, and reduced-motion bypass.
 - [x] Defer the existing GSAP boot sequence until the video ends or is skipped, then verify natural and manual handoff paths.
 - [x] Verify desktop/mobile aspect-ratio handling, safe-area controls, type/build checks, console state, and checkpoint delivery.
+
+## Textless sound-on video intro revision
+
+- [x] Inspect the current intro overlay text, controls, autoplay state, and fallback behavior.
+- [x] Remove every visible intro label/control and make video playback sound-enabled by default.
+- [x] Verify clean fullscreen playback, natural handoff, reduced-motion behavior, type/build checks, and checkpoint delivery.
