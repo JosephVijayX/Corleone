@@ -40,6 +40,8 @@ body {
   background-image: radial-gradient(circle at 20% 12%, rgba(255,255,255,.22), transparent 28%), linear-gradient(110deg, rgba(25,20,16,.025) 1px, transparent 1px);
   background-size: auto, 22px 22px;
 }
+html.video-intro-active, body.video-intro-active { overflow: hidden; height: 100%; overscroll-behavior: none; }
+body.video-intro-active .signal-world { pointer-events: none; }
 ::selection { color: #f4efe5; background: #3e4cff; }
 a:focus-visible, button:focus-visible { outline: 2px solid #3e4cff; outline-offset: 4px; }
 button { font: inherit; }
@@ -121,6 +123,15 @@ button { font: inherit; }
 .boot-screen__skip { position: absolute; right: 3rem; bottom: 2rem; z-index: 2; pointer-events: auto; border: 1px solid #f4efe5; padding: .65rem .8rem; color: #f4efe5; background: #221f1b; font: 10px "IBM Plex Mono", monospace; letter-spacing: .12em; text-transform: uppercase; transition: color .25s ease, background .25s ease, transform .35s var(--ease-signal); }
 .boot-screen__skip:hover, .boot-screen__skip:focus-visible { color: #221f1b; background: #ed8b5a; transform: translateY(-3px) rotate(-1deg); }
 @keyframes boot-line { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.intro-video { position: fixed; inset: 0; z-index: 120; display: grid; place-items: center; overflow: hidden; background: #050505; color: #f4efe5; opacity: 1; visibility: visible; transition: opacity .62s var(--ease-signal), visibility 0s linear 0s; }
+.intro-video.is-leaving { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .62s var(--ease-signal), visibility 0s linear .62s; }
+.intro-video__media { display: block; width: 100vw; height: 100vh; max-width: 100%; max-height: 100%; object-fit: contain; object-position: center; background: #050505; }
+.intro-video__scrim { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(5,5,5,.28), transparent 24%, transparent 74%, rgba(5,5,5,.5)); }
+.intro-video__meta { position: absolute; top: max(1.25rem, env(safe-area-inset-top)); left: max(1.25rem, env(safe-area-inset-left)); right: max(1.25rem, env(safe-area-inset-right)); display: flex; justify-content: space-between; gap: 1rem; color: rgba(244,239,229,.76); font: 9px "IBM Plex Mono", monospace; letter-spacing: .14em; text-transform: uppercase; pointer-events: none; }
+.intro-video__controls { position: absolute; right: max(1.25rem, env(safe-area-inset-right)); bottom: max(1.25rem, env(safe-area-inset-bottom)); left: max(1.25rem, env(safe-area-inset-left)); display: flex; align-items: center; justify-content: flex-end; gap: .55rem; }
+.intro-video__controls button { border: 1px solid rgba(244,239,229,.76); padding: .7rem .85rem; color: #f4efe5; background: rgba(5,5,5,.62); font: 9px "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; backdrop-filter: blur(8px); transition: color .2s ease, background .2s ease, transform .25s var(--ease-signal); }
+.intro-video__controls button:hover, .intro-video__controls button:focus-visible { color: #221f1b; background: #ed8b5a; transform: translateY(-3px); }
+.intro-video__enter { margin-right: auto; color: #ed8b5a !important; border-color: #ed8b5a !important; }
 .signal-jump { position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: 0; background: rgba(34,31,27,.2); transition: opacity .18s ease; }
 .signal-jump.is-active { opacity: 1; }
 .signal-jump__line { position: absolute; left: 0; right: 0; top: 50%; height: 6px; transform: scaleX(0); transform-origin: center; background: #3e4cff; box-shadow: 0 0 0 1px #f4efe5, 0 0 28px rgba(62,76,255,.7); }
@@ -491,7 +502,11 @@ button { font: inherit; }
   .media-drawer { padding-left: 1rem; padding-right: 1rem; }
   .evidence-frame { width: min(86vw, 520px); box-shadow: 8px 8px 0 #ed8b5a; }
   .evidence-thumb { min-height: 64px; }
+  .intro-video__meta { font-size: 7px; letter-spacing: .1em; }
+  .intro-video__controls { flex-wrap: wrap; }
+  .intro-video__controls button { padding: .62rem .7rem; font-size: 8px; }
 }
+@media (prefers-reduced-motion: reduce) { .intro-video { transition: none; }.intro-video.is-leaving { transition: none; } }
 
 /* STYLE NOTE: Production Labs Stamp Board — preserve the supplied paper-stage grammar while keeping Zxornatoe's content, route behavior, evidence callbacks, and responsive shell. */
 .stamp-labs { width: min(100%, 1280px); max-width: 1280px; margin-inline: auto; background: #000; color: #e9e6df; }

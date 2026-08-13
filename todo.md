@@ -248,3 +248,10 @@
 - [x] Inspect the open Stamp Board space and choose a safe insertion point for the supplied stack.
 - [x] Adapt the stacked-card hover/offset behavior to original Zxornatoe colors and Labs content.
 - [x] Verify desktop/390px bounds, interaction behavior, type/build checks, and checkpoint delivery.
+
+## One-shot fullscreen video intro
+
+- [x] Inspect the supplied MP4 metadata and focal framing, then upload it to managed project storage.
+- [x] Add a one-shot fullscreen video gate with muted autoplay, skip/Escape, sound toggle, fallback, and reduced-motion bypass.
+- [x] Defer the existing GSAP boot sequence until the video ends or is skipped, then verify natural and manual handoff paths.
+- [x] Verify desktop/mobile aspect-ratio handling, safe-area controls, type/build checks, console state, and checkpoint delivery.

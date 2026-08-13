@@ -381,8 +381,80 @@ function useGsapCursor() {
   return cursorRef;
 }
 
-function useReferenceMotion() {
+const INTRO_VIDEO_URL = "/manus-storage/VideoProject3_2e85390a.mp4";
+
+function VideoIntro({ onComplete }: { onComplete: () => void }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const finishedRef = useRef(false);
+  const [leaving, setLeaving] = useState(false);
+  const [muted, setMuted] = useState(true);
+  const [playbackIssue, setPlaybackIssue] = useState(false);
+
+  const finish = (immediate = false) => {
+    if (finishedRef.current) return;
+    finishedRef.current = true;
+    setLeaving(true);
+    const release = () => {
+      document.documentElement.classList.remove("video-intro-active");
+      document.body.classList.remove("video-intro-active");
+      onComplete();
+    };
+    if (immediate) release();
+    else window.setTimeout(release, 620);
+  };
+
+  const tryPlay = () => {
+    const promise = videoRef.current?.play();
+    promise?.then(() => setPlaybackIssue(false)).catch(() => setPlaybackIssue(true));
+  };
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.documentElement.classList.add("video-intro-active");
+    document.body.classList.add("video-intro-active");
+    window.scrollTo({ top: 0, behavior: "auto" });
+    if (reducedMotion) {
+      finish(true);
+      return () => {
+        document.documentElement.classList.remove("video-intro-active");
+        document.body.classList.remove("video-intro-active");
+      };
+    }
+    tryPlay();
+    const onKeyDown = (event: KeyboardEvent) => { if (event.key === "Escape") finish(); };
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      document.documentElement.classList.remove("video-intro-active");
+      document.body.classList.remove("video-intro-active");
+    };
+  }, []);
+
+  const toggleSound = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = !video.muted;
+    setMuted(video.muted);
+    tryPlay();
+  };
+
+  return <div className={`intro-video ${leaving ? "is-leaving" : ""}`} role="dialog" aria-modal="true" aria-label="Zxornatoe opening video">
+    <video ref={videoRef} className="intro-video__media" autoPlay muted playsInline preload="auto" onEnded={() => finish()} onError={() => setPlaybackIssue(true)}>
+      <source src={INTRO_VIDEO_URL} type="video/mp4" />
+    </video>
+    <div className="intro-video__scrim" aria-hidden="true" />
+    <div className="intro-video__meta"><span>ZXORNATOE / OPENING SIGNAL</span><span>04.67 SEC / ONCE</span></div>
+    <div className="intro-video__controls">
+      {playbackIssue && <button type="button" className="intro-video__enter" onClick={() => { setPlaybackIssue(false); tryPlay(); }}>PLAY VIDEO →</button>}
+      <button type="button" className="intro-video__sound" onClick={toggleSound}>{muted ? "SOUND / OFF" : "SOUND / ON"}</button>
+      <button type="button" className="intro-video__skip" onClick={() => finish()}>{playbackIssue ? "ENTER PORTFOLIO →" : "SKIP INTRO →"}</button>
+    </div>
+  </div>;
+}
+
+function useReferenceMotion(introReady: boolean) {
   useLayoutEffect(() => {
+    if (!introReady) return;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const context = gsap.context(() => {
       if (reducedMotion) {
@@ -459,13 +531,14 @@ function useReferenceMotion() {
     });
 
     return () => context.revert();
-  }, []);
+  }, [introReady]);
 }
 
 export default function Home() {
   const { progress, activeSection, scrollTo, getScrollPosition } = useSceneState();
   const cursorRef = useGsapCursor();
-  useReferenceMotion();
+  const [introReady, setIntroReady] = useState(false);
+  useReferenceMotion(introReady);
   const [activeProject, setActiveProject] = useState<number | null>(1);
   const [activeMedia, setActiveMedia] = useState<{ project: number; frame: number } | null>(null);
   const [featuredIndex, setFeaturedIndex] = useState(0);
@@ -546,6 +619,7 @@ export default function Home() {
 
   return (
     <main data-scene={activeSection} className="signal-world overflow-hidden bg-[#ede5d7] text-[#221f1b]">
+      {!introReady && <VideoIntro onComplete={() => setIntroReady(true)} />}
       <div className="boot-screen" aria-hidden="true">
         <div className="boot-screen__line" />
         <div className="boot-screen__copy"><BrandMark hero /><span className="boot-screen__chars">{"opening signal / zxornatoe".split("").map((character, index) => <i className="boot-char" key={`${character}-${index}`}>{character === " " ? "\u00a0" : character}</i>)}</span><strong>READY</strong></div>
