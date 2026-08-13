@@ -242,3 +242,9 @@
 - [x] Inspect why `/prototype/labs-model?v=1` returns the 404 page in the live preview.
 - [x] Repair the isolated route without changing production Labs.
 - [x] Verify the exact shared URL and picker variants at desktop and mobile sizes.
+
+## Supplied stacked-card Labs integration
+
+- [x] Inspect the open Stamp Board space and choose a safe insertion point for the supplied stack.
+- [x] Adapt the stacked-card hover/offset behavior to original Zxornatoe colors and Labs content.
+- [x] Verify desktop/390px bounds, interaction behavior, type/build checks, and checkpoint delivery.
