@@ -655,7 +655,7 @@ export default function Home() {
       <div ref={cursorRef} className="pointer-field pointer-field--gsap" aria-hidden="true"><span data-cursor-label>MOVE</span><b data-cursor-core /><div className="cursor-trail">{Array.from({ length: 10 }, (_, index) => <i key={index} data-cursor-trail />)}</div></div>
 
       <header className="fixed left-0 right-0 top-0 z-40 border-b border-black/15 bg-[#ede5d7]/85 px-4 py-2 backdrop-blur-md sm:px-6">
-        <div className="parity-top-ribbon"><span>zxornatoe / signal world</span><span className="parity-top-ribbon__mid">{sceneMeta[activeSection]?.ribbon ?? sceneMeta.home.ribbon}</span><span>{progressLabel}</span></div>
+        <div className="parity-top-ribbon"><span>zxornatoe</span><span className="parity-top-ribbon__mid">{sceneMeta[activeSection]?.ribbon ?? sceneMeta.home.ribbon}</span><span>{progressLabel}</span></div>
         <div className="flex items-center justify-between gap-4 text-[10px] uppercase tracking-[0.14em] sm:text-xs">
           <button data-cursor="HOME" className="signal-mono flex items-center gap-2 font-semibold" onClick={() => goTo("home")} aria-label="Go to home"><span className="grid h-7 w-7 place-items-center bg-[#3e4cff] text-[#ede5d7]"><BrandMark /></span><span className="hidden lowercase tracking-[-0.08em] sm:inline">zxornatoe <span className="opacity-45">/ signal portfolio</span></span><span className="sm:hidden">zx / 01</span></button>
           <div className="hidden flex-1 items-center justify-center gap-3 sm:flex"><span className="opacity-55">SYS.TRACK_ACTIVE</span><span className="h-px w-12 bg-black/35" /><span>LEARNING / 2026</span></div>
