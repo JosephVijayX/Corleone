@@ -1,0 +1,3 @@
+# Labs Redesign Visual Notes
+
+The desktop live pass shows Labs now has its own authored archive identity: a field-index header, dotted route line, numbered records, blue/orange focus treatment, specimen card, and explicit close trace. Opening and closing `LAB.01` worked in the browser and returned the list to its compact state. The 390px full-page capture keeps the scene readable with the responsive three-column record trigger collapsing to index, title, and action mark; expanded detail content is prepared to stack into one column. The full page keeps the adjacent Signal chapter and the existing sticky/mobile scene behavior intact.

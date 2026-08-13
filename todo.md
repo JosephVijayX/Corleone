@@ -87,3 +87,12 @@
 - [x] Remove Telegram-only CSS, fallback SVG styles, research artifacts from active code paths, and the `lottie-web` dependency.
 - [x] Verify the remaining hero, scroll scenes, responsive layout, console, type check, and production build without the Telegram object.
 - [x] Save a checkpoint and deliver the Telegram-free portfolio revision.
+
+## Labs scene redesign pass
+
+- [x] Compare the Labs scene against Hero, Origin, Featured, Notes, and Contact for layout rhythm, material language, typography, and scene transitions.
+- [x] Audit Labs motion using Apple-style response, spatial consistency, interruptibility, reduced-motion, and frame-level smoothness criteria.
+- [x] Define a Labs-specific composition that keeps the Signal/Clay/Blue identity while making records feel like physical instruments rather than a plain list.
+- [x] Implement the redesigned Labs layout, hover/open states, scroll choreography, and mobile fallback without breaking project evidence drawers.
+- [x] Run improve-animations findings/plans for the Labs scene and execute the highest-leverage fixes.
+- [x] Verify desktop and 390px mobile previews, keyboard/accessibility behavior, console, type check, production build, and checkpoint delivery.
