@@ -175,3 +175,26 @@
 - [x] Inspect the current second-page `scene-route` draw timing and the separate Labs Ink Backtrack selectors.
 - [x] Restore the original Origin line choreography only, leaving Labs route paths, node timing, and paper treatment unchanged.
 - [x] Verify Origin and Labs independently at desktop and 390px, run checks, save a checkpoint, and deliver.
+
+## Labs physical paper-card prototype
+
+- [x] Audit the supplied reference grammar and compare it with the current Packet Weather, Parrot Hours, and Open Channel card material.
+- [x] Research tactile paper-card web patterns and prototype three genuinely different treatments with original Zxornatoe content.
+- [x] Verify all card directions at desktop and 390px with card selection, pin/tape depth, route layering, reduced motion, and clean console behavior.
+- [x] Present the picker and wait for the user's selection before changing production card styling.
+- [ ] Promote the selected paper-card treatment, remove prototype files, run final checks, save a checkpoint, and deliver.
+
+## Supplied Stamp Board source replacement
+
+- [x] Map the supplied source structure—paper stage, strut/tag, printed copy, scribbles, pen lines, and three stamp boxes—to original Zxornatoe content.
+- [x] Build an isolated source-faithful prototype without importing the source identity, external assets, or unrelated copy.
+- [x] Verify desktop/390px layout, paper-card readability, route-line layering, and clean console/build behavior.
+- [x] Present the source-faithful replacement for approval before touching production Labs.
+- [x] Promote the approved replacement into production Labs while preserving project selection, evidence drawers, callbacks, and close behavior.
+- [x] Retarget production Stamp Board entrance and pen-line animation, remove the prototype, run final desktop/390px and build checks, save a checkpoint, and deliver.
+
+## Stamp Board prototype route repair
+
+- [x] Inspect the router import/route and current dev-server response for `/prototype/stamp-board`.
+- [x] Repair the route or refresh the dev surface so the exact prototype URL resolves instead of 404.
+- [x] Open the exact URL directly, verify desktop/mobile rendering, and report the working route without promoting production code.
