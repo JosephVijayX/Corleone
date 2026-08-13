@@ -10,6 +10,9 @@ import type { PointerEvent as ReactPointerEvent, ReactNode } from "react";
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger, Draggable);
 
 const TELEGRAM_LOTTIE_PATH = "/manus-storage/AirplaneLottieAnimation_f4518aea.json";
+const TELEGRAM_LOTTIE_FIRST_FRAME = 52;
+const TELEGRAM_LOTTIE_LAST_FRAME = 105;
+type TelegramLottieHost = HTMLDivElement & { telegramAnimation?: ReturnType<typeof lottie.loadAnimation> };
 
 // STYLE NOTE: Signal / Clay / Blue — this page is a moving editorial stage,
 // not a stack of static pages. Scene state, route lines, jump transitions,
@@ -109,14 +112,17 @@ function TelegramSignalObject() {
     const animation = lottie.loadAnimation({
       container: lottieRef.current,
       renderer: "svg",
-      loop: true,
-      autoplay: true,
+      loop: false,
+      autoplay: false,
       path: TELEGRAM_LOTTIE_PATH,
       rendererSettings: { preserveAspectRatio: "xMidYMid meet", progressiveLoad: true, hideOnTransparent: true },
     });
-    const handleReady = () => setLottieReady(true);
+    const host = lottieRef.current as TelegramLottieHost;
+    host.telegramAnimation = animation;
+    const handleReady = () => { animation.goToAndStop(TELEGRAM_LOTTIE_FIRST_FRAME, true); setLottieReady(true); };
     animation.addEventListener("DOMLoaded", handleReady);
-    return () => { animation.removeEventListener("DOMLoaded", handleReady); animation.destroy(); };
+    animation.goToAndStop(TELEGRAM_LOTTIE_FIRST_FRAME, true);
+    return () => { animation.removeEventListener("DOMLoaded", handleReady); animation.destroy(); host.telegramAnimation = undefined; };
   }, []);
 
   return <div className={`telegram-signal-object ${lottieReady ? "is-lottie-ready" : ""}`} data-telegram-signal data-lottie-ready={lottieReady} aria-hidden="true"><div className="telegram-signal-object__lottie" ref={lottieRef} /><svg className="telegram-signal-object__fallback" viewBox="0 0 120 96"><ellipse className="telegram-signal-object__orbit" cx="60" cy="48" rx="45" ry="18" /><g className="telegram-signal-object__trail-field"><path className="telegram-signal-object__trail telegram-signal-object__trail--one" d="M10 65C28 61 31 72 42 68" /><path className="telegram-signal-object__trail telegram-signal-object__trail--two" d="M17 72C28 70 32 77 38 74" /><path className="telegram-signal-object__trail telegram-signal-object__trail--three" d="M7 56C20 53 28 61 39 59" /><path className="telegram-signal-object__trail telegram-signal-object__trail--four" d="M12 79C23 76 29 83 36 80" /></g><g className="telegram-signal-object__flight"><path className="telegram-signal-object__shadow" d="M19 49 97 24 67 73 56 55Z" /><path className="telegram-signal-object__plane" d="M19 49 97 24 67 73 56 55Z" /><path className="telegram-signal-object__fold" d="m56 55 11 18 3-27Z" /></g></svg><span>telegram / active</span></div>;
@@ -436,13 +442,26 @@ function useReferenceMotion() {
 
       const telegram = document.querySelector<HTMLElement>("[data-telegram-signal]");
       if (telegram) {
-        gsap.timeline({ scrollTrigger: { trigger: "#home", start: "top top", end: () => `+=${Math.max(1, document.documentElement.scrollHeight - window.innerHeight)}`, scrub: 1.1, invalidateOnRefresh: true } })
-          .set(telegram, { x: () => window.innerWidth * .1, y: () => window.innerHeight * .24, rotation: -8, scale: .92, autoAlpha: .92 }, 0)
-          .to(telegram, { x: () => window.innerWidth * .7, y: () => window.innerHeight * .26, rotation: 14, scale: 1.05, duration: .18, ease: "none" }, .14)
-          .to(telegram, { x: () => window.innerWidth * .22, y: () => window.innerHeight * .46, rotation: -16, scale: .84, duration: .2, ease: "none" }, .34)
-          .to(telegram, { x: () => window.innerWidth * .72, y: () => window.innerHeight * .52, rotation: 10, scale: 1.1, duration: .2, ease: "none" }, .54)
-          .to(telegram, { x: () => window.innerWidth * .26, y: () => window.innerHeight * .34, rotation: -12, scale: .88, duration: .2, ease: "none" }, .74)
-          .to(telegram, { x: () => window.innerWidth * .74, y: () => window.innerHeight * .6, rotation: 7, scale: .98, duration: .2, ease: "none" }, .88);
+        const lottieHost = telegram.querySelector<HTMLElement>(".telegram-signal-object__lottie") as TelegramLottieHost | null;
+        const anchors = [
+          { x: .1, y: .24, rotation: -4, scale: .92 },
+          { x: .7, y: .33, rotation: 11, scale: 1.02 },
+          { x: .22, y: .45, rotation: -12, scale: .94 },
+          { x: .72, y: .57, rotation: 12, scale: 1.06 },
+          { x: .26, y: .69, rotation: -10, scale: .96 },
+          { x: .74, y: .81, rotation: 8, scale: 1 },
+        ];
+        const setFrame = (progress: number) => {
+          const frame = TELEGRAM_LOTTIE_FIRST_FRAME + (TELEGRAM_LOTTIE_LAST_FRAME - TELEGRAM_LOTTIE_FIRST_FRAME) * gsap.utils.clamp(0, 1, progress);
+          lottieHost?.telegramAnimation?.goToAndStop(Math.round(frame), true);
+        };
+        gsap.set(telegram, { x: () => window.innerWidth * anchors[0].x, y: () => window.innerHeight * anchors[0].y, rotation: anchors[0].rotation, scale: anchors[0].scale, autoAlpha: .92 });
+        const telegramTimeline = gsap.timeline({ scrollTrigger: { trigger: "#home", start: "top top", end: () => `+=${Math.max(1, document.documentElement.scrollHeight - window.innerHeight)}`, scrub: .65, invalidateOnRefresh: true, onUpdate: (self) => setFrame(self.progress) } });
+        telegramTimeline.set(telegram, { x: () => window.innerWidth * anchors[0].x, y: () => window.innerHeight * anchors[0].y, rotation: anchors[0].rotation, scale: anchors[0].scale, autoAlpha: .92 }, 0);
+        anchors.slice(1).forEach((anchor, index) => {
+          telegramTimeline.to(telegram, { x: () => window.innerWidth * anchor.x, y: () => window.innerHeight * anchor.y, rotation: anchor.rotation, scale: anchor.scale, duration: 1 / (anchors.length - 1), ease: "none" }, (index + 1) / (anchors.length - 1));
+        });
+        setFrame(0);
       }
     });
 

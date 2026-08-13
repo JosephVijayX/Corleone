@@ -64,3 +64,11 @@
 - [x] Replace or augment the current SVG signal presentation with the uploaded Lottie motion while keeping the GSAP chapter route and mobile layering intact.
 - [x] Verify playback changes over time, scroll-bound positioning, reverse scroll, 390px mobile, reduced motion, pointer isolation, and clean console behavior.
 - [x] Run type check and production build, save a checkpoint, and deliver the Lottie-backed signal revision.
+
+## Scroll-controlled Telegram Lottie pass
+
+- [x] Inspect the uploaded Lottie position and trim-path keyframes, generated SVG structure, and current autoplay ownership.
+- [x] Define the scroll contract: no autonomous travel between scroll samples, scroll-direction-aware vertical movement, and banking only when the route changes horizontally.
+- [x] Replace autoplay ownership with scroll-scrubbed frame control and a separate parent route-banking layer.
+- [x] Verify idle stationarity, downward/upward scroll direction, horizontal transition rotation, mobile layering, reduced motion, pointer isolation, and clean console behavior.
+- [x] Run the final type check and production build, save a checkpoint, and deliver the scroll-controlled revision.
