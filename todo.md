@@ -134,3 +134,9 @@
 - [x] Inspect the desktop heading's Bodoni scale, shadow, tracking, and line-height against the supplied screenshot.
 - [x] Remove the distortion source and apply a clean wide-screen heading treatment while retaining the clay/blue contrast.
 - [x] Verify the heading at desktop and 390px, run type/build checks, save a checkpoint, and deliver.
+
+## Live Labs heading verification
+
+- [x] Inspect the live preview directly at wide desktop size and confirm the rendered heading's actual appearance.
+- [x] Diagnose any remaining distortion from inherited styles, browser rendering, clipping, or overlapping layers and apply the smallest correct fix.
+- [x] Recheck the live render at desktop and mobile, run checks, save a checkpoint, and deliver.

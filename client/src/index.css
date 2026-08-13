@@ -403,7 +403,7 @@ button { font: inherit; }
 .labs-wall__header, .labs-wall__canvas, .labs-wall__footer { position: relative; z-index: 2; }
 .labs-wall__header { display: flex; align-items: start; justify-content: space-between; gap: 2rem; border-bottom: 2px solid #221f1b; padding-bottom: 2rem; }
 .labs-wall__kicker { margin: 0; color: #3e4cff; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; }
-.labs-wall__title { margin: 1rem 0 0; font-size: clamp(5.6rem, 11vw, 10rem); line-height: .82; letter-spacing: -.06em; font-weight: 500; font-synthesis: none; text-shadow: none; -webkit-font-smoothing: antialiased; }
+.labs-wall__title { margin: 1rem 0 0; font-size: clamp(4.8rem, 10vw, 8.8rem); line-height: .86; letter-spacing: -.025em; font-weight: 500; font-synthesis: none; font-feature-settings: "kern" 1; text-shadow: none; -webkit-font-smoothing: antialiased; }
 .labs-wall__title em { color: #3e4cff; font-style: italic; }
 .labs-wall__stamp { border: 1px dashed #ed8b5a; padding: .8rem; color: #ed8b5a; font-size: 9px; letter-spacing: .14em; line-height: 1.2; transform: rotate(4deg); }
 .labs-wall__canvas { min-height: 45rem; margin-top: 2.5rem; overflow: hidden; border: 1px solid rgba(34,31,27,.22); background: #d9c6ae; box-shadow: 18px 18px 0 rgba(62,76,255,.17); isolation: isolate; }
