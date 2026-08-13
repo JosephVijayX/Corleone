@@ -118,3 +118,13 @@
 - [x] Verify each direction at desktop and 390px sizes with working project selection, evidence controls, reversible state, reduced motion, and clean console behavior.
 - [x] Present the picker and wait for the user's chosen direction before touching production Labs code.
 - [x] Promote the selected direction, remove the prototype surface, run type/build checks, and save a checkpoint.
+
+## Labs pasted-wall repair pass
+
+- [x] Audit the supplied wall image for its layered notes, taped/outlined cards, handwritten annotation, crop rhythm, and blue route strokes against the promoted production Labs field.
+- [x] Prototype three wall-first directions: faithful pasted-note board, dense research collage, and animated metric wall, each using original Zxornatoe copy.
+- [x] Add real entrance choreography for paper notes, outlined cards, handwriting, and route strokes with reduced-motion and fine-pointer behavior.
+- [x] Test every wall variant at desktop and 390px, then present the closest reference match before promotion.
+- [x] Promote **Tape-Heavy Collage / variant 2** into production Labs while preserving project selection, evidence callbacks, keyboard close, and mobile behavior.
+- [x] Retarget production motion to staggered paper-sheet entry, taped-note drops, metric-card materialization, and blue route-stroke drawing.
+- [x] Remove prototype files and route, run type/build/console/responsive checks, save a checkpoint, and deliver.
