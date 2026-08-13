@@ -447,7 +447,10 @@ function useReferenceMotion() {
           .to(route, { rotation: routeSelector.includes("signal") ? 4 : -2, transformOrigin: "50% 50%", ease: "sine.inOut", duration: .5 }, .5);
       });
 
-      gsap.to("#about .scene-route path", { strokeDashoffset: 0, duration: 2.4, ease: "sine.inOut", scrollTrigger: { trigger: "#about", start: "top 72%", end: "top 26%", scrub: 1 } });
+      const originRoute = document.querySelectorAll<SVGPathElement>("#about .scene-route path");
+      gsap.killTweensOf(originRoute);
+      gsap.set(originRoute, { strokeDasharray: 1100, strokeDashoffset: 1100 });
+      gsap.to(originRoute, { strokeDashoffset: 0, duration: 2.4, ease: "sine.inOut", scrollTrigger: { trigger: "#about", start: "top 72%", end: "top 26%", scrub: 1 } });
       document.querySelectorAll<SVGPathElement>(".ink-route-layer--signal .ink-route__shadow").forEach((path) => { const length = path.getTotalLength(); gsap.set(path, { strokeDasharray: length, strokeDashoffset: length }); gsap.to(path, { strokeDashoffset: 0, ease: "sine.inOut", duration: 1, scrollTrigger: { trigger: "#featured", start: "top 82%", end: "top 18%", scrub: 1.1 } }); });
       gsap.fromTo("#about .draggable-sticker", { autoAlpha: 0, y: 42 }, { autoAlpha: 1, y: 0, duration: .8, stagger: .12, ease: "back.out(1.2)", scrollTrigger: { trigger: "#about", start: "top 72%", once: true } });
       gsap.fromTo("#work .labs-wall__sheet, #work .labs-wall__metric, #work .labs-wall__note, #work .labs-wall__tabs button, #work .labs-wall__pin-note", { y: 34, autoAlpha: .18, clipPath: "inset(0 0 100% 0)", filter: "blur(6px)" }, { y: 0, autoAlpha: 1, clipPath: "inset(0 0 0% 0)", filter: "blur(0px)", duration: .72, stagger: .07, ease: "power3.out", scrollTrigger: { trigger: "#work", start: "top 78%", once: true } });

@@ -169,3 +169,9 @@
 - [x] Promote **Ink Backtrack** into production Labs and add a physical pin to one pasted note.
 - [x] Refine production notes as tactile paper with grain, stock variation, softened edges, tape/pin depth, and natural shadow offsets.
 - [x] Remove prototype files, run final desktop/390px and type/build checks, save a checkpoint, and deliver.
+
+## Origin route animation restoration
+
+- [x] Inspect the current second-page `scene-route` draw timing and the separate Labs Ink Backtrack selectors.
+- [x] Restore the original Origin line choreography only, leaving Labs route paths, node timing, and paper treatment unchanged.
+- [x] Verify Origin and Labs independently at desktop and 390px, run checks, save a checkpoint, and deliver.
