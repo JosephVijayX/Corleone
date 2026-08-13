@@ -69,3 +69,11 @@ The audit observes the supplied site’s behavior and source-level patterns only
 [2]: https://lenis.dev/ "Lenis – Smooth Scroll"
 [3]: https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API "View Transition API - MDN Web Docs"
 [4]: https://www.awwwards.com/websites/scrolling/ "Best Scroll Websites | Web Design Inspiration"
+
+## Prototype / animate / improve-animations pass
+
+The isolated Signal Terminal prototype compared three genuinely different motion grammars: Elastic Platform (gesture and spring language), Editorial Cutline (paper clipping and scrapbook language), and Signal Relay (route nodes, scan readout, and station-console language). The Signal Relay direction was promoted because it best preserves the reference-inspired transport/route interaction while fitting Zxornatoe’s electric-blue, clay, ink, and terminal identity. The temporary prototype route and files were removed after promotion.
+
+The live production verification confirmed that the promoted console renders inside the blue Featured chapter, route nodes expose the three original Zxornatoe stops, direct next/previous interaction changes the keyed readout, reverse travel applies the `signal-relay-readout--prev` class, and the existing Step Out action remains available. The browser console remained clean. A browser-indexed click on Next did not change the state reliably, but direct DOM activation did; this was isolated to browser targeting rather than the application handler, and the underlying interaction remains keyboard- and pointer-accessible in the live DOM.
+
+The animation audit completed four findings. Reduced-motion now disables the custom cursor ticker and listeners; cursor hover states no longer use `scale(0)`; Featured stop changes no longer wait on stale `.featured-copy` GSAP selectors and instead use an immediate keyed readout swap; and the audit documented the isolated hero meter width fill as a deferred, low-impact compositor refinement because it has no layout dependents. Type checking, production build, desktop/mobile captures, static stale-selector sweep, and clean-console checks passed after the fixes.

@@ -226,6 +226,27 @@ button { font: inherit; }
 .signal-terminal-track__stop.is-active, .signal-terminal-track__stop:hover { color: #221f1b; background: #f4efe5; transform: translateY(-4px) rotate(1deg); }
 .signal-terminal-track__line { height: 1px; flex: 1; min-width: 24px; background: repeating-linear-gradient(90deg, rgba(244,239,229,.8) 0 3px, transparent 3px 8px); transform-origin: left; animation: terminal-line-breathe 2.8s ease-in-out infinite; }
 @keyframes terminal-line-breathe { 0%, 100% { transform: scaleX(.7); opacity: .45; } 50% { transform: scaleX(1); opacity: 1; } }
+.signal-relay-scene { background-image: radial-gradient(circle at 75% 24%, rgba(237,139,90,.16), transparent 24%), linear-gradient(135deg, transparent 0 52%, rgba(244,239,229,.08) 52.2%, transparent 52.7%); }
+.signal-relay-scene__grid { position: absolute; inset: 0; pointer-events: none; opacity: .19; background-image: linear-gradient(rgba(244,239,229,.22) 1px, transparent 1px), linear-gradient(90deg, rgba(244,239,229,.22) 1px, transparent 1px); background-size: 38px 38px; }
+.signal-relay-scene__heading { position: relative; z-index: 2; max-width: 560px; padding-top: clamp(3.5rem, 10vh, 7rem); }
+.signal-relay-scene__heading h2 { text-shadow: 8px 10px 0 rgba(34,31,27,.2); }
+.signal-relay-console { position: relative; z-index: 2; width: min(100%, 760px); margin-left: auto; border: 1px solid rgba(244,239,229,.45); padding: 1rem; background: rgba(34,31,27,.82); box-shadow: 12px 12px 0 rgba(34,31,27,.38); backdrop-filter: blur(8px); touch-action: pan-y; }
+.signal-relay-console__head, .signal-relay-console__footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: rgba(244,239,229,.62); font: 9px "IBM Plex Mono", monospace; letter-spacing: .12em; text-transform: uppercase; }
+.signal-relay-console__head { border-bottom: 1px solid rgba(244,239,229,.24); padding-bottom: .65rem; }
+.signal-relay-route { position: relative; display: flex; justify-content: space-between; margin: 2rem 1rem 2.15rem; }
+.signal-relay-route::before { content: ""; position: absolute; top: .55rem; right: 0; left: 0; height: 2px; background: linear-gradient(90deg, #ed8b5a 0 72%, rgba(244,239,229,.24) 72%); }
+.signal-relay-route button { position: relative; z-index: 1; display: grid; gap: .35rem; justify-items: center; border: 0; color: rgba(244,239,229,.55); background: transparent; font: 9px "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; transition: color 180ms ease-out, transform 180ms ease-out; }
+.signal-relay-route button i { height: 1.1rem; width: 1.1rem; border: 2px solid currentColor; border-radius: 50%; background: #221f1b; transition: transform 220ms var(--ease-signal), background 180ms ease-out; }
+.signal-relay-route button.is-active, .signal-relay-route button:hover { color: #ed8b5a; transform: translateY(-4px); }
+.signal-relay-route button.is-active i { background: #ed8b5a; transform: scale(1.25); }
+.signal-relay-route button small { font-size: 8px; }
+.signal-relay-readout { display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: end; min-height: 190px; animation: signal-relay-readout-in .62s var(--ease-signal) both; }
+.signal-relay-readout--prev { animation-name: signal-relay-readout-in-prev; }
+.signal-relay-readout strong { color: #ed8b5a; font: 7rem/.7 "Barlow Condensed", sans-serif; }
+@keyframes signal-relay-readout-in { from { opacity: 0; transform: translate3d(2rem, 0, 0); clip-path: inset(0 100% 0 0); } to { opacity: 1; transform: none; clip-path: inset(0); } }
+@keyframes signal-relay-readout-in-prev { from { opacity: 0; transform: translate3d(-2rem, 0, 0); clip-path: inset(0 0 0 100%); } to { opacity: 1; transform: none; clip-path: inset(0); } }
+.signal-relay-console__footer { border-top: 1px solid rgba(244,239,229,.24); padding-top: .9rem; }
+.signal-relay-console__footer .terminal-step-out { color: #221f1b; background: #f4efe5; }
 .archive-hint { position: relative; }
 .archive-hint::before { content: ""; display: inline-block; width: 34px; height: 1px; margin-right: .5rem; vertical-align: middle; background: #ed8b5a; }
 @media (prefers-reduced-motion: reduce) {
@@ -252,6 +273,14 @@ button { font: inherit; }
   .signal-terminal-track__label { display: none; }
   .signal-terminal-track__stop { padding: .35rem .4rem; }
   .signal-terminal-track__stop:nth-of-type(2), .signal-terminal-track__line:nth-of-type(3) { display: none; }
+  .signal-relay-scene__heading { padding-top: 2rem; }
+  .signal-relay-console { width: 100%; margin-top: 2rem; padding: .75rem; box-shadow: 7px 7px 0 rgba(34,31,27,.38); }
+  .signal-relay-console__head, .signal-relay-console__footer { font-size: 7px; }
+  .signal-relay-route { margin: 1.4rem .4rem 1.4rem; }
+  .signal-relay-readout { grid-template-columns: 1fr; min-height: 220px; }
+  .signal-relay-readout strong { font-size: 4.5rem; }
+  .signal-relay-console__footer { align-items: flex-start; flex-direction: column; }
+  .signal-relay-console__footer .terminal-step-out { width: 100%; justify-content: space-between; }
   #work { min-height: auto; }
   #work > div:first-child { position: sticky; top: 56px; z-index: 12; margin-left: -1.25rem; margin-right: -1.25rem; padding: .75rem 1.25rem 1.1rem; }
   #featured { min-height: 122vh; }
