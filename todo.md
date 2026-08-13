@@ -128,3 +128,9 @@
 - [x] Promote **Tape-Heavy Collage / variant 2** into production Labs while preserving project selection, evidence callbacks, keyboard close, and mobile behavior.
 - [x] Retarget production motion to staggered paper-sheet entry, taped-note drops, metric-card materialization, and blue route-stroke drawing.
 - [x] Remove prototype files and route, run type/build/console/responsive checks, save a checkpoint, and deliver.
+
+## Labs heading clarity repair
+
+- [x] Inspect the desktop heading's Bodoni scale, shadow, tracking, and line-height against the supplied screenshot.
+- [x] Remove the distortion source and apply a clean wide-screen heading treatment while retaining the clay/blue contrast.
+- [x] Verify the heading at desktop and 390px, run type/build checks, save a checkpoint, and deliver.
