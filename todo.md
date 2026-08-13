@@ -140,3 +140,9 @@
 - [x] Inspect the live preview directly at wide desktop size and confirm the rendered heading's actual appearance.
 - [x] Diagnose any remaining distortion from inherited styles, browser rendering, clipping, or overlapping layers and apply the smallest correct fix.
 - [x] Recheck the live render at desktop and mobile, run checks, save a checkpoint, and deliver.
+
+## Labs alternate-font heading pass
+
+- [x] Replace Bodoni Moda only for the Labs wall heading with a cleaner display face that fits the collage.
+- [x] Tune the new heading's size, tracking, line-height, and blue emphasis against the live desktop render.
+- [x] Verify 390px, run type/build checks, save a checkpoint, and deliver.
