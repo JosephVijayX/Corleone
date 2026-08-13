@@ -279,3 +279,10 @@
 - [x] Inspect the current elapsed-time loop and completion condition.
 - [x] Replace the four-second target with exactly two complete plays of VideoProject6.
 - [x] Verify the second `ended` event triggers the handoff, then run checks and save a checkpoint.
+
+## Zxornatoe content rewrite pass
+
+- [x] Inventory the requested identity, Origin, Labs, Notes, Contact, Telegram, and footer copy changes.
+- [x] Apply sharper, specific copy while preserving animation selectors, layout structure, and Labs interactions.
+- [x] Remove email/GitHub, update Telegram to `t.me/hellrip`, align the copy handle, and replace the footer phrase.
+- [x] Verify desktop/mobile rendering, source cleanup, Telegram links, TypeScript, production build, and checkpoint delivery.
