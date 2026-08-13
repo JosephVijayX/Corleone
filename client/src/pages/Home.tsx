@@ -382,15 +382,13 @@ function useGsapCursor() {
 }
 
 const INTRO_VIDEO_URL = "/manus-storage/VideoProject6_e70958e7.mp4";
-const INTRO_TARGET_SECONDS = 4;
-
 function VideoIntro({ onComplete }: { onComplete: () => void }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const finishedRef = useRef(false);
   const [leaving, setLeaving] = useState(false);
   const [ready, setReady] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const loopCountRef = useRef(0);
+  const playCountRef = useRef(0);
 
   const finish = (immediate = false) => {
     if (finishedRef.current) return;
@@ -439,26 +437,20 @@ function VideoIntro({ onComplete }: { onComplete: () => void }) {
     video.play().catch(() => undefined);
   };
 
-  const handleTimeUpdate = () => {
-    const video = videoRef.current;
-    if (!video || !Number.isFinite(video.duration) || video.duration <= 0) return;
-    const elapsed = loopCountRef.current * video.duration + video.currentTime;
-    if (elapsed >= INTRO_TARGET_SECONDS) {
-      video.pause();
-      finish();
-    }
-  };
-
   const handleEnded = () => {
     const video = videoRef.current;
     if (!video || finishedRef.current) return;
-    loopCountRef.current += 1;
+    playCountRef.current += 1;
+    if (playCountRef.current >= 2) {
+      finish();
+      return;
+    }
     video.currentTime = 0;
     video.play().catch(() => undefined);
   };
 
   return <div className={`intro-video ${leaving ? "is-leaving" : ""}`} aria-hidden="true" onPointerDown={tryPlay}>
-    <video ref={videoRef} className={`intro-video__media ${ready ? "is-ready" : ""} ${playing ? "is-playing" : ""}`} autoPlay playsInline preload="auto" onCanPlayThrough={handleReady} onLoadedData={handleReady} onPlay={() => setPlaying(true)} onTimeUpdate={handleTimeUpdate} onEnded={handleEnded}>
+    <video ref={videoRef} className={`intro-video__media ${ready ? "is-ready" : ""} ${playing ? "is-playing" : ""}`} autoPlay playsInline preload="auto" onCanPlayThrough={handleReady} onLoadedData={handleReady} onPlay={() => setPlaying(true)} onEnded={handleEnded}>
       <source src={INTRO_VIDEO_URL} type="video/mp4" />
     </video>
     <div className="intro-video__scrim" aria-hidden="true" />

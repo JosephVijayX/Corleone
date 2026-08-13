@@ -273,3 +273,9 @@
 - [x] Inspect VideoProject6 metadata, frame composition, and current readiness-gate implementation.
 - [x] Upload VideoProject6 and repeat it with a controlled elapsed-time loop until four seconds, then reveal the portfolio.
 - [x] Verify buffering, repeated playback, exact handoff timing, responsive framing, type/build checks, and checkpoint delivery.
+
+## VideoProject6 exactly-two-plays adjustment
+
+- [x] Inspect the current elapsed-time loop and completion condition.
+- [x] Replace the four-second target with exactly two complete plays of VideoProject6.
+- [x] Verify the second `ended` event triggers the handoff, then run checks and save a checkpoint.
