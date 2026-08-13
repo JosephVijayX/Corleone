@@ -566,7 +566,6 @@ export default function Home() {
   const [featuredIndex, setFeaturedIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState<"next" | "prev">("next");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [soundOn, setSoundOn] = useState(false);
   const [copied, setCopied] = useState(false);
   const [jumping, setJumping] = useState(false);
   const dragStart = useRef<number | null>(null);
@@ -659,7 +658,7 @@ export default function Home() {
         <div className="flex items-center justify-between gap-4 text-[10px] uppercase tracking-[0.14em] sm:text-xs">
           <button data-cursor="HOME" className="signal-mono flex items-center gap-2 font-semibold" onClick={() => goTo("home")} aria-label="Go to home"><span className="grid h-7 w-7 place-items-center bg-[#3e4cff] text-[#ede5d7]"><BrandMark /></span><span className="hidden lowercase tracking-[-0.08em] sm:inline">zxornatoe <span className="opacity-45">/ signal portfolio</span></span><span className="sm:hidden">zx / 01</span></button>
           <div className="hidden flex-1 items-center justify-center gap-3 sm:flex"><span className="opacity-55">SYS.TRACK_ACTIVE</span><span className="h-px w-12 bg-black/35" /><span>LEARNING / 2026</span></div>
-          <div className="flex items-center gap-3"><button data-cursor="SOUND" className="parity-sound hidden sm:inline-flex" onClick={() => setSoundOn((value) => !value)} aria-label="Toggle sound">{soundOn ? "SOUND / ON" : "SOUND / OFF"}</button><span className="signal-mono tabular-nums">{progressLabel}</span><button data-cursor="MENU" className="sm:hidden" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">{menuOpen ? <X size={16} /> : <Menu size={16} />}</button></div>
+          <div className="flex items-center gap-3"><span className="signal-mono tabular-nums">{progressLabel}</span><button data-cursor="MENU" className="sm:hidden" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">{menuOpen ? <X size={16} /> : <Menu size={16} />}</button></div>
         </div>
         <div className="mt-2 h-1 overflow-hidden bg-black/10"><div className="hero-scroll-meter__fill h-full origin-left bg-[#3e4cff]" style={{ transform: `scaleX(${progress / 100})` }} /></div>
         {menuOpen && <nav className="absolute left-0 right-0 top-full grid grid-cols-3 gap-px border-b border-black bg-[#ede5d7] p-2 sm:hidden">{navItems.map(([id, label]) => <button data-cursor={label.toUpperCase()} className="border border-black/15 px-2 py-3 text-left text-[10px] uppercase" key={id} onClick={() => goTo(id)}>{label}</button>)}</nav>}
