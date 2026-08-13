@@ -56,3 +56,11 @@
 - [x] Prototype and promote an animated trail system that reads as signal packets arriving from behind the plane rather than static decoration.
 - [x] Verify the repair at desktop and 390px mobile sizes, including forward/reverse scroll, reduced motion, pointer isolation, and clean console behavior.
 - [x] Run the final type check and production build, save a new checkpoint, and deliver the repaired motion revision.
+
+## Uploaded Telegram Lottie integration pass
+
+- [x] Inspect `AirplaneLottieAnimation.json` for dimensions, frame rate, duration, layers, assets, and trail/plane structure.
+- [x] Confirm the asset can be used in the portfolio and choose the safest runtime integration path without adding unnecessary dependencies.
+- [x] Replace or augment the current SVG signal presentation with the uploaded Lottie motion while keeping the GSAP chapter route and mobile layering intact.
+- [x] Verify playback changes over time, scroll-bound positioning, reverse scroll, 390px mobile, reduced motion, pointer isolation, and clean console behavior.
+- [x] Run type check and production build, save a checkpoint, and deliver the Lottie-backed signal revision.

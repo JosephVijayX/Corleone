@@ -2,11 +2,14 @@ import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Copy, Github, Image as 
 import { gsap } from "gsap";
 import { Draggable } from "gsap/Draggable";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import lottie from "lottie-web";
 import Lenis from "lenis";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent, ReactNode } from "react";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger, Draggable);
+
+const TELEGRAM_LOTTIE_PATH = "/manus-storage/AirplaneLottieAnimation_f4518aea.json";
 
 // STYLE NOTE: Signal / Clay / Blue — this page is a moving editorial stage,
 // not a stack of static pages. Scene state, route lines, jump transitions,
@@ -98,7 +101,25 @@ function InkRoute({ variant = "default", className = "" }: { variant?: "default"
 }
 
 function TelegramSignalObject() {
-  return <div className="telegram-signal-object" data-telegram-signal aria-hidden="true"><svg viewBox="0 0 120 96"><ellipse className="telegram-signal-object__orbit" cx="60" cy="48" rx="45" ry="18" /><g className="telegram-signal-object__trail-field"><path className="telegram-signal-object__trail telegram-signal-object__trail--one" d="M10 65C28 61 31 72 42 68" /><path className="telegram-signal-object__trail telegram-signal-object__trail--two" d="M17 72C28 70 32 77 38 74" /><path className="telegram-signal-object__trail telegram-signal-object__trail--three" d="M7 56C20 53 28 61 39 59" /><path className="telegram-signal-object__trail telegram-signal-object__trail--four" d="M12 79C23 76 29 83 36 80" /></g><g className="telegram-signal-object__flight"><path className="telegram-signal-object__shadow" d="M19 49 97 24 67 73 56 55Z" /><path className="telegram-signal-object__plane" d="M19 49 97 24 67 73 56 55Z" /><path className="telegram-signal-object__fold" d="m56 55 11 18 3-27Z" /></g></svg><span>telegram / active</span></div>;
+  const lottieRef = useRef<HTMLDivElement>(null);
+  const [lottieReady, setLottieReady] = useState(false);
+
+  useEffect(() => {
+    if (!lottieRef.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const animation = lottie.loadAnimation({
+      container: lottieRef.current,
+      renderer: "svg",
+      loop: true,
+      autoplay: true,
+      path: TELEGRAM_LOTTIE_PATH,
+      rendererSettings: { preserveAspectRatio: "xMidYMid meet", progressiveLoad: true, hideOnTransparent: true },
+    });
+    const handleReady = () => setLottieReady(true);
+    animation.addEventListener("DOMLoaded", handleReady);
+    return () => { animation.removeEventListener("DOMLoaded", handleReady); animation.destroy(); };
+  }, []);
+
+  return <div className={`telegram-signal-object ${lottieReady ? "is-lottie-ready" : ""}`} data-telegram-signal data-lottie-ready={lottieReady} aria-hidden="true"><div className="telegram-signal-object__lottie" ref={lottieRef} /><svg className="telegram-signal-object__fallback" viewBox="0 0 120 96"><ellipse className="telegram-signal-object__orbit" cx="60" cy="48" rx="45" ry="18" /><g className="telegram-signal-object__trail-field"><path className="telegram-signal-object__trail telegram-signal-object__trail--one" d="M10 65C28 61 31 72 42 68" /><path className="telegram-signal-object__trail telegram-signal-object__trail--two" d="M17 72C28 70 32 77 38 74" /><path className="telegram-signal-object__trail telegram-signal-object__trail--three" d="M7 56C20 53 28 61 39 59" /><path className="telegram-signal-object__trail telegram-signal-object__trail--four" d="M12 79C23 76 29 83 36 80" /></g><g className="telegram-signal-object__flight"><path className="telegram-signal-object__shadow" d="M19 49 97 24 67 73 56 55Z" /><path className="telegram-signal-object__plane" d="M19 49 97 24 67 73 56 55Z" /><path className="telegram-signal-object__fold" d="m56 55 11 18 3-27Z" /></g></svg><span>telegram / active</span></div>;
 }
 
 function DraggableSticker({ children, className = "" }: { children: ReactNode; className?: string }) {

@@ -1,0 +1,5 @@
+# Uploaded Telegram Lottie Asset Profile
+
+`AirplaneLottieAnimation.json` is a self-contained Lottie JSON composition with version `4.8.0`, `700 × 500` canvas dimensions, `60 FPS`, frames `0–181`, and a duration of approximately `3.017 seconds`. It contains no external raster assets and two vector layers: `paper Airplane` with five animated position keyframes, and `Des` with animated trim-path start/end values. The shape tree contains vector paths, fills, strokes, and a trim-path operator. The source colors are primarily magenta/purple with a gray detail layer.
+
+The chosen integration path is `lottie-web` with the SVG renderer, looping/autoplay enabled, and the uploaded persistent asset URL `/manus-storage/AirplaneLottieAnimation_f4518aea.json`. The Lottie player sits inside the existing fixed `.telegram-signal-object` parent, so GSAP/ScrollTrigger retains responsibility for chapter travel while the Lottie composition owns its own flight and contrail timing. The hand-built SVG remains as a fallback until `DOMLoaded`; reduced motion skips the player and preserves the existing static fallback.
