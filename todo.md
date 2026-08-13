@@ -110,3 +110,11 @@
 - [x] Choose a genuinely different Labs composition and rewrite the project framing around signal cards, lab notes, and a stronger active-project stage.
 - [x] Implement the alternate layout with a new type/contrast pairing while preserving evidence drawers, project state, keyboard close, and mobile readability.
 - [x] Run the animation review, verify desktop/390px behavior and contrast, then run type check, production build, and checkpoint delivery.
+
+## Screenshot-inspired Labs prototype pass
+
+- [x] Recreate the screenshot's notebook/handwriting/metric-card grammar as an original Zxornatoe visual reference without copying its text or identity.
+- [x] Prototype three divergent Labs directions in an isolated picker: notebook proof board, taped research wall, and blueprint signal sheet.
+- [x] Verify each direction at desktop and 390px sizes with working project selection, evidence controls, reversible state, reduced motion, and clean console behavior.
+- [x] Present the picker and wait for the user's chosen direction before touching production Labs code.
+- [x] Promote the selected direction, remove the prototype surface, run type/build checks, and save a checkpoint.

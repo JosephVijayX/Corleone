@@ -1,0 +1,5 @@
+# Labs Prototype Comparison
+
+The isolated picker is live at `/prototype/labs`. **Notebook Field** uses the supplied screenshot's closest grammar: three outlined metric cards sit between an annotated blue route and a lower notebook story. It keeps the most direct relationship to the reference while using original Zxornatoe content. **Research Wall** diverges on layout and density: taped notes, an oversized question headline, a vertical paper stack, and a large blue focus card create a busier pinboard composition. Both variants switch projects instantly through the picker and through their in-scene controls.
+
+**Blueprint Sheet** diverges on information architecture: a full electric-blue diagram field, route geometry, a compact active-notes index, and a single large system card. The picker switched through all three directions at full size; the current browser-console window contains no error, exception, or failed-request entries. The three variants are intentionally not promoted yet so the user can choose the direction that best matches the supplied visual reference.

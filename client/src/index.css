@@ -398,6 +398,31 @@ button { font: inherit; }
 @media (min-width: 1024px) {
   #work > div:first-child { margin-left: -4rem; margin-right: -4rem; padding-left: 4rem; padding-right: 4rem; }
 }
+.labs-wall { min-height: 132vh; background: #ede5d7; }
+.labs-wall::before { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .34; background: repeating-linear-gradient(0deg, transparent 0 41px, rgba(34,31,27,.05) 42px, transparent 43px), repeating-linear-gradient(90deg, transparent 0 41px, rgba(34,31,27,.05) 42px, transparent 43px); mask-image: linear-gradient(180deg, #000, transparent 90%); }
+.labs-wall__header, .labs-wall__canvas, .labs-wall__footer { position: relative; z-index: 2; }
+.labs-wall__header { display: flex; align-items: start; justify-content: space-between; gap: 2rem; border-bottom: 2px solid #221f1b; padding-bottom: 2rem; }
+.labs-wall__kicker { margin: 0; color: #ed8b5a; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; }
+.labs-wall__title { margin: 1rem 0 0; font-size: clamp(5.6rem, 11vw, 10rem); line-height: .76; letter-spacing: -.08em; text-shadow: 4px 6px 0 rgba(62,76,255,.12); }
+.labs-wall__title em { color: #3e4cff; font-style: italic; }
+.labs-wall__stamp { border: 1px dashed #ed8b5a; padding: .8rem; color: #ed8b5a; font-size: 9px; letter-spacing: .14em; line-height: 1.2; transform: rotate(4deg); }
+.labs-wall__canvas { min-height: 38rem; padding: 5rem 0 2rem; }
+.labs-wall__blueprint { position: absolute; top: 3rem; left: 0; color: rgba(62,76,255,.17); font: 7rem/.75 "Barlow Condensed", sans-serif; letter-spacing: -.06em; transform: rotate(-9deg); }
+.labs-wall__blueprint span { font: 10px "IBM Plex Mono", monospace; letter-spacing: .12em; }
+.labs-wall__note { position: absolute; z-index: 2; display: grid; gap: .8rem; border: 1px solid #221f1b; padding: 1rem; box-shadow: 7px 7px 0 #3e4cff; background: #ed8b5a; }
+.labs-wall__note--a { top: 2.2rem; left: 12%; width: 13rem; transform: rotate(-6deg); }.labs-wall__note--b { top: 10rem; right: 3%; width: 15rem; background: #f4efe5; transform: rotate(5deg); }
+.labs-wall__note span { font: 8px "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }.labs-wall__note strong { font: 1.75rem/.85 "Schoolbell", cursive; }
+.labs-wall__stack { position: absolute; top: 16rem; left: 3%; z-index: 3; display: grid; width: 27%; }
+.labs-wall__stack button { display: grid; grid-template-columns: 3rem minmax(0, 1fr) 1rem; gap: .4rem; align-items: center; min-height: 5rem; border: 1px solid #221f1b; border-bottom: 0; padding: .7rem; text-align: left; color: #221f1b; background: #f4efe5; cursor: pointer; transform: rotate(-1deg); transition: transform 180ms var(--ease-signal), background-color 160ms ease, color 160ms ease; }
+.labs-wall__stack button:last-child { border-bottom: 1px solid #221f1b; }.labs-wall__stack button:nth-child(2) { transform: rotate(1.2deg); }.labs-wall__stack button.is-active { color: #f4efe5; background: #3e4cff; transform: translateX(1rem) rotate(-1deg); }
+.labs-wall__stack button span, .labs-wall__stack button small { font: 8px "IBM Plex Mono", monospace; letter-spacing: .05em; text-transform: uppercase; }.labs-wall__stack button strong { font: 1.8rem/.8 "Barlow Condensed", sans-serif; text-transform: uppercase; }.labs-wall__stack button i { font-style: normal; }
+.labs-wall__focus { position: absolute; top: 11rem; right: 4%; width: 53%; min-height: 20rem; border: 1px solid #221f1b; padding: 2rem; color: #f4efe5; background: #3e4cff; box-shadow: 11px 11px 0 #ed8b5a; transform: rotate(-1.5deg); }
+.labs-wall__focus--1 { background: #3e4cff; }.labs-wall__focus--2 { background: #221f1b; }.labs-wall__focus--empty { display: grid; align-content: center; color: #f4efe5; background: #221f1b; }
+.labs-wall__focus > p:first-child, .labs-wall__lines > span { font: 9px "IBM Plex Mono", monospace; letter-spacing: .12em; text-transform: uppercase; }.labs-wall__focus > p:first-child { color: #ed8b5a; }
+.labs-wall__focus h3 { margin: 1rem 0; font: 5.4rem/.75 "Barlow Condensed", sans-serif; letter-spacing: -.05em; text-transform: uppercase; }.labs-wall__focus--empty h3 em { color: #ed8b5a; font-style: italic; }
+.labs-wall__summary { max-width: 29rem; font: 1.1rem/1.45 Georgia, serif; }.labs-wall__lines { display: grid; grid-template-columns: .7fr 1fr; gap: .65rem 1rem; margin-top: 2rem; border-top: 1px solid rgba(244,239,229,.35); padding-top: .8rem; }.labs-wall__lines strong { font: 1.4rem/1 "Schoolbell", cursive; }.labs-wall__lines > div { display: flex; flex-wrap: wrap; gap: .4rem; }.labs-wall__lines button { display: inline-flex; align-items: center; gap: .3rem; border: 1px solid #f4efe5; padding: .3rem .45rem; color: #f4efe5; background: transparent; cursor: pointer; font: 8px "IBM Plex Mono", monospace; text-transform: uppercase; }.labs-wall__footer { display: flex; justify-content: space-between; gap: 1rem; border-top: 1px solid #221f1b; padding-top: .8rem; color: rgba(34,31,27,.6); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }.labs-wall__close { border-bottom: 1px solid #ed8b5a; color: #ed8b5a; }
+@media (hover: hover) and (pointer: fine) { .labs-wall__stack button:hover { background: #ed8b5a; transform: translateX(.6rem) rotate(-1deg); }.labs-wall__stack button.is-active:hover { background: #3e4cff; transform: translateX(1rem) rotate(-1deg); }.labs-wall__lines button:hover { color: #221f1b; background: #f4efe5; transform: translateY(-2px); }.labs-wall__close:hover { color: #3e4cff; } }
+@media (prefers-reduced-motion: reduce) { .labs-wall__stack button, .labs-wall__focus, .labs-wall__note { transition: none !important; transform: none; } }
 @media (max-width: 767px) {
   .signal-relay-scene .signal-relay-console { display: none; }
   .mobile-touch-feature { position: fixed; right: .8rem; bottom: calc(.8rem + env(safe-area-inset-bottom)); left: .8rem; z-index: 50; display: block; }
@@ -422,6 +447,16 @@ button { font: inherit; }
   .signal-relay-console__footer { align-items: flex-start; flex-direction: column; }
   .signal-relay-console__footer .terminal-step-out { width: 100%; justify-content: space-between; }
   #work { min-height: auto; }
+  .labs-wall { min-height: 110rem; }
+  .labs-wall__header { display: grid; gap: 1.5rem; padding-bottom: 1.25rem; }
+  .labs-wall__title { font-size: clamp(4.5rem, 18vw, 7rem); }
+  .labs-wall__stamp { justify-self: end; }
+  .labs-wall__canvas { min-height: 78rem; padding-top: 3rem; }
+  .labs-wall__blueprint { top: 2rem; font-size: 4.5rem; }
+  .labs-wall__note--a { top: 4rem; left: 0; width: 10rem; }.labs-wall__note--b { top: 10rem; right: 0; width: 11rem; }
+  .labs-wall__stack { top: 23rem; left: 0; width: 48%; }.labs-wall__stack button { min-height: 4.6rem; grid-template-columns: 2.1rem minmax(0, 1fr) .7rem; padding: .5rem; }.labs-wall__stack button strong { font-size: 1.45rem; }.labs-wall__stack button small { font-size: 7px; }
+  .labs-wall__focus { top: 21rem; right: 0; width: 66%; min-height: 28rem; padding: 1rem; }.labs-wall__focus h3 { font-size: 3.8rem; }.labs-wall__summary { font-size: .95rem; }.labs-wall__lines { grid-template-columns: 1fr; gap: .5rem; }
+  .labs-wall__footer { flex-direction: column; align-items: start; }
   #work > div:first-child { position: sticky; top: 56px; z-index: 12; margin-left: -1.25rem; margin-right: -1.25rem; padding: .75rem 1.25rem 1.1rem; }
   #featured { min-height: 122vh; }
   .labs-scene__head { margin-bottom: 2.25rem; }
