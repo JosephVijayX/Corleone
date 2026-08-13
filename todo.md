@@ -229,3 +229,16 @@
 - [x] Inspect the requested hero, Origin, and Labs copy bounds against the main portfolio margin.
 - [x] Shift the affected copy slightly right on desktop with a scoped responsive rule while preserving mobile alignment.
 - [x] Verify desktop/390px renders, run type/build checks, save a checkpoint, and deliver.
+
+## Labs line removal and visual-model prototype
+
+- [x] Inspect every decorative line source inside Labs and confirm other scenes remain unchanged.
+- [x] Remove Labs-only decorative lines while preserving cards, paper texture, and model-prototype space.
+- [x] Design and host separate visual-model directions in front of the Labs intro copy without promoting any direction to production.
+- [ ] Show the isolated prototype, verify desktop/mobile behavior, and wait for the user's selection before integration.
+
+## Labs model prototype route repair
+
+- [x] Inspect why `/prototype/labs-model?v=1` returns the 404 page in the live preview.
+- [x] Repair the isolated route without changing production Labs.
+- [x] Verify the exact shared URL and picker variants at desktop and mobile sizes.
