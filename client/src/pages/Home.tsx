@@ -398,83 +398,6 @@ function useGsapCursor() {
   return cursorRef;
 }
 
-// The intro clip ships with the repository so GitHub/Vercel deployments behave like the Manus preview.
-const INTRO_VIDEO_URL = "/VideoProject6.mp4";
-function VideoIntro({ onComplete }: { onComplete: () => void }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const finishedRef = useRef(false);
-  const [leaving, setLeaving] = useState(false);
-  const [ready, setReady] = useState(false);
-  const [playing, setPlaying] = useState(false);
-  const playCountRef = useRef(0);
-
-  const finish = (immediate = false) => {
-    if (finishedRef.current) return;
-    finishedRef.current = true;
-    setLeaving(true);
-    const release = () => {
-      document.documentElement.classList.remove("video-intro-active");
-      document.body.classList.remove("video-intro-active");
-      onComplete();
-    };
-    if (immediate) release();
-    else window.setTimeout(release, 620);
-  };
-
-  const tryPlay = () => {
-    const video = videoRef.current;
-    if (!video || !ready) return;
-    video.play().catch(() => undefined);
-  };
-
-  useEffect(() => {
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    document.documentElement.classList.add("video-intro-active");
-    document.body.classList.add("video-intro-active");
-    window.scrollTo({ top: 0, behavior: "auto" });
-    if (reducedMotion) {
-      finish(true);
-      return () => {
-        document.documentElement.classList.remove("video-intro-active");
-        document.body.classList.remove("video-intro-active");
-      };
-    }
-    const onKeyDown = (event: KeyboardEvent) => { if (event.key === "Escape") finish(); };
-    window.addEventListener("keydown", onKeyDown);
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-      document.documentElement.classList.remove("video-intro-active");
-      document.body.classList.remove("video-intro-active");
-    };
-  }, []);
-
-  const handleReady = () => {
-    const video = videoRef.current;
-    if (!video || video.readyState < HTMLMediaElement.HAVE_ENOUGH_DATA) return;
-    setReady(true);
-    video.play().catch(() => undefined);
-  };
-
-  const handleEnded = () => {
-    const video = videoRef.current;
-    if (!video || finishedRef.current) return;
-    playCountRef.current += 1;
-    if (playCountRef.current >= 2) {
-      finish();
-      return;
-    }
-    video.currentTime = 0;
-    video.play().catch(() => undefined);
-  };
-
-  return <div className={`intro-video ${leaving ? "is-leaving" : ""}`} aria-hidden="true" onPointerDown={tryPlay}>
-    <video ref={videoRef} className={`intro-video__media ${ready ? "is-ready" : ""} ${playing ? "is-playing" : ""}`} autoPlay muted playsInline preload="auto" onCanPlayThrough={handleReady} onLoadedData={handleReady} onPlay={() => setPlaying(true)} onEnded={handleEnded}>
-      <source src={INTRO_VIDEO_URL} type="video/mp4" />
-    </video>
-    <div className="intro-video__scrim" aria-hidden="true" />
-  </div>;
-}
-
 function useReferenceMotion(introReady: boolean) {
   useLayoutEffect(() => {
     if (!introReady) return;
@@ -560,7 +483,7 @@ function useReferenceMotion(introReady: boolean) {
 export default function Home() {
   const { progress, activeSection, scrollTo, getScrollPosition } = useSceneState();
   const cursorRef = useGsapCursor();
-  const [introReady, setIntroReady] = useState(false);
+  const [introReady] = useState(true);
   useReferenceMotion(introReady);
   const [activeProject, setActiveProject] = useState<number | null>(1);
   const [activeMedia, setActiveMedia] = useState<{ project: number; frame: number } | null>(null);
@@ -641,7 +564,6 @@ export default function Home() {
 
   return (
     <main data-scene={activeSection} className="signal-world overflow-hidden bg-[#ede5d7] text-[#221f1b]">
-      {!introReady && <VideoIntro onComplete={() => setIntroReady(true)} />}
       <div className="boot-screen" aria-hidden="true">
         <div className="boot-screen__line" />
         <div className="boot-screen__copy"><BrandMark hero /><span className="boot-screen__chars">{"opening signal / zxornatoe".split("").map((character, index) => <i className="boot-char" key={`${character}-${index}`}>{character === " " ? "\u00a0" : character}</i>)}</span><strong>READY</strong></div>
