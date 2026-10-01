@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Copy, Image as ImageIcon, Menu, Radio, ScanLine, Send, Gamepad2, X } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Camera, Copy, Headphones, Image as ImageIcon, Mail, Menu, MessageCircle, Music, Radio, ScanLine, Send, Gamepad2, X } from "lucide-react";
 import { gsap } from "gsap";
 import { Draggable } from "gsap/Draggable";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -56,6 +56,18 @@ const notesCards = [
   { number: "02", title: "One more", accent: "game.", meta: "last match / famous last words", backTitle: "The next queue", copy: "There is always another match, another challenge, another chance to pull off something ridiculous. That feeling never gets old.", backMeta: "queue again / enjoy the game", tone: "clay" },
   { number: "03", title: "No tilt", accent: "just reset.", meta: "lose the round / keep the focus", backTitle: "Reset and return", copy: "A loss is a reason to adapt, not a reason to rage. Take a breath, figure out what went wrong, and make the next decision count.", backMeta: "learn / adapt / repeat", tone: "black" },
   { number: "04", title: "Good", accent: "games.", meta: "win or lose / respect the lobby", backTitle: "Keep it a good game", copy: "Play hard. Be a good teammate. Respect the other side. The scoreboard resets, but the people you meet along the way matter.", backMeta: "squad first / always gg", tone: "paper" },
+];
+
+const contactEmail = "joseph@corleone.info";
+
+const contactLinks = [
+  { label: "Email", handle: contactEmail, href: `mailto:${contactEmail}`, icon: Mail },
+  { label: "Telegram", handle: "@JosephCarleone", href: "https://t.me/JosephCarleone", icon: Send },
+  { label: "Instagram", handle: "@eibefx", href: "https://www.instagram.com/eibefx/?hl=en", icon: Camera },
+  { label: "WhatsApp", handle: "Add contact", href: "https://wa.me/qr/XLX3NMRX2CXDC1", icon: MessageCircle },
+  { label: "Discord", handle: "View profile", href: "https://discord.com/users/1242055385133875291", icon: Headphones },
+  { label: "Steam", handle: "eibefx", href: "https://steamcommunity.com/id/eibefx", icon: Gamepad2 },
+  { label: "Spotify", handle: "Listen along", href: "https://open.spotify.com/user/31lahthbsktokotxbyim5hc5mixe", icon: Music },
 ];
 
 const navItems = [
@@ -664,7 +676,7 @@ export default function Home() {
   };
 
   const copyHandle = async () => {
-    await navigator.clipboard?.writeText("@hellrip");
+    await navigator.clipboard?.writeText(contactEmail);
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1600);
   };
@@ -962,23 +974,30 @@ export default function Home() {
 <h2 className="signal-display max-w-4xl text-6xl leading-[.88] sm:text-8xl lg:text-[9rem]">Say hi<br />
 <em>before</em>
 <br />overthinking it.</h2>
-<a data-cursor="TELEGRAM" href="https://t.me/hellrip" target="_blank" rel="noreferrer" className="group mt-12 inline-flex items-center gap-3 border-b border-[#ede5d7] pb-2 text-lg transition hover:text-[#3e4cff]">t.me/hellrip <ArrowUpRight size={18} className="transition group-hover:translate-x-1 group-hover:-translate-y-1" />
+<a data-cursor="EMAIL" href={`mailto:${contactEmail}`} className="group mt-12 inline-flex items-center gap-3 border-b border-[#ede5d7] pb-2 text-lg transition hover:text-[#3e4cff]">{contactEmail} <ArrowUpRight size={18} className="transition group-hover:translate-x-1 group-hover:-translate-y-1" />
 </a>
 </div>
 <div className="flex flex-col justify-end gap-8 lg:pb-3">
 <p className="signal-prose max-w-sm text-base leading-6 text-[#ede5d7]/80">Up for a match, a co-op adventure, or a conversation about your next favorite game? Get in touch and let’s talk gaming.</p>
-<div className="grid gap-2 text-xs uppercase">
-<a data-cursor="TELEGRAM" className="flex items-center justify-between border-t border-[#ede5d7]/30 py-3 transition hover:text-[#3e4cff]" href="https://t.me/hellrip" target="_blank" rel="noreferrer">
+<ul className="grid gap-0 text-xs uppercase">
+{contactLinks.map(({ label, handle, href, icon: Icon }) => <li key={label}>
+<a data-cursor={label.toUpperCase()} className="flex items-center justify-between gap-4 border-t border-[#ede5d7]/30 py-3 transition hover:text-[#3e4cff]" href={href} target="_blank" rel="noreferrer">
 <span className="flex items-center gap-3">
-<Send size={15} /> Telegram</span>
-<ArrowUpRight size={14} />
+<Icon size={15} aria-hidden="true" /> {label}</span>
+<span className="flex min-w-0 items-center gap-2">
+<span className="signal-mono truncate text-[10px] normal-case text-[#ede5d7]/60">{handle}</span>
+<ArrowUpRight size={14} aria-hidden="true" />
+</span>
 </a>
-<button data-cursor="COPY" className="flex items-center justify-between border-t border-[#ede5d7]/30 py-3 text-left uppercase transition hover:text-[#3e4cff]" onClick={copyHandle}>
+</li>)}
+<li>
+<button type="button" data-cursor="COPY" className="flex w-full items-center justify-between border-y border-[#ede5d7]/30 py-3 text-left uppercase transition hover:text-[#3e4cff]" onClick={copyHandle}>
 <span className="flex items-center gap-3">
-<Copy size={15} /> {copied ? "Handle copied" : "Copy Telegram handle"}</span>
-<span className="signal-mono text-[10px]">@hellrip</span>
+<Copy size={15} aria-hidden="true" /> {copied ? "Email copied" : "Copy email"}</span>
+<span className="signal-mono text-[10px] normal-case text-[#ede5d7]/60">{contactEmail}</span>
 </button>
-</div>
+</li>
+</ul>
 </div>
 </div>
 <footer className="relative z-10 mt-24 flex flex-wrap items-center justify-between gap-4 border-t border-[#ede5d7]/30 pt-4 text-[10px] uppercase tracking-[.14em] text-[#ede5d7]/55">
