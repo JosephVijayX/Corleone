@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Copy, Image as ImageIcon, Menu, Radio, ScanLine, Send, Terminal, X } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Copy, Image as ImageIcon, Menu, Radio, ScanLine, Send, Gamepad2, X } from "lucide-react";
 import { gsap } from "gsap";
 import { Draggable } from "gsap/Draggable";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -155,7 +155,7 @@ function LabsRecord({ project, index, isOpen, onToggle, onMedia }: { project: Pr
     <div id={`lab-detail-${index}`} className="project-detail" aria-hidden={!isOpen}>
       <div className="labs-record__detail-inner">
         <div className="labs-record__specimen">
-<span className="labs-record__specimen-code signal-mono">field note / {project.code}</span>
+<span className="labs-record__specimen-code signal-mono">playbook entry / {project.code}</span>
 <strong>{String(index + 1).padStart(2, "0")}</strong>
 <span className="labs-record__specimen-label">open trace<br />read slowly</span>
 </div>
@@ -182,41 +182,41 @@ function LabsRecord({ project, index, isOpen, onToggle, onMedia }: { project: Pr
 function LabsScene({ activeProject, onToggleProject, onMedia, onClose }: { activeProject: number | null; onToggleProject: (index: number) => void; onMedia: (project: number, frame: number) => void; onClose: () => void }) {
   const active = activeProject === null ? null : projects[activeProject];
   const metrics = [
-    { value: "18+", label: "tabs followed", ink: "red" },
-    { value: "03", label: "routes mapped", ink: "brown" },
-    { value: "OPEN", label: "Telegram trail", ink: "blue" },
+    { value: "GG", label: "competitive mindset", ink: "red" },
+    { value: "XP", label: "worlds to explore", ink: "brown" },
+    { value: "+1", label: "squad sessions", ink: "blue" },
   ];
     return <section id="work" className="scene-section grain stamp-labs relative px-5 py-24 text-[#221f1b] sm:px-10 lg:px-16 lg:py-36">
     <div data-reveal className="stamp-labs__header">
 <div>
-<p className="signal-mono stamp-labs__kicker">02 / labs — working notes / evidence pending</p>
-<h2 className="stamp-labs__title">Questions with a purpose.<br />
-<em>Proof gets messy.</em>
+<p className="signal-mono stamp-labs__kicker">02 / playbook — every game has a story</p>
+<h2 className="stamp-labs__title">Different ways to play.<br />
+<em>Same love for the game.</em>
 </h2>
-<p className="stamp-labs__intro">I keep the command, the capture, the failure, and the next attempt in the same frame. No polished case study. Just work I can run again.</p>
+<p className="stamp-labs__intro">Close matches, open worlds, and late nights with the squad. This is my playbook: the experiences I play for and the mindset I bring to every session.</p>
 </div>
-<div className="stamp-labs__stack" aria-label="Corleone learning artifact">
+<div className="stamp-labs__stack" aria-label="Corleone player card">
 <div className="stamp-labs__stack-card">
 <div className="stamp-labs__stack-image">
 <span className="signal-mono">field / open</span>
 <strong>?</strong>
-<i>test / break / repeat</i>
+<i>play / adapt / repeat</i>
 </div>
 </div>
 </div>
-<div className="stamp-labs__stamp signal-mono">WORKING<br />NOT FINISHED</div>
+<div className="stamp-labs__stamp signal-mono">ONE MORE<br />GAME</div>
 </div>
     <div className="stamp-labs__stage">
       <div className="stamp-labs__strut" aria-hidden="true" />
-<div className="stamp-labs__tag">ZXORNATOE / LEARNING LAB</div>
+<div className="stamp-labs__tag">CORLEONE / THE PLAYBOOK</div>
       <div className="stamp-labs__content">
-<h3>LEARN IT. BREAK IT. LOG IT.</h3>
-<p>Every card is a working record: what I tested, what failed, what changed, and what I still cannot explain.</p>
+<h3>PLAY IT. LOVE IT. REPEAT.</h3>
+<p>Pick a card to explore my gaming mindset: chasing the next win, discovering another world, or getting the squad together.</p>
 </div>
-      <span data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--one">test / break<br />repeat</span>
-<span data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--two">no guru<br />energy</span>
-<span data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--three">PARROT OS /<br />WORKBENCH</span>
-<span data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--four">TELEGRAM /<br />SHOW THE TRAIL</span>
+      <span data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--one">play / adapt<br />repeat</span>
+<span data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--two">no tilt<br />just focus</span>
+<span data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--three">HEADSET ON /<br />GAME TIME</span>
+<span data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--four">SQUAD UP /<br />SHARE THE WIN</span>
       <svg className="stamp-labs__route" viewBox="0 0 1100 690" preserveAspectRatio="none" aria-hidden="true">
 <path data-wall-route d="M 60 -10 C 120 120, 40 260, 150 690" />
 <path data-wall-route d="M 830 0 C 860 60, 800 110, 830 180" />
@@ -224,16 +224,16 @@ function LabsScene({ activeProject, onToggleProject, onMedia, onClose }: { activ
 <path data-wall-route d="M 780 130 L 810 100 L 800 112 M 810 100 L 800 96" />
 </svg>
       <div className="stamp-labs__footnote">
-<b>PS//</b> The point is not to look finished. The point is to leave enough evidence that the next run gets smarter.</div>
-      <div className="stamp-labs__cards" aria-label="Labs proof cards">{metrics.map((metric, index) => <button key={metric.label} type="button" data-wall-card data-cursor={`OPEN ${projects[index].code}`} data-active={activeProject === index ? "true" : undefined} className={`stamp-labs__card stamp-labs__card--${metric.ink}`} onClick={() => onToggleProject(index)} aria-pressed={activeProject === index}>
-<span className="signal-mono">0{index + 1} / proof card</span>
-<strong>{metric.value}</strong>{index === 2 && <span className="stamp-labs__card-sub">CHANNEL</span>}<span>{metric.label}</span>
+<b>PS//</b> The best sessions are not always the ones you win. They are the ones you still talk about the next day.</div>
+      <div className="stamp-labs__cards" aria-label="Gaming playbook cards">{metrics.map((metric, index) => <button key={metric.label} type="button" data-wall-card data-cursor={`OPEN ${projects[index].code}`} data-active={activeProject === index ? "true" : undefined} className={`stamp-labs__card stamp-labs__card--${metric.ink}`} onClick={() => onToggleProject(index)} aria-pressed={activeProject === index}>
+<span className="signal-mono">0{index + 1} / player card</span>
+<strong>{metric.value}</strong>{index === 2 && <span className="stamp-labs__card-sub">SQUAD</span>}<span>{metric.label}</span>
 <em>{projects[index].title}</em>
-<p>{index === 0 ? "capture it before guessing." : index === 1 ? "commands, setup, repeat." : "post the useful parts."}</p>
+<p>{index === 0 ? "stay calm. make the play." : index === 1 ? "take the road less traveled." : "good comms. great company."}</p>
 <i>↗</i>
 </button>)}</div>
-      <div data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--five">for flagship<br />questions ↗</div>
-<div data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--six">keep the parents happy ↗</div>
+      <div data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--five">for unforgettable<br />sessions ↗</div>
+<div data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--six">keep the squad together ↗</div>
       <div className="stamp-labs__footer signal-mono">
 <span>field wall / 03 paper traces</span>
 <span>scroll / draw / inspect</span>
@@ -241,7 +241,7 @@ function LabsScene({ activeProject, onToggleProject, onMedia, onClose }: { activ
     </div>
     {active && <article data-wall-annotation className="stamp-labs__evidence">
 <div>
-<span className="signal-mono">field note / {active.code}</span>
+<span className="signal-mono">playbook entry / {active.code}</span>
 <strong>{active.title}</strong>
 <p>{active.description}</p>
 </div>
@@ -249,7 +249,7 @@ function LabsScene({ activeProject, onToggleProject, onMedia, onClose }: { activ
 <ImageIcon size={15} />
 <span>{frame}</span>
 <ArrowUpRight size={13} />
-</button>)}{activeProject !== null && <button data-cursor="CLOSE LAB" className="stamp-labs__close" onClick={onClose}>close field note ×</button>}</div>
+</button>)}{activeProject !== null && <button data-cursor="CLOSE LAB" className="stamp-labs__close" onClick={onClose}>close playbook entry ×</button>}</div>
 </article>}
   </section>;
 }
@@ -958,7 +958,7 @@ export default function Home() {
 <div data-reveal className="relative z-10 grid gap-16 lg:grid-cols-[1fr_.8fr]">
 <div>
 <p className="signal-mono mb-5 flex items-center gap-3 text-[10px] uppercase tracking-[.2em] text-[#ed8b5a]">
-<BrandMark /> 05 / contact — transmission end</p>
+<BrandMark /> 05 / party up — the next game starts here</p>
 <h2 className="signal-display max-w-4xl text-6xl leading-[.88] sm:text-8xl lg:text-[9rem]">Say hi<br />
 <em>before</em>
 <br />overthinking it.</h2>
@@ -966,7 +966,7 @@ export default function Home() {
 </a>
 </div>
 <div className="flex flex-col justify-end gap-8 lg:pb-3">
-<p className="signal-prose max-w-sm text-base leading-6 text-[#ede5d7]/80">If you like learning in public, opening the terminal again, or following a weird question until it turns into something useful, find me on Telegram.</p>
+<p className="signal-prose max-w-sm text-base leading-6 text-[#ede5d7]/80">Up for a match, a co-op adventure, or a conversation about your next favorite game? Get in touch and let’s talk gaming.</p>
 <div className="grid gap-2 text-xs uppercase">
 <a data-cursor="TELEGRAM" className="flex items-center justify-between border-t border-[#ede5d7]/30 py-3 transition hover:text-[#3e4cff]" href="https://t.me/hellrip" target="_blank" rel="noreferrer">
 <span className="flex items-center gap-3">
@@ -1003,7 +1003,7 @@ export default function Home() {
 <small>{projects[activeMedia.project].tags.join(" / ")}</small>
 <i>{String(activeMedia.frame + 1).padStart(2, "0")} / 02</i>
 </div>
-<p className="signal-prose max-w-md text-center text-lg">Visual evidence placeholder — replace this frame with a real project screenshot or experiment artifact when the work is ready.</p>
+<p className="signal-prose max-w-md text-center text-lg">{activeMedia.frame === 0 ? projects[activeMedia.project].description : projects[activeMedia.project].learnings.join(" · ")}</p>
 </div>}
     </main>
   );

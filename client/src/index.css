@@ -358,7 +358,7 @@ button { font: inherit; }
 .hero-field-overlay { z-index: 0; pointer-events: none; opacity: .58; mix-blend-mode: multiply; background: radial-gradient(ellipse at 37% 37%, rgba(12,10,9,.98) 0 17%, transparent 17.6%), radial-gradient(ellipse at 42% 58%, rgba(12,10,9,.98) 0 28%, transparent 28.7%), radial-gradient(circle at 46% 80%, rgba(12,10,9,.92) 0 11%, transparent 11.6%), linear-gradient(132deg, transparent 0 48%, rgba(244,239,229,.12) 48.4% 49%, transparent 49.4%); filter: saturate(.85) contrast(1.08); }
 .hero-status-wall { position: absolute; top: 19%; right: 7%; z-index: 4; width: min(43vw, 540px); height: min(25vw, 260px); color: #221f1b; transform: rotate(-1.4deg); }
 .hero-status-wall__paper { position: absolute; inset: 4% 2% 4% 0; z-index: -1; border: 1px solid rgba(244,239,229,.35); background: rgba(244,239,229,.88); box-shadow: 10px 10px 0 rgba(34,31,27,.28); transform: rotate(2.5deg); }
-.hero-status-wall__paper::after { content: "FIELD NOTES / ZXO"; position: absolute; right: .8rem; top: .6rem; color: rgba(34,31,27,.46); font: 8px "IBM Plex Mono", monospace; letter-spacing: .12em; }
+.hero-status-wall__paper::after { content: "PLAYER NOTES / CORLEONE"; position: absolute; right: .8rem; top: .6rem; color: rgba(34,31,27,.46); font: 8px "IBM Plex Mono", monospace; letter-spacing: .12em; }
 .hero-status-wall__route { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
 .hero-status-wall__route path { fill: none; stroke: #3e4cff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(1px 1px 0 rgba(244,239,229,.45)); }
 .hero-status-wall__route circle { fill: #3e4cff; stroke: #ede5d7; stroke-width: 2; }
