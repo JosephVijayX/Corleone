@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Copy, Image as ImageIcon, Menu, Radio, ScanLine, Send, Terminal, X } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Camera, Copy, Headphones, Image as ImageIcon, Mail, Menu, MessageCircle, Music, Radio, ScanLine, Send, Gamepad2, X } from "lucide-react";
 import { gsap } from "gsap";
 import { Draggable } from "gsap/Draggable";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -26,77 +26,87 @@ type Project = {
 
 const projects: Project[] = [
   {
-    code: "LAB.01",
-    title: "Packet Weather",
-    type: "Learning lab / network fundamentals",
-    status: "IN PROGRESS",
-    year: "2026",
-    description: "I follow packets from command to wire, read the noise, and turn each capture into a question I can reproduce instead of a screenshot I can forget.",
-    learnings: ["Captured local traffic and traced the obvious gaps", "Compared normal and strange patterns in Wireshark", "Turned each finding into a repeatable lab note"],
-    tags: ["Wireshark", "Linux", "Notes"],
-    media: ["packet map", "local trace"],
+    code: "GAME.01", title: "The Ranked Grind", type: "Competitive / focus / improvement", status: "NEXT ROUND", year: "2026",
+    description: "That last-round pressure. The perfectly timed play. The comeback nobody saw coming. Competitive gaming is about keeping a cool head and giving the next round everything.",
+    learnings: ["Play the objective, not just the scoreboard", "Read the situation before taking the fight", "Reset after a loss and come back sharper"],
+    tags: ["Competitive", "Strategy", "Teamwork"], media: ["the mindset", "the game plan"],
   },
   {
-    code: "LAB.02",
-    title: "Parrot Hours",
-    type: "OS / workflow / daily practice",
-    status: "ALWAYS ON",
-    year: "2025—26",
-    description: "Parrot OS is the workbench: a clean place to test commands, break my own setup, and learn what each tool is actually doing before I trust it.",
-    learnings: ["Built a terminal-first workspace for repeatable labs", "Kept aliases, package notes, and failed experiments close", "Practiced until the tool stopped feeling like a black box"],
-    tags: ["Parrot OS", "Bash", "Workflow"],
-    media: ["os ritual", "terminal setup"],
+    code: "GAME.02", title: "Beyond the Main Quest", type: "Adventure / exploration / immersion", status: "KEEP EXPLORING", year: "2026",
+    description: "Not every session needs a scoreboard. Sometimes it is about getting lost in a world, taking the long way around, and finding the story hiding off the beaten path.",
+    learnings: ["Take the side quest", "Explore before checking a guide", "Enjoy the journey, not just the ending"],
+    tags: ["Adventure", "Exploration", "Story"], media: ["the mindset", "the game plan"],
   },
   {
-    code: "LAB.03",
-    title: "Open Channel",
-    type: "Community / Telegram / signal sharing",
-    status: "TRANSMITTING",
-    year: "ONGOING",
-    description: "Telegram is the open trail: I post the useful parts, collect sharper questions, and let unfinished work stay visible long enough to become a real conversation.",
-    learnings: ["Shared the useful parts before the work looked finished", "Collected sharper questions from the community", "Kept the channel human, direct, and useful"],
-    tags: ["Telegram", "Community", "Research"],
-    media: ["channel signal", "public notes"],
+    code: "GAME.03", title: "Squad After Hours", type: "Co-op / good company / good games", status: "PARTY UP", year: "ONGOING",
+    description: "The best part of gaming is the people in the party. Shared wins, ridiculous losses, and the kind of sessions where one more game somehow becomes three.",
+    learnings: ["Good comms beat a loud lobby", "Back your teammates", "Make room for fun, even when the match gets serious"],
+    tags: ["Co-op", "Squad", "Community"], media: ["the mindset", "the game plan"],
   },
 ];
 
 const featured = [
-  { title: "Learning the stuff", label: "ORIGIN", code: "01", detail: "I do not collect tutorials. I turn questions into small experiments, useful notes, and failures I can revisit.", metric: "∞", metricLabel: "QUESTIONS OPEN" },
-  { title: "Parrot hours", label: "SYSTEM", code: "02", detail: "Parrot OS is where theory has to survive contact with a terminal. I keep the setup clean, break it often, and write down what changed.", metric: "24/7", metricLabel: "CURIOUS MODE" },
-  { title: "Open channel", label: "SIGNAL", code: "03", detail: "Telegram keeps the trail public: useful links, unfinished thoughts, and work-in-progress questions that someone else can challenge.", metric: "LIVE", metricLabel: "TRANSMISSION" },
+  { title: "Play with purpose", label: "FOCUS", code: "01", detail: "Read the game. Trust the practice. Whether it is a close round or a fresh challenge, I am here to get a little better every time I play.", metric: "GG", metricLabel: "MINDSET FIRST" },
+  { title: "Take the side quest", label: "EXPLORE", code: "02", detail: "Big worlds, small details, and stories that stay with you after the credits. Sometimes the best part of the game is the path you were never told to take.", metric: "∞", metricLabel: "WORLDS TO EXPLORE" },
+  { title: "Better together", label: "SQUAD", code: "03", detail: "A great squad makes every game better. Bring the good comms, share the clutch moments, and never leave a teammate behind.", metric: "+1", metricLabel: "ROOM IN THE PARTY" },
 ];
 
 const notesCards = [
-  { number: "01", title: "Notorious", accent: "on Telegram", meta: "hacker mindset / no performance", backTitle: "Notorious / Telegram", copy: "I’m `Notorious` on Telegram by VibeCoders — known for a hacker mindset, aggressive curiosity, and pressure-testing every system I can study.", backMeta: "public signal / @hellrip", tone: "blue" },
-  { number: "02", title: "Quantized", accent: "LLM cores", meta: "model internals / open", backTitle: "Quantized / Agentic", copy: "I spent months studying the cores of quantized LLMs to make them friendlier for my work. Now I’m turning that understanding into agentic workflows that actually help me move.", backMeta: "research trail / task-ready", tone: "clay" },
-  { number: "03", title: "Waiting", accent: "for the window", meta: "timing matters / stay alert", backTitle: "Technology / Window", copy: "I keep looking for the next technology window — the moment a new system becomes reachable enough to study, test, and push past the obvious. Vulnerability lover. Curiosity first.", backMeta: "open question / next opening", tone: "black" },
-  { number: "04", title: "Keep", accent: "digging.", meta: "research continues / no final form", backTitle: "Continuing / Research", copy: "Still researching the next platforms, the next interfaces, and the next strange opening. The work stays unfinished on purpose.", backMeta: "next platform / still looking", tone: "paper" },
+  { number: "01", title: "Clutch", accent: "not ego.", meta: "cool head / clear comms", backTitle: "Under pressure", copy: "Stay calm when the round gets loud. Make the smart play, trust your teammates, and let the result do the talking.", backMeta: "mindset / play the objective", tone: "blue" },
+  { number: "02", title: "One more", accent: "game.", meta: "last match / famous last words", backTitle: "The next queue", copy: "There is always another match, another challenge, another chance to pull off something ridiculous. That feeling never gets old.", backMeta: "queue again / enjoy the game", tone: "clay" },
+  { number: "03", title: "No tilt", accent: "just reset.", meta: "lose the round / keep the focus", backTitle: "Reset and return", copy: "A loss is a reason to adapt, not a reason to rage. Take a breath, figure out what went wrong, and make the next decision count.", backMeta: "learn / adapt / repeat", tone: "black" },
+  { number: "04", title: "Good", accent: "games.", meta: "win or lose / respect the lobby", backTitle: "Keep it a good game", copy: "Play hard. Be a good teammate. Respect the other side. The scoreboard resets, but the people you meet along the way matter.", backMeta: "squad first / always gg", tone: "paper" },
+];
+
+const contactEmail = "joseph@corleone.info";
+
+const contactLinks = [
+  { label: "Email", handle: contactEmail, href: `mailto:${contactEmail}`, icon: Mail },
+  { label: "Telegram", handle: "@JosephCarleone", href: "https://t.me/JosephCarleone", icon: Send },
+  { label: "Instagram", handle: "@eibefx", href: "https://www.instagram.com/eibefx/?hl=en", icon: Camera },
+  { label: "WhatsApp", handle: "Add contact", href: "https://wa.me/qr/XLX3NMRX2CXDC1", icon: MessageCircle },
+  { label: "Discord", handle: "View profile", href: "https://discord.com/users/1242055385133875291", icon: Headphones },
+  { label: "Steam", handle: "eibefx", href: "https://steamcommunity.com/id/eibefx", icon: Gamepad2 },
+  { label: "Spotify", handle: "Listen along", href: "https://open.spotify.com/user/31lahthbsktokotxbyim5hc5mixe", icon: Music },
 ];
 
 const navItems = [
-  ["home", "Home"],
-  ["about", "Origin"],
-  ["work", "Labs"],
-  ["featured", "Signal"],
-  ["visuals", "Notes"],
-  ["contact", "Contact"],
+  ["home", "Home"], ["about", "Player"], ["work", "Playbook"],
+  ["featured", "Game Modes"], ["visuals", "Mindset"], ["contact", "Party Up"],
 ];
 
 const sceneMeta: Record<string, { ribbon: string; rail: string }> = {
-  home: { ribbon: "the signal stayed. everything else changed.", rail: "signal route / home" },
-  about: { ribbon: "the rabbit hole got wider.", rail: "signal route / origin" },
-  work: { ribbon: "archive open / records moving.", rail: "signal route / labs" },
-  featured: { ribbon: "next stop: open channel.", rail: "signal route / featured" },
-  visuals: { ribbon: "tabs everywhere / pattern found.", rail: "signal route / visuals" },
-  contact: { ribbon: "transmission ready / say hi.", rail: "signal route / contact" },
+  home: { ribbon: "different worlds. same player. one more game.", rail: "player journey / home" },
+  about: { ribbon: "behind the name. beyond the scoreboard.", rail: "player journey / player" },
+  work: { ribbon: "play. adapt. repeat.", rail: "player journey / playbook" },
+  featured: { ribbon: "choose your next adventure.", rail: "player journey / game modes" },
+  visuals: { ribbon: "cool head. good comms. great games.", rail: "player journey / mindset" },
+  contact: { ribbon: "the next great game starts with a squad.", rail: "player journey / party up" },
 };
 
 function NotesFlipCard({ card }: { card: typeof notesCards[number] }) {
   const [flipped, setFlipped] = useState(false);
   return <button type="button" data-reveal data-cursor="FLIP NOTE" className={`notes-card notes-card--${card.tone}`} data-flipped={flipped ? "true" : undefined} aria-pressed={flipped} aria-label={`${card.title} ${card.accent}. Flip for full note.`} onClick={() => setFlipped((value) => !value)}>
     <span className="notes-card__inner">
-      <span className="notes-card__face notes-card__front"><span className="notes-card__top"><span>{card.number}</span><span>↗</span></span><span className="notes-card__title">{card.title}<br /><em>{card.accent}</em></span><span className="notes-card__meta">{card.meta}</span></span>
-      <span className="notes-card__face notes-card__back"><span className="notes-card__top"><span>{card.number} / FULL NOTE</span><span>×</span></span><strong>{card.backTitle}</strong><span className="notes-card__copy">{card.copy}</span><span className="notes-card__meta">{card.backMeta}</span></span>
+      <span className="notes-card__face notes-card__front">
+<span className="notes-card__top">
+<span>{card.number}</span>
+<span>↗</span>
+</span>
+<span className="notes-card__title">{card.title}<br />
+<em>{card.accent}</em>
+</span>
+<span className="notes-card__meta">{card.meta}</span>
+</span>
+      <span className="notes-card__face notes-card__back">
+<span className="notes-card__top">
+<span>{card.number} / FULL NOTE</span>
+<span>×</span>
+</span>
+<strong>{card.backTitle}</strong>
+<span className="notes-card__copy">{card.copy}</span>
+<span className="notes-card__meta">{card.backMeta}</span>
+</span>
     </span>
   </button>;
 }
@@ -111,7 +121,13 @@ function InkRoute({ variant = "default", className = "" }: { variant?: "default"
     signal: "M18 100 C132 82 174 16 280 48 S426 154 534 86 S708 26 812 86 C860 114 922 100 976 44",
     close: "M18 94 C130 10 214 146 324 64 S486 18 568 82 S712 142 792 70 C842 28 894 48 866 88 C842 120 804 104 812 76",
   };
-  return <svg className={`ink-route ink-route--${variant} ${className}`} viewBox="0 0 1000 180" preserveAspectRatio="none" aria-hidden="true"><path className="ink-route__shadow" d={paths[variant]} /><path className="ink-route__path" d={paths[variant]} /><path className="ink-route__curl" d="M824 64 C852 24 914 42 900 84 C886 122 820 132 796 96 C780 72 798 42 828 46" /><circle className="ink-route__node" cx="286" cy="86" r="7" /><circle className="ink-route__node" cx="744" cy="58" r="7" /></svg>;
+  return <svg className={`ink-route ink-route--${variant} ${className}`} viewBox="0 0 1000 180" preserveAspectRatio="none" aria-hidden="true">
+<path className="ink-route__shadow" d={paths[variant]} />
+<path className="ink-route__path" d={paths[variant]} />
+<path className="ink-route__curl" d="M824 64 C852 24 914 42 900 84 C886 122 820 132 796 96 C780 72 798 42 828 46" />
+<circle className="ink-route__node" cx="286" cy="86" r="7" />
+<circle className="ink-route__node" cx="744" cy="58" r="7" />
+</svg>;
 }
 
 function DraggableSticker({ children, className = "" }: { children: ReactNode; className?: string }) {
@@ -135,16 +151,41 @@ function DraggableSticker({ children, className = "" }: { children: ReactNode; c
 function LabsRecord({ project, index, isOpen, onToggle, onMedia }: { project: Project; index: number; isOpen: boolean; onToggle: () => void; onMedia: (frame: number) => void }) {
   return <article className={`project-record labs-record labs-record--${index} ${isOpen ? "is-open" : ""}`}>
     <button data-cursor="OPEN RECORD" className="labs-record__trigger group" onClick={onToggle} aria-expanded={isOpen} aria-controls={`lab-detail-${index}`}>
-      <span className="labs-record__index signal-mono">{project.code}<i>0{index + 1}</i></span>
-      <span className="labs-record__title"><small>{project.type}</small><strong>{project.title}</strong><em>{project.status}</em></span>
-      <span className="labs-record__meta signal-mono"><b>{project.year}</b><span>trace / 0{index + 1}</span></span>
+      <span className="labs-record__index signal-mono">{project.code}<i>0{index + 1}</i>
+</span>
+      <span className="labs-record__title">
+<small>{project.type}</small>
+<strong>{project.title}</strong>
+<em>{project.status}</em>
+</span>
+      <span className="labs-record__meta signal-mono">
+<b>{project.year}</b>
+<span>trace / 0{index + 1}</span>
+</span>
       <span className="labs-record__mark" aria-hidden="true">{isOpen ? "×" : "↗"}</span>
     </button>
     <div id={`lab-detail-${index}`} className="project-detail" aria-hidden={!isOpen}>
       <div className="labs-record__detail-inner">
-        <div className="labs-record__specimen"><span className="labs-record__specimen-code signal-mono">field note / {project.code}</span><strong>{String(index + 1).padStart(2, "0")}</strong><span className="labs-record__specimen-label">open trace<br />read slowly</span></div>
-        <div className="labs-record__copy"><p className="signal-prose mb-5 text-lg leading-7">{project.description}</p><p className="signal-mono text-[10px] uppercase tracking-[.12em] text-[#ed8b5a]">{project.type}</p><p className="signal-mono mt-6 border-l border-[#3e4cff] pl-3 text-[10px] uppercase leading-5 text-[#221f1b]/60">evidence trail / {project.tags.join(" → ")}</p><div className="labs-record__evidence mt-7 grid grid-cols-2 gap-2">{project.media.map((frame, frameIndex) => <button key={frame} data-cursor="VIEW FRAME" onClick={() => onMedia(frameIndex)} className="evidence-thumb labs-record__evidence-thumb"><ImageIcon size={15} /><span>{frame}</span><ArrowUpRight size={13} /></button>)}</div></div>
-        <div className="labs-record__notes"><p className="signal-mono mb-4 text-[10px] uppercase tracking-[.12em]">what stayed with me</p><ul className="space-y-2 text-sm text-[#221f1b]/75">{project.learnings.map((learning) => <li key={learning}>// {learning}</li>)}</ul><div className="mt-6 flex flex-wrap gap-2">{project.tags.map((tag) => <span key={tag} className="border border-[#221f1b]/30 px-2 py-1 text-[10px] uppercase">{tag}</span>)}</div></div>
+        <div className="labs-record__specimen">
+<span className="labs-record__specimen-code signal-mono">playbook entry / {project.code}</span>
+<strong>{String(index + 1).padStart(2, "0")}</strong>
+<span className="labs-record__specimen-label">open trace<br />read slowly</span>
+</div>
+        <div className="labs-record__copy">
+<p className="signal-prose mb-5 text-lg leading-7">{project.description}</p>
+<p className="signal-mono text-[10px] uppercase tracking-[.12em] text-[#d4a24c]">{project.type}</p>
+<p className="signal-mono mt-6 border-l border-[#b3121f] pl-3 text-[10px] uppercase leading-5 text-[#0e0c0b]/60">evidence trail / {project.tags.join(" → ")}</p>
+<div className="labs-record__evidence mt-7 grid grid-cols-2 gap-2">{project.media.map((frame, frameIndex) => <button key={frame} data-cursor="VIEW FRAME" onClick={() => onMedia(frameIndex)} className="evidence-thumb labs-record__evidence-thumb">
+<ImageIcon size={15} />
+<span>{frame}</span>
+<ArrowUpRight size={13} />
+</button>)}</div>
+</div>
+        <div className="labs-record__notes">
+<p className="signal-mono mb-4 text-[10px] uppercase tracking-[.12em]">what stayed with me</p>
+<ul className="space-y-2 text-sm text-[#0e0c0b]/75">{project.learnings.map((learning) => <li key={learning}>// {learning}</li>)}</ul>
+<div className="mt-6 flex flex-wrap gap-2">{project.tags.map((tag) => <span key={tag} className="border border-[#0e0c0b]/30 px-2 py-1 text-[10px] uppercase">{tag}</span>)}</div>
+</div>
       </div>
     </div>
   </article>;
@@ -153,23 +194,75 @@ function LabsRecord({ project, index, isOpen, onToggle, onMedia }: { project: Pr
 function LabsScene({ activeProject, onToggleProject, onMedia, onClose }: { activeProject: number | null; onToggleProject: (index: number) => void; onMedia: (project: number, frame: number) => void; onClose: () => void }) {
   const active = activeProject === null ? null : projects[activeProject];
   const metrics = [
-    { value: "18+", label: "tabs followed", ink: "red" },
-    { value: "03", label: "routes mapped", ink: "brown" },
-    { value: "OPEN", label: "Telegram trail", ink: "blue" },
+    { value: "GG", label: "competitive mindset", ink: "red" },
+    { value: "XP", label: "worlds to explore", ink: "brown" },
+    { value: "+1", label: "squad sessions", ink: "blue" },
   ];
-    return <section id="work" className="scene-section grain stamp-labs relative px-5 py-24 text-[#221f1b] sm:px-10 lg:px-16 lg:py-36">
-    <div data-reveal className="stamp-labs__header"><div><p className="signal-mono stamp-labs__kicker">02 / labs — working notes / evidence pending</p><h2 className="stamp-labs__title">Questions with a purpose.<br /><em>Proof gets messy.</em></h2><p className="stamp-labs__intro">I keep the command, the capture, the failure, and the next attempt in the same frame. No polished case study. Just work I can run again.</p></div><div className="stamp-labs__stack" aria-label="Zxornatoe learning artifact"><div className="stamp-labs__stack-card"><div className="stamp-labs__stack-image"><span className="signal-mono">field / open</span><strong>?</strong><i>test / break / repeat</i></div></div></div><div className="stamp-labs__stamp signal-mono">WORKING<br />NOT FINISHED</div></div>
+    return <section id="work" className="scene-section grain stamp-labs relative px-5 py-24 text-[#0e0c0b] sm:px-10 lg:px-16 lg:py-36">
+    <div data-reveal className="stamp-labs__header">
+<div>
+<p className="signal-mono stamp-labs__kicker">02 / playbook — every game has a story</p>
+<h2 className="stamp-labs__title">Different ways to play.<br />
+<em>Same love for the game.</em>
+</h2>
+<p className="stamp-labs__intro">Close matches, open worlds, and late nights with the squad. This is my playbook: the experiences I play for and the mindset I bring to every session.</p>
+</div>
+<div className="stamp-labs__stack" aria-label="Corleone player card">
+<div className="stamp-labs__stack-card">
+<div className="stamp-labs__stack-image">
+<span className="signal-mono">field / open</span>
+<strong>?</strong>
+<i>play / adapt / repeat</i>
+</div>
+</div>
+</div>
+<div className="stamp-labs__stamp signal-mono">ONE MORE<br />GAME</div>
+</div>
     <div className="stamp-labs__stage">
-      <div className="stamp-labs__strut" aria-hidden="true" /><div className="stamp-labs__tag">ZXORNATOE / LEARNING LAB</div>
-      <div className="stamp-labs__content"><h3>LEARN IT. BREAK IT. LOG IT.</h3><p>Every card is a working record: what I tested, what failed, what changed, and what I still cannot explain.</p></div>
-      <span data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--one">test / break<br />repeat</span><span data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--two">no guru<br />energy</span><span data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--three">PARROT OS /<br />WORKBENCH</span><span data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--four">TELEGRAM /<br />SHOW THE TRAIL</span>
-      <svg className="stamp-labs__route" viewBox="0 0 1100 690" preserveAspectRatio="none" aria-hidden="true"><path data-wall-route d="M 60 -10 C 120 120, 40 260, 150 690" /><path data-wall-route d="M 830 0 C 860 60, 800 110, 830 180" /><circle cx="828" cy="60" r="4" /><path data-wall-route d="M 780 130 L 810 100 L 800 112 M 810 100 L 800 96" /></svg>
-      <div className="stamp-labs__footnote"><b>PS//</b> The point is not to look finished. The point is to leave enough evidence that the next run gets smarter.</div>
-      <div className="stamp-labs__cards" aria-label="Labs proof cards">{metrics.map((metric, index) => <button key={metric.label} type="button" data-wall-card data-cursor={`OPEN ${projects[index].code}`} data-active={activeProject === index ? "true" : undefined} className={`stamp-labs__card stamp-labs__card--${metric.ink}`} onClick={() => onToggleProject(index)} aria-pressed={activeProject === index}><span className="signal-mono">0{index + 1} / proof card</span><strong>{metric.value}</strong>{index === 2 && <span className="stamp-labs__card-sub">CHANNEL</span>}<span>{metric.label}</span><em>{projects[index].title}</em><p>{index === 0 ? "capture it before guessing." : index === 1 ? "commands, setup, repeat." : "post the useful parts."}</p><i>↗</i></button>)}</div>
-      <div data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--five">for flagship<br />questions ↗</div><div data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--six">keep the parents happy ↗</div>
-      <div className="stamp-labs__footer signal-mono"><span>field wall / 03 paper traces</span><span>scroll / draw / inspect</span></div>
+      <div className="stamp-labs__strut" aria-hidden="true" />
+<div className="stamp-labs__tag">CORLEONE / THE PLAYBOOK</div>
+      <div className="stamp-labs__content">
+<h3>PLAY IT. LOVE IT. REPEAT.</h3>
+<p>Pick a card to explore my gaming mindset: chasing the next win, discovering another world, or getting the squad together.</p>
+</div>
+      <span data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--one">play / adapt<br />repeat</span>
+<span data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--two">no tilt<br />just focus</span>
+<span data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--three">HEADSET ON /<br />GAME TIME</span>
+<span data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--four">SQUAD UP /<br />SHARE THE WIN</span>
+      <svg className="stamp-labs__route" viewBox="0 0 1100 690" preserveAspectRatio="none" aria-hidden="true">
+<path data-wall-route d="M 60 -10 C 120 120, 40 260, 150 690" />
+<path data-wall-route d="M 830 0 C 860 60, 800 110, 830 180" />
+<circle cx="828" cy="60" r="4" />
+<path data-wall-route d="M 780 130 L 810 100 L 800 112 M 810 100 L 800 96" />
+</svg>
+      <div className="stamp-labs__footnote">
+<b>PS//</b> The best sessions are not always the ones you win. They are the ones you still talk about the next day.</div>
+      <div className="stamp-labs__cards" aria-label="Gaming playbook cards">{metrics.map((metric, index) => <button key={metric.label} type="button" data-wall-card data-cursor={`OPEN ${projects[index].code}`} data-active={activeProject === index ? "true" : undefined} className={`stamp-labs__card stamp-labs__card--${metric.ink}`} onClick={() => onToggleProject(index)} aria-pressed={activeProject === index}>
+<span className="signal-mono">0{index + 1} / player card</span>
+<strong>{metric.value}</strong>{index === 2 && <span className="stamp-labs__card-sub">SQUAD</span>}<span>{metric.label}</span>
+<em>{projects[index].title}</em>
+<p>{index === 0 ? "stay calm. make the play." : index === 1 ? "take the road less traveled." : "good comms. great company."}</p>
+<i>↗</i>
+</button>)}</div>
+      <div data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--five">for unforgettable<br />sessions ↗</div>
+<div data-wall-annotation className="stamp-labs__scribble stamp-labs__scribble--six">keep the squad together ↗</div>
+      <div className="stamp-labs__footer signal-mono">
+<span>field wall / 03 paper traces</span>
+<span>scroll / draw / inspect</span>
+</div>
     </div>
-    {active && <article data-wall-annotation className="stamp-labs__evidence"><div><span className="signal-mono">field note / {active.code}</span><strong>{active.title}</strong><p>{active.description}</p></div><div className="stamp-labs__evidence-actions">{active.media.map((frame, frameIndex) => <button key={frame} data-cursor="VIEW FRAME" className="evidence-thumb" onClick={() => onMedia(activeProject!, frameIndex)}><ImageIcon size={15} /><span>{frame}</span><ArrowUpRight size={13} /></button>)}{activeProject !== null && <button data-cursor="CLOSE LAB" className="stamp-labs__close" onClick={onClose}>close field note ×</button>}</div></article>}
+    {active && <article data-wall-annotation className="stamp-labs__evidence">
+<div>
+<span className="signal-mono">playbook entry / {active.code}</span>
+<strong>{active.title}</strong>
+<p>{active.description}</p>
+</div>
+<div className="stamp-labs__evidence-actions">{active.media.map((frame, frameIndex) => <button key={frame} data-cursor="VIEW FRAME" className="evidence-thumb" onClick={() => onMedia(activeProject!, frameIndex)}>
+<ImageIcon size={15} />
+<span>{frame}</span>
+<ArrowUpRight size={13} />
+</button>)}{activeProject !== null && <button data-cursor="CLOSE LAB" className="stamp-labs__close" onClick={onClose}>close playbook entry ×</button>}</div>
+</article>}
   </section>;
 }
 
@@ -246,7 +339,45 @@ function MobileRouteSheet({ activeIndex, onSelect, onMove }: { activeIndex: numb
     else springTo(0, pointer.velocity);
   };
 
-  return <div className={`mobile-route-sheet ${pressed ? "is-pressed" : ""}`}><div className="mobile-route-sheet__underlay"><div className="mobile-route-sheet__route">{featured.map((stop, index) => <button key={stop.code} className={index === activeIndex ? "is-active" : ""} aria-label={`Go to ${stop.label}`} aria-current={index === activeIndex ? "step" : undefined} onPointerDown={(event) => event.stopPropagation()} onClick={() => { onSelect(index); springTo(0); }}><i /><span>{stop.code}</span></button>)}</div><div className="mobile-route-sheet__underlay-copy"><span>next action</span><strong>pull up to inspect</strong></div></div><article className="mobile-route-sheet__panel" style={{ transform: `translate3d(0, ${offset}px, 0)` }} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={() => { pointerRef.current = null; setPressed(false); springTo(0); }}><div className="mobile-route-sheet__grabber" /><div className="mobile-route-sheet__panel-head"><span>{sheet.code} / {sheet.label}</span><span>signal / live</span></div><div key={sheet.code} className="mobile-route-sheet__readout"><h3>{sheet.title}</h3><p>{sheet.detail}</p><div className="mobile-route-sheet__trace"><span>trace / {sheet.metricLabel}</span><strong>{sheet.metric}</strong></div></div><div className="mobile-route-sheet__panel-foot"><span>pull / release / continue</span><div className="mobile-route-sheet__panel-actions"><button data-cursor="PREV" aria-label="Previous featured signal" onPointerDown={(event) => event.stopPropagation()} onClick={() => onMove(-1)}><ArrowLeft size={15} /></button><span className="signal-mono">{activeIndex + 1} / {featured.length}</span><button data-cursor="NEXT" aria-label="Next featured signal" onPointerDown={(event) => event.stopPropagation()} onClick={() => onMove(1)}><ArrowRight size={15} /></button></div></div></article></div>;
+  return <div className={`mobile-route-sheet ${pressed ? "is-pressed" : ""}`}>
+<div className="mobile-route-sheet__underlay">
+<div className="mobile-route-sheet__route">{featured.map((stop, index) => <button key={stop.code} className={index === activeIndex ? "is-active" : ""} aria-label={`Go to ${stop.label}`} aria-current={index === activeIndex ? "step" : undefined} onPointerDown={(event) => event.stopPropagation()} onClick={() => { onSelect(index); springTo(0); }}>
+<i />
+<span>{stop.code}</span>
+</button>)}</div>
+<div className="mobile-route-sheet__underlay-copy">
+<span>next action</span>
+<strong>pull up to inspect</strong>
+</div>
+</div>
+<article className="mobile-route-sheet__panel" style={{ transform: `translate3d(0, ${offset}px, 0)` }} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={() => { pointerRef.current = null; setPressed(false); springTo(0); }}>
+<div className="mobile-route-sheet__grabber" />
+<div className="mobile-route-sheet__panel-head">
+<span>{sheet.code} / {sheet.label}</span>
+<span>signal / live</span>
+</div>
+<div key={sheet.code} className="mobile-route-sheet__readout">
+<h3>{sheet.title}</h3>
+<p>{sheet.detail}</p>
+<div className="mobile-route-sheet__trace">
+<span>trace / {sheet.metricLabel}</span>
+<strong>{sheet.metric}</strong>
+</div>
+</div>
+<div className="mobile-route-sheet__panel-foot">
+<span>pull / release / continue</span>
+<div className="mobile-route-sheet__panel-actions">
+<button data-cursor="PREV" aria-label="Previous featured signal" onPointerDown={(event) => event.stopPropagation()} onClick={() => onMove(-1)}>
+<ArrowLeft size={15} />
+</button>
+<span className="signal-mono">{activeIndex + 1} / {featured.length}</span>
+<button data-cursor="NEXT" aria-label="Next featured signal" onPointerDown={(event) => event.stopPropagation()} onClick={() => onMove(1)}>
+<ArrowRight size={15} />
+</button>
+</div>
+</div>
+</article>
+</div>;
 }
 
 function useSceneState() {
@@ -529,7 +660,7 @@ export default function Home() {
     if (id === "about") targetScroll += window.innerHeight * .4;
     const sectionName = navItems.find(([sectionId]) => sectionId === id)?.[1] ?? id;
     const label = document.querySelector<HTMLElement>(".signal-jump__label");
-    if (label) label.textContent = `routing signal / ${sectionName}`;
+    if (label) label.textContent = `loading level / ${sectionName}`;
 
     const timeline = gsap.timeline({ onComplete: () => { setJumping(false); document.body.classList.remove("traveling"); } });
     timeline.to(".signal-nav-item", { autoAlpha: 0, duration: .2, ease: "power2.out" }, 0)
@@ -545,7 +676,7 @@ export default function Home() {
   };
 
   const copyHandle = async () => {
-    await navigator.clipboard?.writeText("@hellrip");
+    await navigator.clipboard?.writeText(contactEmail);
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1600);
   };
@@ -563,52 +694,337 @@ export default function Home() {
   };
 
   return (
-    <main data-scene={activeSection} className="signal-world overflow-hidden bg-[#ede5d7] text-[#221f1b]">
+    <main data-scene={activeSection} className="signal-world overflow-hidden bg-[#ede5d7] text-[#0e0c0b]">
       <div className="boot-screen" aria-hidden="true">
         <div className="boot-screen__line" />
-        <div className="boot-screen__copy"><BrandMark hero /><span className="boot-screen__chars">{"opening signal / zxornatoe".split("").map((character, index) => <i className="boot-char" key={`${character}-${index}`}>{character === " " ? "\u00a0" : character}</i>)}</span><strong>READY</strong></div>
-        <div className="boot-screen__counter"><span data-boot-percent>00%</span><div><span data-boot-bar /></div></div>
+        <div className="boot-screen__copy">
+<BrandMark hero />
+<span className="boot-screen__chars">{"suiting up / J. Corleone".split("").map((character, index) => <i className="boot-char" key={`${character}-${index}`}>{character === " " ? "\u00a0" : character}</i>)}</span>
+<strong>READY</strong>
+</div>
+        <div className="boot-screen__counter">
+<span data-boot-percent>00%</span>
+<div>
+<span data-boot-bar />
+</div>
+</div>
         <button data-cursor="SKIP" className="boot-screen__skip" onClick={() => { gsap.killTweensOf(".boot-screen"); gsap.to(".boot-screen", { autoAlpha: 0, clipPath: "inset(0 0 100% 0)", duration: .45, ease: "power3.inOut" }); gsap.to(".signal-nav-shell", { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: .45, ease: "expo.out" }); }}>SKIP INTRO →</button>
       </div>
 
-      <div className={`signal-jump ${jumping ? "is-active" : ""}`} aria-hidden="true"><span className="signal-jump__line" /><span className="signal-jump__label">routing signal / {activeSection}</span></div>
+      <div className={`signal-jump ${jumping ? "is-active" : ""}`} aria-hidden="true">
+<span className="signal-jump__line" />
+<span className="signal-jump__label">loading level / {activeSection}</span>
+</div>
       <div className={`cinematic-vignette ${jumping ? "is-active" : ""}`} aria-hidden="true" />
-      {activeSection === "featured" && <div className="mobile-touch-feature"><MobileRouteSheet activeIndex={featuredIndex} onSelect={(index) => { setFeaturedIndex(index); setSlideDirection(index >= featuredIndex ? "next" : "prev"); }} onMove={changeFeatured} /></div>}
-      <div ref={cursorRef} className="pointer-field pointer-field--gsap" aria-hidden="true"><span data-cursor-label>MOVE</span><b data-cursor-core /><div className="cursor-trail">{Array.from({ length: 10 }, (_, index) => <i key={index} data-cursor-trail />)}</div></div>
+      {activeSection === "featured" && <div className="mobile-touch-feature">
+<MobileRouteSheet activeIndex={featuredIndex} onSelect={(index) => { setFeaturedIndex(index); setSlideDirection(index >= featuredIndex ? "next" : "prev"); }} onMove={changeFeatured} />
+</div>}
+      <div ref={cursorRef} className="pointer-field pointer-field--gsap" aria-hidden="true">
+<span data-cursor-label>MOVE</span>
+<b data-cursor-core />
+<div className="cursor-trail">{Array.from({ length: 10 }, (_, index) => <i key={index} data-cursor-trail />)}</div>
+</div>
 
       <header className="fixed left-0 right-0 top-0 z-40 border-b border-black/15 bg-[#ede5d7]/85 px-4 py-2 backdrop-blur-md sm:px-6">
-        <div className="parity-top-ribbon"><span>zxornatoe</span><span className="parity-top-ribbon__mid">{sceneMeta[activeSection]?.ribbon ?? sceneMeta.home.ribbon}</span><span>{progressLabel}</span></div>
+        <div className="parity-top-ribbon">
+<span>Joseph Corleone</span>
+<span className="parity-top-ribbon__mid">{sceneMeta[activeSection]?.ribbon ?? sceneMeta.home.ribbon}</span>
+<span>{progressLabel}</span>
+</div>
         <div className="flex items-center justify-between gap-4 text-[10px] uppercase tracking-[0.14em] sm:text-xs">
-          <button data-cursor="HOME" className="signal-mono flex items-center gap-2 font-semibold" onClick={() => goTo("home")} aria-label="Go to home"><span className="grid h-7 w-7 place-items-center bg-[#3e4cff] text-[#ede5d7]"><BrandMark /></span><span className="hidden lowercase tracking-[-0.08em] sm:inline">zxornatoe <span className="opacity-45">/ signal portfolio</span></span><span className="sm:hidden">zx / 01</span></button>
-          <div className="hidden flex-1 items-center justify-center gap-3 sm:flex"><span className="opacity-55">SYS.TRACK_ACTIVE</span><span className="h-px w-12 bg-black/35" /><span>LEARNING / 2026</span></div>
-          <div className="flex items-center gap-3"><span className="signal-mono tabular-nums">{progressLabel}</span><button data-cursor="MENU" className="sm:hidden" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">{menuOpen ? <X size={16} /> : <Menu size={16} />}</button></div>
+          <button data-cursor="HOME" className="signal-mono flex items-center gap-2 font-semibold" onClick={() => goTo("home")} aria-label="Go to home">
+<span className="grid h-7 w-7 place-items-center bg-[#b3121f] text-[#ede5d7]">
+<BrandMark />
+</span>
+<span className="hidden lowercase tracking-[-0.08em] sm:inline"><span className="opacity-60">joseph</span> corleone <span className="opacity-45">/ the family</span>
+</span>
+<span className="sm:hidden">Corleone / 01</span>
+</button>
+          <div className="hidden flex-1 items-center justify-center gap-3 sm:flex">
+<span className="opacity-55">PLAYER.ONE</span>
+<span className="h-px w-12 bg-black/35" />
+<span>GAMING / 2026</span>
+</div>
+          <div className="flex items-center gap-3">
+<span className="signal-mono tabular-nums">{progressLabel}</span>
+<button data-cursor="MENU" className="sm:hidden" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">{menuOpen ? <X size={16} /> : <Menu size={16} />}</button>
+</div>
         </div>
-        <div className="mt-2 h-1 overflow-hidden bg-black/10"><div className="hero-scroll-meter__fill h-full origin-left bg-[#3e4cff]" style={{ transform: `scaleX(${progress / 100})` }} /></div>
+        <div className="mt-2 h-1 overflow-hidden bg-black/10">
+<div className="hero-scroll-meter__fill h-full origin-left bg-[#b3121f]" style={{ transform: `scaleX(${progress / 100})` }} />
+</div>
         {menuOpen && <nav className="absolute left-0 right-0 top-full grid grid-cols-3 gap-px border-b border-black bg-[#ede5d7] p-2 sm:hidden">{navItems.map(([id, label]) => <button data-cursor={label.toUpperCase()} className="border border-black/15 px-2 py-3 text-left text-[10px] uppercase" key={id} onClick={() => goTo(id)}>{label}</button>)}</nav>}
       </header>
 
-      <nav className="signal-nav-shell fixed bottom-5 left-1/2 z-40 hidden -translate-x-1/2 border border-black bg-[#ede5d7] p-1 shadow-[5px_5px_0_#221f1b] sm:block" aria-label="Section navigation"><div className="signal-nav-ticks" aria-hidden="true">{Array.from({ length: 60 }, (_, index) => <i key={index} className={index % 5 === 0 ? "is-major" : ""} />)}</div><div className="flex items-center gap-1">{navItems.map(([id, label]) => <button data-cursor={label.toUpperCase()} key={id} onClick={() => goTo(id)} className={`signal-nav-item px-3 py-2 text-[10px] uppercase tracking-[0.12em] transition hover:bg-[#3e4cff] hover:text-[#ede5d7] ${activeSection === id ? "bg-[#3e4cff] text-[#ede5d7]" : ""}`}>{label}</button>)}</div></nav>
+      <nav className="signal-nav-shell fixed bottom-5 left-1/2 z-40 hidden -translate-x-1/2 border border-black bg-[#ede5d7] p-1 shadow-[5px_5px_0_#0e0c0b] sm:block" aria-label="Section navigation">
+<div className="signal-nav-ticks" aria-hidden="true">{Array.from({ length: 60 }, (_, index) => <i key={index} className={index % 5 === 0 ? "is-major" : ""} />)}</div>
+<div className="flex items-center gap-1">{navItems.map(([id, label]) => <button data-cursor={label.toUpperCase()} key={id} onClick={() => goTo(id)} className={`signal-nav-item px-3 py-2 text-[10px] uppercase tracking-[0.12em] transition hover:bg-[#b3121f] hover:text-[#ede5d7] ${activeSection === id ? "bg-[#b3121f] text-[#ede5d7]" : ""}`}>{label}</button>)}</div>
+</nav>
 
-      <div className="fixed bottom-0 left-0 top-0 z-30 hidden w-8 flex-col items-center justify-center gap-3 border-r border-black/10 bg-[#ede5d7]/35 lg:flex"><span className="signal-mono -rotate-90 whitespace-nowrap text-[9px] uppercase tracking-[.18em]">{sceneMeta[activeSection]?.rail ?? sceneMeta.home.rail}</span><div className="h-32 w-px bg-black/20"><div className="w-full bg-[#3e4cff] transition-[height] duration-500" style={{ height: `${progress}%` }} /></div></div>
+      <div className="fixed bottom-0 left-0 top-0 z-30 hidden w-8 flex-col items-center justify-center gap-3 border-r border-black/10 bg-[#ede5d7]/35 lg:flex">
+<span className="signal-mono -rotate-90 whitespace-nowrap text-[9px] uppercase tracking-[.18em]">{sceneMeta[activeSection]?.rail ?? sceneMeta.home.rail}</span>
+<div className="h-32 w-px bg-black/20">
+<div className="w-full bg-[#b3121f] transition-[height] duration-500" style={{ height: `${progress}%` }} />
+</div>
+</div>
 
       <div className="signal-stage">
-        <div className="ink-route-layer ink-route-layer--hero"><InkRoute variant="default" /></div>
-        <div className="ink-route-layer ink-route-layer--origin"><InkRoute variant="default" /></div>
-        <div className="ink-route-layer ink-route-layer--signal"><InkRoute variant="signal" /></div>
-        <div className="ink-route-layer ink-route-layer--close"><InkRoute variant="close" /></div>
-      <section id="home" className="scene-section grain relative flex min-h-[100svh] items-end overflow-hidden bg-[#3e4cff] px-5 pb-16 pt-32 text-[#f4efe5] sm:px-10 lg:px-16"><div className="hero-field-overlay absolute inset-0" /><div className="absolute inset-0 opacity-50 [background-image:linear-gradient(125deg,transparent_0_48%,rgba(244,239,229,.24)_48.2%,transparent_48.5%),linear-gradient(25deg,transparent_0_65%,rgba(20,15,15,.3)_65.2%,transparent_65.5%)]" /><div className="scene-parallax absolute left-[9%] top-[23%] h-[42vw] w-[42vw] max-h-[540px] max-w-[540px] rounded-full bg-[#191512] shadow-[18px_18px_0_rgba(244,239,229,.16)]" style={{ transform: `translate3d(0, ${progress * -0.16}px, 0)` }} /><div className="absolute left-[11%] top-[31%] h-px w-[32vw] bg-[#f4efe5]/60 scene-route-line" /><div className="hero-status-wall" aria-label="Zxornatoe status wall"><div className="hero-status-wall__paper hero-status-wall__paper--back" aria-hidden="true" /><svg className="hero-status-wall__route" viewBox="0 0 580 220" preserveAspectRatio="none" aria-hidden="true"><path data-hero-status-route d="M 2 190 C 84 168, 86 48, 174 64 S 270 170, 348 108 S 458 34, 578 78" /><circle cx="174" cy="64" r="4" /><circle cx="348" cy="108" r="4" /><circle cx="578" cy="78" r="4" /></svg><article data-hero-status-card className="hero-status-wall__card hero-status-wall__card--red"><span>01 / status</span><strong>∞</strong><small>curious</small><em>always asking</em></article><article data-hero-status-card className="hero-status-wall__card hero-status-wall__card--ochre"><span>02 / second love</span><strong>OS</strong><small>parrot os</small><em>close to the machine</em></article><article data-hero-status-card className="hero-status-wall__card hero-status-wall__card--blue"><span>03 / signal</span><strong>TG</strong><small>telegram</small><em>public trail</em></article><aside data-hero-status-note className="hero-status-wall__note"><i aria-hidden="true" /><span>mode / learning</span><strong>keep the<br />questions open.</strong></aside><span data-hero-status-note className="hero-status-wall__annotation">small labs.<br />long rabbit holes ↗</span></div><div className="relative z-10 w-full"><div data-reveal className="mb-10 flex items-center gap-4 sm:ml-[8%]"><BrandMark hero /><p className="signal-mono text-[10px] uppercase tracking-[0.18em]">Zxornatoe / passionate learner / systems curious</p></div><div className="grid items-end gap-8 lg:grid-cols-[.7fr_1.7fr_.7fr]"><div data-reveal className="order-2 space-y-6 text-xs leading-5 lg:order-1 lg:pb-8"><span className="clip-label inline-block bg-[#ed8b5a] px-3 py-1 text-[#221f1b]">01 — the intro</span><p className="signal-prose text-base">My second love is Parrot OS.<br />The first one is still under investigation.</p><a data-cursor="SCROLL" className="inline-flex items-center gap-2 border-b border-[#f4efe5] pb-1" href="#about" onClick={(e) => { e.preventDefault(); goTo("about"); }}>keep scrolling <ArrowDown size={13} /></a></div><h1 data-reveal className="signal-display signal-hand hero-wordmark order-1 max-w-4xl text-[17vw] font-semibold leading-[.78] tracking-[-0.08em] lg:order-2 lg:text-[15vw]">zxorna<span className="text-[#ed8b5a]">t</span>oe</h1><div data-reveal className="order-3 justify-self-end pb-2 text-right text-[11px] uppercase tracking-[.12em] lg:pb-8"><span className="block border-b border-[#f4efe5]/60 pb-2">learning the stuff</span><span className="block pt-2 text-[#ed8b5a]">is the actual flex</span></div></div></div><div className="hero-meter absolute bottom-5 left-5 right-5 flex items-center justify-between gap-4 text-[10px] uppercase tracking-[.16em] sm:left-10 sm:right-10"><span className="hero-meter__value">{progressLabel}</span><span className="hero-meter__line"><i style={{ width: `${progress}%` }} /></span><span>SCROLL DOWN</span><span className="hidden sm:inline">BUILT FROM CURIOSITY</span></div></section>
+        <div className="ink-route-layer ink-route-layer--hero">
+<InkRoute variant="default" />
+</div>
+        <div className="ink-route-layer ink-route-layer--origin">
+<InkRoute variant="default" />
+</div>
+        <div className="ink-route-layer ink-route-layer--signal">
+<InkRoute variant="signal" />
+</div>
+        <div className="ink-route-layer ink-route-layer--close">
+<InkRoute variant="close" />
+</div>
+      <section id="home" className="scene-section grain relative flex min-h-[100svh] items-end overflow-hidden bg-[#0e0c0b] px-5 pb-16 pt-32 text-[#f4efe5] sm:px-10 lg:px-16">
+<div className="hero-field-overlay absolute inset-0" />
+<div className="hero-checker" aria-hidden="true" />
+<div className="absolute inset-0 opacity-50 [background-image:linear-gradient(125deg,transparent_0_48%,rgba(244,239,229,.24)_48.2%,transparent_48.5%),linear-gradient(25deg,transparent_0_65%,rgba(20,15,15,.3)_65.2%,transparent_65.5%)]" />
+<div className="scene-parallax absolute left-[9%] top-[23%] h-[42vw] w-[42vw] max-h-[540px] max-w-[540px] rounded-full bg-[#b3121f] shadow-[18px_18px_0_rgba(212,162,76,.35)] hero-reactor" style={{ transform: `translate3d(0, ${progress * -0.16}px, 0)` }} />
+<div className="absolute left-[11%] top-[31%] h-px w-[32vw] bg-[#f4efe5]/60 scene-route-line" />
+<div className="hero-status-wall" aria-label="Corleone status wall">
+<div className="hero-status-wall__paper hero-status-wall__paper--back" aria-hidden="true" />
+<svg className="hero-status-wall__route" viewBox="0 0 580 220" preserveAspectRatio="none" aria-hidden="true">
+<path data-hero-status-route d="M 2 190 C 84 168, 86 48, 174 64 S 270 170, 348 108 S 458 34, 578 78" />
+<circle cx="174" cy="64" r="4" />
+<circle cx="348" cy="108" r="4" />
+<circle cx="578" cy="78" r="4" />
+</svg>
+<article data-hero-status-card className="hero-status-wall__card hero-status-wall__card--red">
+<span>01 / grid</span>
+<strong>P1</strong>
+<small>lights out</small>
+<em>never lift off</em>
+</article>
+<article data-hero-status-card className="hero-status-wall__card hero-status-wall__card--ochre">
+<span>02 / armor</span>
+<strong>MK</strong>
+<small>suit up</small>
+<em>headset on, world off</em>
+</article>
+<article data-hero-status-card className="hero-status-wall__card hero-status-wall__card--blue">
+<span>03 / family</span>
+<strong>+1</strong>
+<small>the family</small>
+<em>loyalty above all</em>
+</article>
+<aside data-hero-status-note className="hero-status-wall__note">
+<i aria-hidden="true" />
+<span>the don / rule 01</span>
+<strong>keep your friends close.<br />your squad closer.</strong>
+</aside>
+<span data-hero-status-note className="hero-status-wall__annotation">full send.<br />late-night sessions ↗</span>
+</div>
+<div className="relative z-10 w-full">
+<div data-reveal className="mb-10 flex items-center gap-4 sm:ml-[8%]">
+<BrandMark hero />
+<p className="signal-mono text-[10px] uppercase tracking-[0.18em]">Joseph Corleone / gamer / pole position, every round</p>
+</div>
+<div className="grid items-end gap-8 lg:grid-cols-[.7fr_1.7fr_.7fr]">
+<div data-reveal className="order-2 space-y-6 text-xs leading-5 lg:order-1 lg:pb-8">
+<span className="clip-label inline-block bg-[#d4a24c] px-3 py-1 text-[#0e0c0b]">01 — the intro</span>
+<p className="signal-prose text-base">Full throttle. Armor on. Family first.<br />Always a gamer. Always Corleone.</p>
+<a data-cursor="SCROLL" className="inline-flex items-center gap-2 border-b border-[#f4efe5] pb-1" href="#about" onClick={(e) => { e.preventDefault(); goTo("about"); }}>keep scrolling <ArrowDown size={13} />
+</a>
+</div>
+<h1 data-reveal className="signal-display signal-hand hero-wordmark order-1 max-w-4xl text-[17vw] font-semibold leading-[.78] tracking-[-0.08em] lg:order-2 lg:text-[15vw]"><span className="hero-firstname">Joseph</span>Corle<span className="text-[#d4a24c]">o</span>ne</h1>
+<div data-reveal className="order-3 justify-self-end pb-2 text-right text-[11px] uppercase tracking-[.12em] lg:pb-8">
+<span className="block border-b border-[#f4efe5]/60 pb-2">lights out. suit up.</span>
+<span className="block pt-2 text-[#d4a24c]">the family business: winning</span>
+</div>
+</div>
+</div>
+<div className="hero-meter absolute bottom-5 left-5 right-5 flex items-center justify-between gap-4 text-[10px] uppercase tracking-[.16em] sm:left-10 sm:right-10">
+<span className="hero-meter__value">{progressLabel}</span>
+<span className="hero-meter__line">
+<i style={{ width: `${progress}%` }} />
+</span>
+<span>SCROLL DOWN</span>
+<span className="hidden sm:inline">LIGHTS OUT / FULL SEND</span>
+</div>
+</section>
 
-      <section id="about" className="scene-section grain relative bg-[#ede5d7] px-5 py-24 sm:px-10 lg:px-16 lg:py-36"><div className="absolute right-8 top-12 hidden text-[#3e4cff] lg:block scene-float"><BrandMark /></div><DraggableSticker className="left-[68%] top-[13%] hidden rotate-6 border border-black bg-[#ed8b5a] p-3 text-[10px] uppercase shadow-[5px_5px_0_#3e4cff] lg:block"><span className="signal-mono block text-[9px] text-[#221f1b]/70">drag note / 001</span><span className="signal-condensed mt-5 block text-3xl leading-[.8]">ask<br />better<br />questions</span></DraggableSticker><DraggableSticker className="left-[76%] top-[34%] hidden -rotate-3 border border-black bg-[#3e4cff] p-3 text-[#f4efe5] shadow-[5px_5px_0_#221f1b] lg:block"><span className="signal-mono block text-[9px]">parrot os / workbench</span><span className="mt-5 block text-3xl">↗</span></DraggableSticker><div data-reveal className="mb-16 flex items-start justify-between gap-6"><div><p className="signal-mono mb-3 text-[10px] uppercase tracking-[.2em] text-[#3e4cff]">01 / origin — the learning log</p><h2 className="signal-display max-w-3xl text-5xl leading-[.95] sm:text-7xl lg:text-8xl">I keep pulling<br /><em>the thread.</em></h2></div><span className="signal-mono hidden pt-1 text-[10px] uppercase sm:block">open book / no final form</span></div><svg className="scene-route" viewBox="0 0 1000 90" preserveAspectRatio="none" aria-hidden="true"><path className={`route-path ${activeSection === "about" || activeSection === "work" ? "is-active" : ""}`} d="M0,45 C120,45 140,15 240,15 S390,75 520,42 S770,10 1000,48" /><circle cx="240" cy="15" r="5" /><circle cx="520" cy="42" r="5" /><circle cx="1000" cy="48" r="5" /></svg><div data-reveal className="grid gap-12 lg:grid-cols-[.8fr_1.4fr_.7fr] lg:items-end"><div className="offset-rule rotate-[-3deg] border border-black bg-[#3e4cff] p-6 text-[#f4efe5]"><Terminal size={24} /><p className="signal-condensed mt-10 text-4xl uppercase leading-[.85]">Started with<br />questions.<br /><span className="text-[#ed8b5a]">Stayed for<br />the rabbit hole.</span></p><p className="signal-mono mt-12 text-[10px] uppercase leading-5">note / curiosity has<br />excellent uptime</p></div><div className="signal-prose space-y-8 text-lg leading-[1.55] sm:text-2xl"><p>I take systems apart until the polished surface gives up its secrets. Hacking, cracking, and techy things are not a pose for me — they are the puzzle, the pressure, and the rush of making something opaque finally explain itself.</p><p className="max-w-2xl">I’m active on Telegram, collecting sharper questions and sharing the parts worth keeping. I do not wait to feel finished; I open the next tab and keep going.</p></div><div className="border-t border-black pt-4 text-xs leading-5"><p className="mb-6 uppercase tracking-[.15em] text-[#3e4cff]">current operating notes</p><p>01. learn by doing</p><p>02. document the weird parts</p><p>03. stay curious longer</p></div></div><div className="mt-20 grid gap-4 border-t border-black pt-4 text-[10px] uppercase tracking-[.12em] sm:grid-cols-3"><span>favorite environment: Parrot OS</span><span>public trail: Telegram</span><span>default state: learning</span></div></section>
+      <section id="about" className="scene-section grain relative bg-[#ede5d7] px-5 py-24 sm:px-10 lg:px-16 lg:py-36">
+<div className="absolute right-8 top-12 hidden text-[#b3121f] lg:block scene-float">
+<BrandMark />
+</div>
+<DraggableSticker className="left-[68%] top-[13%] hidden rotate-6 border border-black bg-[#d4a24c] p-3 text-[10px] uppercase shadow-[5px_5px_0_#b3121f] lg:block">
+<span className="signal-mono block text-[9px] text-[#0e0c0b]/70">drag note / 001</span>
+<span className="signal-condensed mt-5 block text-3xl leading-[.8]">play<br />one more<br />round</span>
+</DraggableSticker>
+<DraggableSticker className="left-[76%] top-[34%] hidden -rotate-3 border border-black bg-[#b3121f] p-3 text-[#f4efe5] shadow-[5px_5px_0_#0e0c0b] lg:block">
+<span className="signal-mono block text-[9px]">headset on / world off</span>
+<span className="mt-5 block text-3xl">↗</span>
+</DraggableSticker>
+<div data-reveal className="mb-16 flex items-start justify-between gap-6">
+<div>
+<p className="signal-mono mb-3 text-[10px] uppercase tracking-[.2em] text-[#b3121f]">01 / player — behind the gamertag</p>
+<h2 className="signal-display max-w-3xl text-5xl leading-[.95] sm:text-7xl lg:text-8xl">More than<br />
+<em>a gamertag.</em>
+</h2>
+</div>
+<span className="signal-mono hidden pt-1 text-[10px] uppercase sm:block">same player / new adventures</span>
+</div>
+<svg className="scene-route" viewBox="0 0 1000 90" preserveAspectRatio="none" aria-hidden="true">
+<path className={`route-path ${activeSection === "about" || activeSection === "work" ? "is-active" : ""}`} d="M0,45 C120,45 140,15 240,15 S390,75 520,42 S770,10 1000,48" />
+<circle cx="240" cy="15" r="5" />
+<circle cx="520" cy="42" r="5" />
+<circle cx="1000" cy="48" r="5" />
+</svg>
+<div data-reveal className="grid gap-12 lg:grid-cols-[.8fr_1.4fr_.7fr] lg:items-end">
+<div className="offset-rule rotate-[-3deg] border border-black bg-[#b3121f] p-6 text-[#f4efe5]">
+<Gamepad2 size={24} />
+<p className="signal-condensed mt-10 text-4xl uppercase leading-[.85]">Came for<br />the game.<br />
+<span className="text-[#d4a24c]">Stayed for<br />the moments.</span>
+</p>
+<p className="signal-mono mt-12 text-[10px] uppercase leading-5">note / the best stories<br />start with press play</p>
+</div>
+<div className="signal-prose space-y-8 text-lg leading-[1.55] sm:text-2xl">
+<p>I am Joseph Corleone. I play with a racer&apos;s precision, a genius-in-armor&apos;s confidence, and a don&apos;s loyalty to the family. For me, gaming is more than a scoreboard — it is the challenge, the strategy, and the rush of a moment you could never script.</p>
+<p className="max-w-2xl">Some days it is all about the next win. Other days, it is a side quest or a late-night session with friends. Different games, same mindset: show up, enjoy the challenge, and keep playing.</p>
+</div>
+<div className="border-t border-black pt-4 text-xs leading-5">
+<p className="mb-6 uppercase tracking-[.15em] text-[#b3121f]">the player code</p>
+<p>01. respect the lobby</p>
+<p>02. back the squad</p>
+<p>03. never forget the fun</p>
+</div>
+</div>
+<div className="mt-20 grid gap-4 border-t border-black pt-4 text-[10px] uppercase tracking-[.12em] sm:grid-cols-3">
+<span>favorite escape: another world</span>
+<span>best company: the squad</span>
+<span>default state: one more game</span>
+</div>
+</section>
 
       <LabsScene activeProject={activeProject} onToggleProject={(index) => setActiveProject(activeProject === index ? null : index)} onMedia={(project, frame) => setActiveMedia({ project, frame })} onClose={() => setActiveProject(null)} />
 
-      <section id="featured" className="scene-section grain signal-relay-scene relative overflow-hidden bg-[#3e4cff] px-5 py-24 text-[#f4efe5] sm:px-10 lg:min-h-[100svh] lg:px-16 lg:py-32"><div className="signal-relay-scene__grid" /><div className="absolute -right-20 top-10 h-72 w-72 rounded-full border-[1px] border-[#f4efe5]/35 lg:h-[520px] lg:w-[520px] scene-orbit" /><div className="absolute right-16 top-32 h-2 w-2 rounded-full bg-[#ed8b5a] shadow-[0_0_0_8px_#3e4cff,0_0_0_9px_#ed8b5a]" /><div className="relative z-10 flex min-h-[660px] flex-col justify-between"><div data-reveal className="signal-relay-scene__heading"><p className="signal-mono mb-4 flex items-center gap-3 text-[10px] uppercase tracking-[.2em] text-[#ed8b5a]"><BrandMark /> 03 / signal — relay active</p><h2 className="signal-condensed max-w-2xl text-7xl font-bold uppercase leading-[.78] tracking-[-.04em] sm:text-[9rem]">Follow<br /><span className="text-[#ed8b5a]">the signal.</span></h2><p className="signal-prose mt-6 max-w-sm text-base leading-6 text-[#f4efe5]/80">Every stop leaves a trace. Every trace opens another question.</p></div><div data-reveal className="signal-relay-console" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerCancel={() => { dragStart.current = null; }}><div className="signal-relay-console__head"><span>route / zxo-03</span><span>status / {current.label}</span></div><div className="signal-relay-route" aria-label="Signal route stops">{featured.map((stop, index) => <button key={stop.code} data-cursor={`STOP ${stop.code}`} className={index === featuredIndex ? "is-active" : ""} onPointerDown={(event) => event.stopPropagation()} onClick={() => { setSlideDirection(index >= featuredIndex ? "next" : "prev"); setFeaturedIndex(index); }}><i /><span>{stop.code}</span><small>{stop.label}</small></button>)}</div><div className={`signal-relay-readout signal-relay-readout--${slideDirection}`} key={current.code}><div><span className="signal-mono text-[10px] uppercase tracking-[.12em]">{current.code} / {current.label}</span><h3 className="signal-display mt-3 text-5xl leading-[.86] sm:text-7xl">{current.title}</h3><p className="signal-prose mt-5 max-w-xl text-base leading-7 text-[#f4efe5]/80 sm:text-lg">{current.detail}</p></div><strong className="signal-condensed">{current.metric}</strong></div><div className="signal-relay-console__footer"><div className="flex items-center gap-3"><button data-cursor="PREV" aria-label="Previous featured item" className="grid h-10 w-10 place-items-center border border-[#f4efe5] transition hover:bg-[#f4efe5] hover:text-[#3e4cff]" onPointerDown={(event) => event.stopPropagation()} onClick={() => changeFeatured(-1)}><ArrowLeft size={16} /></button><span className="signal-mono text-[10px] uppercase">{featuredIndex + 1} / {featured.length}</span><button data-cursor="NEXT" aria-label="Next featured item" className="grid h-10 w-10 place-items-center border border-[#f4efe5] transition hover:bg-[#f4efe5] hover:text-[#3e4cff]" onPointerDown={(event) => event.stopPropagation()} onClick={() => changeFeatured(1)}><ArrowRight size={16} /></button></div><button data-cursor="STEP OUT" className="terminal-step-out" onPointerDown={(event) => event.stopPropagation()} onClick={() => goTo("work")}>STEP OUT / INSPECT LABS <ArrowUpRight size={13} /></button></div></div></div></section>
+      <section id="featured" className="scene-section grain signal-relay-scene relative overflow-hidden bg-[#b3121f] px-5 py-24 text-[#f4efe5] sm:px-10 lg:min-h-[100svh] lg:px-16 lg:py-32">
+<div className="signal-relay-scene__grid" />
+<div className="absolute -right-20 top-10 h-72 w-72 rounded-full border-[1px] border-[#f4efe5]/35 lg:h-[520px] lg:w-[520px] scene-orbit" />
+<div className="absolute right-16 top-32 h-2 w-2 rounded-full bg-[#d4a24c] shadow-[0_0_0_8px_#b3121f,0_0_0_9px_#d4a24c]" />
+<div className="relative z-10 flex min-h-[660px] flex-col justify-between">
+<div data-reveal className="signal-relay-scene__heading">
+<p className="signal-mono mb-4 flex items-center gap-3 text-[10px] uppercase tracking-[.2em] text-[#d4a24c]">
+<BrandMark /> 03 / game modes — choose your play</p>
+<h2 className="signal-condensed max-w-2xl text-7xl font-bold uppercase leading-[.78] tracking-[-.04em] sm:text-[9rem]">Find<br />
+<span className="text-[#d4a24c]">your game.</span>
+</h2>
+<p className="signal-prose mt-6 max-w-sm text-base leading-6 text-[#f4efe5]/80">Chase the win. Explore a world. Bring the squad. There is no single way to play.</p>
+</div>
+<div data-reveal className="signal-relay-console" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerCancel={() => { dragStart.current = null; }}>
+<div className="signal-relay-console__head">
+<span>player / cor-03</span>
+<span>status / {current.label}</span>
+</div>
+<div className="signal-relay-route" aria-label="Gaming modes">{featured.map((stop, index) => <button key={stop.code} data-cursor={`STOP ${stop.code}`} className={index === featuredIndex ? "is-active" : ""} onPointerDown={(event) => event.stopPropagation()} onClick={() => { setSlideDirection(index >= featuredIndex ? "next" : "prev"); setFeaturedIndex(index); }}>
+<i />
+<span>{stop.code}</span>
+<small>{stop.label}</small>
+</button>)}</div>
+<div className={`signal-relay-readout signal-relay-readout--${slideDirection}`} key={current.code}>
+<div>
+<span className="signal-mono text-[10px] uppercase tracking-[.12em]">{current.code} / {current.label}</span>
+<h3 className="signal-display mt-3 text-5xl leading-[.86] sm:text-7xl">{current.title}</h3>
+<p className="signal-prose mt-5 max-w-xl text-base leading-7 text-[#f4efe5]/80 sm:text-lg">{current.detail}</p>
+</div>
+<strong className="signal-condensed">{current.metric}</strong>
+</div>
+<div className="signal-relay-console__footer">
+<div className="flex items-center gap-3">
+<button data-cursor="PREV" aria-label="Previous featured item" className="grid h-10 w-10 place-items-center border border-[#f4efe5] transition hover:bg-[#f4efe5] hover:text-[#b3121f]" onPointerDown={(event) => event.stopPropagation()} onClick={() => changeFeatured(-1)}>
+<ArrowLeft size={16} />
+</button>
+<span className="signal-mono text-[10px] uppercase">{featuredIndex + 1} / {featured.length}</span>
+<button data-cursor="NEXT" aria-label="Next featured item" className="grid h-10 w-10 place-items-center border border-[#f4efe5] transition hover:bg-[#f4efe5] hover:text-[#b3121f]" onPointerDown={(event) => event.stopPropagation()} onClick={() => changeFeatured(1)}>
+<ArrowRight size={16} />
+</button>
+</div>
+<button data-cursor="STEP OUT" className="terminal-step-out" onPointerDown={(event) => event.stopPropagation()} onClick={() => goTo("work")}>NEXT UP / OPEN PLAYBOOK <ArrowUpRight size={13} />
+</button>
+</div>
+</div>
+</div>
+</section>
 
-      <section id="visuals" className="scene-section grain relative bg-[#ede5d7] px-5 py-24 sm:px-10 lg:px-16 lg:py-36"><div data-reveal className="mb-16 grid gap-8 lg:grid-cols-[1fr_.8fr]"><div><p className="signal-mono mb-3 flex items-center gap-3 text-[10px] uppercase tracking-[.2em] text-[#3e4cff]"><BrandMark /> 04 / notes — visual fragments</p><h2 className="signal-display text-6xl leading-[.9] sm:text-8xl">A brain full<br /><em>of tabs.</em></h2></div><p className="signal-prose max-w-sm self-end text-base leading-6">No need to flex. I build, break, and keep digging because this is what I actually want to understand.</p></div><div className="notes-flip-grid">{notesCards.map((card) => <NotesFlipCard key={card.number} card={card} />)}</div></section>
+      <section id="visuals" className="scene-section grain relative bg-[#ede5d7] px-5 py-24 sm:px-10 lg:px-16 lg:py-36">
+<div data-reveal className="mb-16 grid gap-8 lg:grid-cols-[1fr_.8fr]">
+<div>
+<p className="signal-mono mb-3 flex items-center gap-3 text-[10px] uppercase tracking-[.2em] text-[#b3121f]">
+<BrandMark /> 04 / mindset — the unwritten rules</p>
+<h2 className="signal-display text-6xl leading-[.9] sm:text-8xl">Play hard.<br />
+<em>Stay human.</em>
+</h2>
+</div>
+<p className="signal-prose max-w-sm self-end text-base leading-6">The way you play matters as much as the result. A few reminders for the next match, the next loss, and the next great session.</p>
+</div>
+<div className="notes-flip-grid">{notesCards.map((card) => <NotesFlipCard key={card.number} card={card} />)}</div>
+</section>
 
-      <section id="contact" className="scene-section grain relative overflow-hidden bg-[#221f1b] px-5 py-24 text-[#ede5d7] sm:px-10 lg:px-16 lg:py-36"><div className="absolute -left-24 bottom-[-140px] h-80 w-80 rounded-full border border-[#3e4cff] shadow-[0_0_0_24px_#221f1b,0_0_0_25px_#3e4cff] scene-orbit" /><div data-reveal className="relative z-10 grid gap-16 lg:grid-cols-[1fr_.8fr]"><div><p className="signal-mono mb-5 flex items-center gap-3 text-[10px] uppercase tracking-[.2em] text-[#ed8b5a]"><BrandMark /> 05 / contact — transmission end</p><h2 className="signal-display max-w-4xl text-6xl leading-[.88] sm:text-8xl lg:text-[9rem]">Say hi<br /><em>before</em><br />overthinking it.</h2><a data-cursor="TELEGRAM" href="https://t.me/hellrip" target="_blank" rel="noreferrer" className="group mt-12 inline-flex items-center gap-3 border-b border-[#ede5d7] pb-2 text-lg transition hover:text-[#3e4cff]">t.me/hellrip <ArrowUpRight size={18} className="transition group-hover:translate-x-1 group-hover:-translate-y-1" /></a></div><div className="flex flex-col justify-end gap-8 lg:pb-3"><p className="signal-prose max-w-sm text-base leading-6 text-[#ede5d7]/80">If you like learning in public, opening the terminal again, or following a weird question until it turns into something useful, find me on Telegram.</p><div className="grid gap-2 text-xs uppercase"><a data-cursor="TELEGRAM" className="flex items-center justify-between border-t border-[#ede5d7]/30 py-3 transition hover:text-[#3e4cff]" href="https://t.me/hellrip" target="_blank" rel="noreferrer"><span className="flex items-center gap-3"><Send size={15} /> Telegram</span><ArrowUpRight size={14} /></a><button data-cursor="COPY" className="flex items-center justify-between border-t border-[#ede5d7]/30 py-3 text-left uppercase transition hover:text-[#3e4cff]" onClick={copyHandle}><span className="flex items-center gap-3"><Copy size={15} /> {copied ? "Handle copied" : "Copy Telegram handle"}</span><span className="signal-mono text-[10px]">@hellrip</span></button></div></div></div><footer className="relative z-10 mt-24 flex flex-wrap items-center justify-between gap-4 border-t border-[#ede5d7]/30 pt-4 text-[10px] uppercase tracking-[.14em] text-[#ede5d7]/55"><span>Powered by Zxornatoe</span><span>zxornatoe © 2026</span><a data-cursor="TOP" href="#home" onClick={(e) => { e.preventDefault(); goTo("home"); }}>back to top ↑</a></footer></section>
+      <section id="contact" className="scene-section grain relative overflow-hidden bg-[#0e0c0b] px-5 py-24 text-[#ede5d7] sm:px-10 lg:px-16 lg:py-36">
+<div className="absolute -left-24 bottom-[-140px] h-80 w-80 rounded-full border border-[#b3121f] shadow-[0_0_0_24px_#0e0c0b,0_0_0_25px_#b3121f] scene-orbit" />
+<div data-reveal className="relative z-10 grid gap-16 lg:grid-cols-[1fr_.8fr]">
+<div>
+<p className="signal-mono mb-5 flex items-center gap-3 text-[10px] uppercase tracking-[.2em] text-[#d4a24c]">
+<BrandMark /> 05 / party up — the next game starts here</p>
+<h2 className="signal-display max-w-4xl text-6xl leading-[.88] sm:text-8xl lg:text-[9rem]">Say hi<br />
+<em>before</em>
+<br />overthinking it.</h2>
+<a data-cursor="EMAIL" href={`mailto:${contactEmail}`} className="group mt-12 inline-flex items-center gap-3 border-b border-[#ede5d7] pb-2 text-lg transition hover:text-[#b3121f]">{contactEmail} <ArrowUpRight size={18} className="transition group-hover:translate-x-1 group-hover:-translate-y-1" />
+</a>
+</div>
+<div className="flex flex-col justify-end gap-8 lg:pb-3">
+<p className="signal-prose max-w-sm text-base leading-6 text-[#ede5d7]/80">Up for a match, a co-op adventure, or a conversation about your next favorite game? Get in touch and let’s talk gaming.</p>
+<ul className="grid gap-0 text-xs uppercase">
+{contactLinks.map(({ label, handle, href, icon: Icon }) => <li key={label}>
+<a data-cursor={label.toUpperCase()} className="flex items-center justify-between gap-4 border-t border-[#ede5d7]/30 py-3 transition hover:text-[#b3121f]" href={href} target="_blank" rel="noreferrer">
+<span className="flex items-center gap-3">
+<Icon size={15} aria-hidden="true" /> {label}</span>
+<span className="flex min-w-0 items-center gap-2">
+<span className="signal-mono truncate text-[10px] normal-case text-[#ede5d7]/60">{handle}</span>
+<ArrowUpRight size={14} aria-hidden="true" />
+</span>
+</a>
+</li>)}
+<li>
+<button type="button" data-cursor="COPY" className="flex w-full items-center justify-between border-y border-[#ede5d7]/30 py-3 text-left uppercase transition hover:text-[#b3121f]" onClick={copyHandle}>
+<span className="flex items-center gap-3">
+<Copy size={15} aria-hidden="true" /> {copied ? "Email copied" : "Copy email"}</span>
+<span className="signal-mono text-[10px] normal-case text-[#ede5d7]/60">{contactEmail}</span>
+</button>
+</li>
+</ul>
+</div>
+</div>
+<footer className="relative z-10 mt-24 flex flex-wrap items-center justify-between gap-4 border-t border-[#ede5d7]/30 pt-4 text-[10px] uppercase tracking-[.14em] text-[#ede5d7]/55">
+<span>Joseph Corleone — the family business</span>
+<span>Corleone © 2026</span>
+<a data-cursor="TOP" href="#home" onClick={(e) => { e.preventDefault(); goTo("home"); }}>back to top ↑</a>
+</footer>
+</section>
       </div>
-      {activeMedia && <div className="media-drawer" role="dialog" aria-modal="true" aria-labelledby="media-drawer-title"><div className="media-drawer__bar"><span className="signal-mono text-[10px] uppercase">evidence frame / {projects[activeMedia.project].code}</span><button data-cursor="CLOSE" onClick={() => setActiveMedia(null)} aria-label="Close evidence frame"><X size={18} /></button></div><div className={`evidence-frame evidence-frame--${activeMedia.frame}`}><div className="evidence-frame__grid" /><ScanLine size={28} /><span className="signal-mono">{projects[activeMedia.project].media[activeMedia.frame]}</span><strong id="media-drawer-title">{projects[activeMedia.project].title}</strong><small>{projects[activeMedia.project].tags.join(" / ")}</small><i>{String(activeMedia.frame + 1).padStart(2, "0")} / 02</i></div><p className="signal-prose max-w-md text-center text-lg">Visual evidence placeholder — replace this frame with a real project screenshot or experiment artifact when the work is ready.</p></div>}
+      {activeMedia && <div className="media-drawer" role="dialog" aria-modal="true" aria-labelledby="media-drawer-title">
+<div className="media-drawer__bar">
+<span className="signal-mono text-[10px] uppercase">evidence frame / {projects[activeMedia.project].code}</span>
+<button data-cursor="CLOSE" onClick={() => setActiveMedia(null)} aria-label="Close evidence frame">
+<X size={18} />
+</button>
+</div>
+<div className={`evidence-frame evidence-frame--${activeMedia.frame}`}>
+<div className="evidence-frame__grid" />
+<ScanLine size={28} />
+<span className="signal-mono">{projects[activeMedia.project].media[activeMedia.frame]}</span>
+<strong id="media-drawer-title">{projects[activeMedia.project].title}</strong>
+<small>{projects[activeMedia.project].tags.join(" / ")}</small>
+<i>{String(activeMedia.frame + 1).padStart(2, "0")} / 02</i>
+</div>
+<p className="signal-prose max-w-md text-center text-lg">{activeMedia.frame === 0 ? projects[activeMedia.project].description : projects[activeMedia.project].learnings.join(" · ")}</p>
+</div>}
     </main>
   );
 }
