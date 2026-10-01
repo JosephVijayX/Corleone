@@ -173,8 +173,8 @@ function LabsRecord({ project, index, isOpen, onToggle, onMedia }: { project: Pr
 </div>
         <div className="labs-record__copy">
 <p className="signal-prose mb-5 text-lg leading-7">{project.description}</p>
-<p className="signal-mono text-[10px] uppercase tracking-[.12em] text-[#ed8b5a]">{project.type}</p>
-<p className="signal-mono mt-6 border-l border-[#3e4cff] pl-3 text-[10px] uppercase leading-5 text-[#221f1b]/60">evidence trail / {project.tags.join(" → ")}</p>
+<p className="signal-mono text-[10px] uppercase tracking-[.12em] text-[#d4a24c]">{project.type}</p>
+<p className="signal-mono mt-6 border-l border-[#b3121f] pl-3 text-[10px] uppercase leading-5 text-[#0e0c0b]/60">evidence trail / {project.tags.join(" → ")}</p>
 <div className="labs-record__evidence mt-7 grid grid-cols-2 gap-2">{project.media.map((frame, frameIndex) => <button key={frame} data-cursor="VIEW FRAME" onClick={() => onMedia(frameIndex)} className="evidence-thumb labs-record__evidence-thumb">
 <ImageIcon size={15} />
 <span>{frame}</span>
@@ -183,8 +183,8 @@ function LabsRecord({ project, index, isOpen, onToggle, onMedia }: { project: Pr
 </div>
         <div className="labs-record__notes">
 <p className="signal-mono mb-4 text-[10px] uppercase tracking-[.12em]">what stayed with me</p>
-<ul className="space-y-2 text-sm text-[#221f1b]/75">{project.learnings.map((learning) => <li key={learning}>// {learning}</li>)}</ul>
-<div className="mt-6 flex flex-wrap gap-2">{project.tags.map((tag) => <span key={tag} className="border border-[#221f1b]/30 px-2 py-1 text-[10px] uppercase">{tag}</span>)}</div>
+<ul className="space-y-2 text-sm text-[#0e0c0b]/75">{project.learnings.map((learning) => <li key={learning}>// {learning}</li>)}</ul>
+<div className="mt-6 flex flex-wrap gap-2">{project.tags.map((tag) => <span key={tag} className="border border-[#0e0c0b]/30 px-2 py-1 text-[10px] uppercase">{tag}</span>)}</div>
 </div>
       </div>
     </div>
@@ -198,7 +198,7 @@ function LabsScene({ activeProject, onToggleProject, onMedia, onClose }: { activ
     { value: "XP", label: "worlds to explore", ink: "brown" },
     { value: "+1", label: "squad sessions", ink: "blue" },
   ];
-    return <section id="work" className="scene-section grain stamp-labs relative px-5 py-24 text-[#221f1b] sm:px-10 lg:px-16 lg:py-36">
+    return <section id="work" className="scene-section grain stamp-labs relative px-5 py-24 text-[#0e0c0b] sm:px-10 lg:px-16 lg:py-36">
     <div data-reveal className="stamp-labs__header">
 <div>
 <p className="signal-mono stamp-labs__kicker">02 / playbook — every game has a story</p>
@@ -694,12 +694,12 @@ export default function Home() {
   };
 
   return (
-    <main data-scene={activeSection} className="signal-world overflow-hidden bg-[#ede5d7] text-[#221f1b]">
+    <main data-scene={activeSection} className="signal-world overflow-hidden bg-[#ede5d7] text-[#0e0c0b]">
       <div className="boot-screen" aria-hidden="true">
         <div className="boot-screen__line" />
         <div className="boot-screen__copy">
 <BrandMark hero />
-<span className="boot-screen__chars">{"loading player / Corleone".split("").map((character, index) => <i className="boot-char" key={`${character}-${index}`}>{character === " " ? "\u00a0" : character}</i>)}</span>
+<span className="boot-screen__chars">{"suiting up / J. Corleone".split("").map((character, index) => <i className="boot-char" key={`${character}-${index}`}>{character === " " ? "\u00a0" : character}</i>)}</span>
 <strong>READY</strong>
 </div>
         <div className="boot-screen__counter">
@@ -727,16 +727,16 @@ export default function Home() {
 
       <header className="fixed left-0 right-0 top-0 z-40 border-b border-black/15 bg-[#ede5d7]/85 px-4 py-2 backdrop-blur-md sm:px-6">
         <div className="parity-top-ribbon">
-<span>Corleone</span>
+<span>Joseph Corleone</span>
 <span className="parity-top-ribbon__mid">{sceneMeta[activeSection]?.ribbon ?? sceneMeta.home.ribbon}</span>
 <span>{progressLabel}</span>
 </div>
         <div className="flex items-center justify-between gap-4 text-[10px] uppercase tracking-[0.14em] sm:text-xs">
           <button data-cursor="HOME" className="signal-mono flex items-center gap-2 font-semibold" onClick={() => goTo("home")} aria-label="Go to home">
-<span className="grid h-7 w-7 place-items-center bg-[#3e4cff] text-[#ede5d7]">
+<span className="grid h-7 w-7 place-items-center bg-[#b3121f] text-[#ede5d7]">
 <BrandMark />
 </span>
-<span className="hidden lowercase tracking-[-0.08em] sm:inline">Corleone <span className="opacity-45">/ gaming world</span>
+<span className="hidden lowercase tracking-[-0.08em] sm:inline"><span className="opacity-60">joseph</span> corleone <span className="opacity-45">/ the family</span>
 </span>
 <span className="sm:hidden">Corleone / 01</span>
 </button>
@@ -751,20 +751,20 @@ export default function Home() {
 </div>
         </div>
         <div className="mt-2 h-1 overflow-hidden bg-black/10">
-<div className="hero-scroll-meter__fill h-full origin-left bg-[#3e4cff]" style={{ transform: `scaleX(${progress / 100})` }} />
+<div className="hero-scroll-meter__fill h-full origin-left bg-[#b3121f]" style={{ transform: `scaleX(${progress / 100})` }} />
 </div>
         {menuOpen && <nav className="absolute left-0 right-0 top-full grid grid-cols-3 gap-px border-b border-black bg-[#ede5d7] p-2 sm:hidden">{navItems.map(([id, label]) => <button data-cursor={label.toUpperCase()} className="border border-black/15 px-2 py-3 text-left text-[10px] uppercase" key={id} onClick={() => goTo(id)}>{label}</button>)}</nav>}
       </header>
 
-      <nav className="signal-nav-shell fixed bottom-5 left-1/2 z-40 hidden -translate-x-1/2 border border-black bg-[#ede5d7] p-1 shadow-[5px_5px_0_#221f1b] sm:block" aria-label="Section navigation">
+      <nav className="signal-nav-shell fixed bottom-5 left-1/2 z-40 hidden -translate-x-1/2 border border-black bg-[#ede5d7] p-1 shadow-[5px_5px_0_#0e0c0b] sm:block" aria-label="Section navigation">
 <div className="signal-nav-ticks" aria-hidden="true">{Array.from({ length: 60 }, (_, index) => <i key={index} className={index % 5 === 0 ? "is-major" : ""} />)}</div>
-<div className="flex items-center gap-1">{navItems.map(([id, label]) => <button data-cursor={label.toUpperCase()} key={id} onClick={() => goTo(id)} className={`signal-nav-item px-3 py-2 text-[10px] uppercase tracking-[0.12em] transition hover:bg-[#3e4cff] hover:text-[#ede5d7] ${activeSection === id ? "bg-[#3e4cff] text-[#ede5d7]" : ""}`}>{label}</button>)}</div>
+<div className="flex items-center gap-1">{navItems.map(([id, label]) => <button data-cursor={label.toUpperCase()} key={id} onClick={() => goTo(id)} className={`signal-nav-item px-3 py-2 text-[10px] uppercase tracking-[0.12em] transition hover:bg-[#b3121f] hover:text-[#ede5d7] ${activeSection === id ? "bg-[#b3121f] text-[#ede5d7]" : ""}`}>{label}</button>)}</div>
 </nav>
 
       <div className="fixed bottom-0 left-0 top-0 z-30 hidden w-8 flex-col items-center justify-center gap-3 border-r border-black/10 bg-[#ede5d7]/35 lg:flex">
 <span className="signal-mono -rotate-90 whitespace-nowrap text-[9px] uppercase tracking-[.18em]">{sceneMeta[activeSection]?.rail ?? sceneMeta.home.rail}</span>
 <div className="h-32 w-px bg-black/20">
-<div className="w-full bg-[#3e4cff] transition-[height] duration-500" style={{ height: `${progress}%` }} />
+<div className="w-full bg-[#b3121f] transition-[height] duration-500" style={{ height: `${progress}%` }} />
 </div>
 </div>
 
@@ -781,10 +781,11 @@ export default function Home() {
         <div className="ink-route-layer ink-route-layer--close">
 <InkRoute variant="close" />
 </div>
-      <section id="home" className="scene-section grain relative flex min-h-[100svh] items-end overflow-hidden bg-[#3e4cff] px-5 pb-16 pt-32 text-[#f4efe5] sm:px-10 lg:px-16">
+      <section id="home" className="scene-section grain relative flex min-h-[100svh] items-end overflow-hidden bg-[#0e0c0b] px-5 pb-16 pt-32 text-[#f4efe5] sm:px-10 lg:px-16">
 <div className="hero-field-overlay absolute inset-0" />
+<div className="hero-checker" aria-hidden="true" />
 <div className="absolute inset-0 opacity-50 [background-image:linear-gradient(125deg,transparent_0_48%,rgba(244,239,229,.24)_48.2%,transparent_48.5%),linear-gradient(25deg,transparent_0_65%,rgba(20,15,15,.3)_65.2%,transparent_65.5%)]" />
-<div className="scene-parallax absolute left-[9%] top-[23%] h-[42vw] w-[42vw] max-h-[540px] max-w-[540px] rounded-full bg-[#191512] shadow-[18px_18px_0_rgba(244,239,229,.16)]" style={{ transform: `translate3d(0, ${progress * -0.16}px, 0)` }} />
+<div className="scene-parallax absolute left-[9%] top-[23%] h-[42vw] w-[42vw] max-h-[540px] max-w-[540px] rounded-full bg-[#b3121f] shadow-[18px_18px_0_rgba(212,162,76,.35)] hero-reactor" style={{ transform: `translate3d(0, ${progress * -0.16}px, 0)` }} />
 <div className="absolute left-[11%] top-[31%] h-px w-[32vw] bg-[#f4efe5]/60 scene-route-line" />
 <div className="hero-status-wall" aria-label="Corleone status wall">
 <div className="hero-status-wall__paper hero-status-wall__paper--back" aria-hidden="true" />
@@ -795,46 +796,46 @@ export default function Home() {
 <circle cx="578" cy="78" r="4" />
 </svg>
 <article data-hero-status-card className="hero-status-wall__card hero-status-wall__card--red">
-<span>01 / status</span>
-<strong>∞</strong>
-<small>one more</small>
-<em>never the last game</em>
+<span>01 / grid</span>
+<strong>P1</strong>
+<small>lights out</small>
+<em>never lift off</em>
 </article>
 <article data-hero-status-card className="hero-status-wall__card hero-status-wall__card--ochre">
-<span>02 / mindset</span>
-<strong>GG</strong>
-<small>good games</small>
-<em>win with respect</em>
+<span>02 / armor</span>
+<strong>MK</strong>
+<small>suit up</small>
+<em>headset on, world off</em>
 </article>
 <article data-hero-status-card className="hero-status-wall__card hero-status-wall__card--blue">
-<span>03 / squad</span>
+<span>03 / family</span>
 <strong>+1</strong>
-<small>party up</small>
-<em>better together</em>
+<small>the family</small>
+<em>loyalty above all</em>
 </article>
 <aside data-hero-status-note className="hero-status-wall__note">
 <i aria-hidden="true" />
-<span>mode / gaming</span>
-<strong>make the<br />next round count.</strong>
+<span>the don / rule 01</span>
+<strong>keep your friends close.<br />your squad closer.</strong>
 </aside>
-<span data-hero-status-note className="hero-status-wall__annotation">big worlds.<br />late-night sessions ↗</span>
+<span data-hero-status-note className="hero-status-wall__annotation">full send.<br />late-night sessions ↗</span>
 </div>
 <div className="relative z-10 w-full">
 <div data-reveal className="mb-10 flex items-center gap-4 sm:ml-[8%]">
 <BrandMark hero />
-<p className="signal-mono text-[10px] uppercase tracking-[0.18em]">Corleone / gamer / here for the next round</p>
+<p className="signal-mono text-[10px] uppercase tracking-[0.18em]">Joseph Corleone / gamer / pole position, every round</p>
 </div>
 <div className="grid items-end gap-8 lg:grid-cols-[.7fr_1.7fr_.7fr]">
 <div data-reveal className="order-2 space-y-6 text-xs leading-5 lg:order-1 lg:pb-8">
-<span className="clip-label inline-block bg-[#ed8b5a] px-3 py-1 text-[#221f1b]">01 — the intro</span>
-<p className="signal-prose text-base">One more round. One more world.<br />Always a gamer. Always Corleone.</p>
+<span className="clip-label inline-block bg-[#d4a24c] px-3 py-1 text-[#0e0c0b]">01 — the intro</span>
+<p className="signal-prose text-base">Full throttle. Armor on. Family first.<br />Always a gamer. Always Corleone.</p>
 <a data-cursor="SCROLL" className="inline-flex items-center gap-2 border-b border-[#f4efe5] pb-1" href="#about" onClick={(e) => { e.preventDefault(); goTo("about"); }}>keep scrolling <ArrowDown size={13} />
 </a>
 </div>
-<h1 data-reveal className="signal-display signal-hand hero-wordmark order-1 max-w-4xl text-[17vw] font-semibold leading-[.78] tracking-[-0.08em] lg:order-2 lg:text-[15vw]">Corle<span className="text-[#ed8b5a]">o</span>ne</h1>
+<h1 data-reveal className="signal-display signal-hand hero-wordmark order-1 max-w-4xl text-[17vw] font-semibold leading-[.78] tracking-[-0.08em] lg:order-2 lg:text-[15vw]"><span className="hero-firstname">Joseph</span>Corle<span className="text-[#d4a24c]">o</span>ne</h1>
 <div data-reveal className="order-3 justify-self-end pb-2 text-right text-[11px] uppercase tracking-[.12em] lg:pb-8">
-<span className="block border-b border-[#f4efe5]/60 pb-2">play. adapt. repeat.</span>
-<span className="block pt-2 text-[#ed8b5a]">for the love of the game</span>
+<span className="block border-b border-[#f4efe5]/60 pb-2">lights out. suit up.</span>
+<span className="block pt-2 text-[#d4a24c]">the family business: winning</span>
 </div>
 </div>
 </div>
@@ -844,25 +845,25 @@ export default function Home() {
 <i style={{ width: `${progress}%` }} />
 </span>
 <span>SCROLL DOWN</span>
-<span className="hidden sm:inline">BORN TO PLAY</span>
+<span className="hidden sm:inline">LIGHTS OUT / FULL SEND</span>
 </div>
 </section>
 
       <section id="about" className="scene-section grain relative bg-[#ede5d7] px-5 py-24 sm:px-10 lg:px-16 lg:py-36">
-<div className="absolute right-8 top-12 hidden text-[#3e4cff] lg:block scene-float">
+<div className="absolute right-8 top-12 hidden text-[#b3121f] lg:block scene-float">
 <BrandMark />
 </div>
-<DraggableSticker className="left-[68%] top-[13%] hidden rotate-6 border border-black bg-[#ed8b5a] p-3 text-[10px] uppercase shadow-[5px_5px_0_#3e4cff] lg:block">
-<span className="signal-mono block text-[9px] text-[#221f1b]/70">drag note / 001</span>
+<DraggableSticker className="left-[68%] top-[13%] hidden rotate-6 border border-black bg-[#d4a24c] p-3 text-[10px] uppercase shadow-[5px_5px_0_#b3121f] lg:block">
+<span className="signal-mono block text-[9px] text-[#0e0c0b]/70">drag note / 001</span>
 <span className="signal-condensed mt-5 block text-3xl leading-[.8]">play<br />one more<br />round</span>
 </DraggableSticker>
-<DraggableSticker className="left-[76%] top-[34%] hidden -rotate-3 border border-black bg-[#3e4cff] p-3 text-[#f4efe5] shadow-[5px_5px_0_#221f1b] lg:block">
+<DraggableSticker className="left-[76%] top-[34%] hidden -rotate-3 border border-black bg-[#b3121f] p-3 text-[#f4efe5] shadow-[5px_5px_0_#0e0c0b] lg:block">
 <span className="signal-mono block text-[9px]">headset on / world off</span>
 <span className="mt-5 block text-3xl">↗</span>
 </DraggableSticker>
 <div data-reveal className="mb-16 flex items-start justify-between gap-6">
 <div>
-<p className="signal-mono mb-3 text-[10px] uppercase tracking-[.2em] text-[#3e4cff]">01 / player — behind the gamertag</p>
+<p className="signal-mono mb-3 text-[10px] uppercase tracking-[.2em] text-[#b3121f]">01 / player — behind the gamertag</p>
 <h2 className="signal-display max-w-3xl text-5xl leading-[.95] sm:text-7xl lg:text-8xl">More than<br />
 <em>a gamertag.</em>
 </h2>
@@ -876,19 +877,19 @@ export default function Home() {
 <circle cx="1000" cy="48" r="5" />
 </svg>
 <div data-reveal className="grid gap-12 lg:grid-cols-[.8fr_1.4fr_.7fr] lg:items-end">
-<div className="offset-rule rotate-[-3deg] border border-black bg-[#3e4cff] p-6 text-[#f4efe5]">
+<div className="offset-rule rotate-[-3deg] border border-black bg-[#b3121f] p-6 text-[#f4efe5]">
 <Gamepad2 size={24} />
 <p className="signal-condensed mt-10 text-4xl uppercase leading-[.85]">Came for<br />the game.<br />
-<span className="text-[#ed8b5a]">Stayed for<br />the moments.</span>
+<span className="text-[#d4a24c]">Stayed for<br />the moments.</span>
 </p>
 <p className="signal-mono mt-12 text-[10px] uppercase leading-5">note / the best stories<br />start with press play</p>
 </div>
 <div className="signal-prose space-y-8 text-lg leading-[1.55] sm:text-2xl">
-<p>I am Corleone. A gamer for the close rounds, the unforgettable worlds, and the squad that makes every session worth it. For me, gaming is more than a scoreboard — it is the challenge, the escape, and the rush of a moment you could never script.</p>
+<p>I am Joseph Corleone. I play with a racer&apos;s precision, a genius-in-armor&apos;s confidence, and a don&apos;s loyalty to the family. For me, gaming is more than a scoreboard — it is the challenge, the strategy, and the rush of a moment you could never script.</p>
 <p className="max-w-2xl">Some days it is all about the next win. Other days, it is a side quest or a late-night session with friends. Different games, same mindset: show up, enjoy the challenge, and keep playing.</p>
 </div>
 <div className="border-t border-black pt-4 text-xs leading-5">
-<p className="mb-6 uppercase tracking-[.15em] text-[#3e4cff]">the player code</p>
+<p className="mb-6 uppercase tracking-[.15em] text-[#b3121f]">the player code</p>
 <p>01. respect the lobby</p>
 <p>02. back the squad</p>
 <p>03. never forget the fun</p>
@@ -903,16 +904,16 @@ export default function Home() {
 
       <LabsScene activeProject={activeProject} onToggleProject={(index) => setActiveProject(activeProject === index ? null : index)} onMedia={(project, frame) => setActiveMedia({ project, frame })} onClose={() => setActiveProject(null)} />
 
-      <section id="featured" className="scene-section grain signal-relay-scene relative overflow-hidden bg-[#3e4cff] px-5 py-24 text-[#f4efe5] sm:px-10 lg:min-h-[100svh] lg:px-16 lg:py-32">
+      <section id="featured" className="scene-section grain signal-relay-scene relative overflow-hidden bg-[#b3121f] px-5 py-24 text-[#f4efe5] sm:px-10 lg:min-h-[100svh] lg:px-16 lg:py-32">
 <div className="signal-relay-scene__grid" />
 <div className="absolute -right-20 top-10 h-72 w-72 rounded-full border-[1px] border-[#f4efe5]/35 lg:h-[520px] lg:w-[520px] scene-orbit" />
-<div className="absolute right-16 top-32 h-2 w-2 rounded-full bg-[#ed8b5a] shadow-[0_0_0_8px_#3e4cff,0_0_0_9px_#ed8b5a]" />
+<div className="absolute right-16 top-32 h-2 w-2 rounded-full bg-[#d4a24c] shadow-[0_0_0_8px_#b3121f,0_0_0_9px_#d4a24c]" />
 <div className="relative z-10 flex min-h-[660px] flex-col justify-between">
 <div data-reveal className="signal-relay-scene__heading">
-<p className="signal-mono mb-4 flex items-center gap-3 text-[10px] uppercase tracking-[.2em] text-[#ed8b5a]">
+<p className="signal-mono mb-4 flex items-center gap-3 text-[10px] uppercase tracking-[.2em] text-[#d4a24c]">
 <BrandMark /> 03 / game modes — choose your play</p>
 <h2 className="signal-condensed max-w-2xl text-7xl font-bold uppercase leading-[.78] tracking-[-.04em] sm:text-[9rem]">Find<br />
-<span className="text-[#ed8b5a]">your game.</span>
+<span className="text-[#d4a24c]">your game.</span>
 </h2>
 <p className="signal-prose mt-6 max-w-sm text-base leading-6 text-[#f4efe5]/80">Chase the win. Explore a world. Bring the squad. There is no single way to play.</p>
 </div>
@@ -936,11 +937,11 @@ export default function Home() {
 </div>
 <div className="signal-relay-console__footer">
 <div className="flex items-center gap-3">
-<button data-cursor="PREV" aria-label="Previous featured item" className="grid h-10 w-10 place-items-center border border-[#f4efe5] transition hover:bg-[#f4efe5] hover:text-[#3e4cff]" onPointerDown={(event) => event.stopPropagation()} onClick={() => changeFeatured(-1)}>
+<button data-cursor="PREV" aria-label="Previous featured item" className="grid h-10 w-10 place-items-center border border-[#f4efe5] transition hover:bg-[#f4efe5] hover:text-[#b3121f]" onPointerDown={(event) => event.stopPropagation()} onClick={() => changeFeatured(-1)}>
 <ArrowLeft size={16} />
 </button>
 <span className="signal-mono text-[10px] uppercase">{featuredIndex + 1} / {featured.length}</span>
-<button data-cursor="NEXT" aria-label="Next featured item" className="grid h-10 w-10 place-items-center border border-[#f4efe5] transition hover:bg-[#f4efe5] hover:text-[#3e4cff]" onPointerDown={(event) => event.stopPropagation()} onClick={() => changeFeatured(1)}>
+<button data-cursor="NEXT" aria-label="Next featured item" className="grid h-10 w-10 place-items-center border border-[#f4efe5] transition hover:bg-[#f4efe5] hover:text-[#b3121f]" onPointerDown={(event) => event.stopPropagation()} onClick={() => changeFeatured(1)}>
 <ArrowRight size={16} />
 </button>
 </div>
@@ -954,7 +955,7 @@ export default function Home() {
       <section id="visuals" className="scene-section grain relative bg-[#ede5d7] px-5 py-24 sm:px-10 lg:px-16 lg:py-36">
 <div data-reveal className="mb-16 grid gap-8 lg:grid-cols-[1fr_.8fr]">
 <div>
-<p className="signal-mono mb-3 flex items-center gap-3 text-[10px] uppercase tracking-[.2em] text-[#3e4cff]">
+<p className="signal-mono mb-3 flex items-center gap-3 text-[10px] uppercase tracking-[.2em] text-[#b3121f]">
 <BrandMark /> 04 / mindset — the unwritten rules</p>
 <h2 className="signal-display text-6xl leading-[.9] sm:text-8xl">Play hard.<br />
 <em>Stay human.</em>
@@ -965,23 +966,23 @@ export default function Home() {
 <div className="notes-flip-grid">{notesCards.map((card) => <NotesFlipCard key={card.number} card={card} />)}</div>
 </section>
 
-      <section id="contact" className="scene-section grain relative overflow-hidden bg-[#221f1b] px-5 py-24 text-[#ede5d7] sm:px-10 lg:px-16 lg:py-36">
-<div className="absolute -left-24 bottom-[-140px] h-80 w-80 rounded-full border border-[#3e4cff] shadow-[0_0_0_24px_#221f1b,0_0_0_25px_#3e4cff] scene-orbit" />
+      <section id="contact" className="scene-section grain relative overflow-hidden bg-[#0e0c0b] px-5 py-24 text-[#ede5d7] sm:px-10 lg:px-16 lg:py-36">
+<div className="absolute -left-24 bottom-[-140px] h-80 w-80 rounded-full border border-[#b3121f] shadow-[0_0_0_24px_#0e0c0b,0_0_0_25px_#b3121f] scene-orbit" />
 <div data-reveal className="relative z-10 grid gap-16 lg:grid-cols-[1fr_.8fr]">
 <div>
-<p className="signal-mono mb-5 flex items-center gap-3 text-[10px] uppercase tracking-[.2em] text-[#ed8b5a]">
+<p className="signal-mono mb-5 flex items-center gap-3 text-[10px] uppercase tracking-[.2em] text-[#d4a24c]">
 <BrandMark /> 05 / party up — the next game starts here</p>
 <h2 className="signal-display max-w-4xl text-6xl leading-[.88] sm:text-8xl lg:text-[9rem]">Say hi<br />
 <em>before</em>
 <br />overthinking it.</h2>
-<a data-cursor="EMAIL" href={`mailto:${contactEmail}`} className="group mt-12 inline-flex items-center gap-3 border-b border-[#ede5d7] pb-2 text-lg transition hover:text-[#3e4cff]">{contactEmail} <ArrowUpRight size={18} className="transition group-hover:translate-x-1 group-hover:-translate-y-1" />
+<a data-cursor="EMAIL" href={`mailto:${contactEmail}`} className="group mt-12 inline-flex items-center gap-3 border-b border-[#ede5d7] pb-2 text-lg transition hover:text-[#b3121f]">{contactEmail} <ArrowUpRight size={18} className="transition group-hover:translate-x-1 group-hover:-translate-y-1" />
 </a>
 </div>
 <div className="flex flex-col justify-end gap-8 lg:pb-3">
 <p className="signal-prose max-w-sm text-base leading-6 text-[#ede5d7]/80">Up for a match, a co-op adventure, or a conversation about your next favorite game? Get in touch and let’s talk gaming.</p>
 <ul className="grid gap-0 text-xs uppercase">
 {contactLinks.map(({ label, handle, href, icon: Icon }) => <li key={label}>
-<a data-cursor={label.toUpperCase()} className="flex items-center justify-between gap-4 border-t border-[#ede5d7]/30 py-3 transition hover:text-[#3e4cff]" href={href} target="_blank" rel="noreferrer">
+<a data-cursor={label.toUpperCase()} className="flex items-center justify-between gap-4 border-t border-[#ede5d7]/30 py-3 transition hover:text-[#b3121f]" href={href} target="_blank" rel="noreferrer">
 <span className="flex items-center gap-3">
 <Icon size={15} aria-hidden="true" /> {label}</span>
 <span className="flex min-w-0 items-center gap-2">
@@ -991,7 +992,7 @@ export default function Home() {
 </a>
 </li>)}
 <li>
-<button type="button" data-cursor="COPY" className="flex w-full items-center justify-between border-y border-[#ede5d7]/30 py-3 text-left uppercase transition hover:text-[#3e4cff]" onClick={copyHandle}>
+<button type="button" data-cursor="COPY" className="flex w-full items-center justify-between border-y border-[#ede5d7]/30 py-3 text-left uppercase transition hover:text-[#b3121f]" onClick={copyHandle}>
 <span className="flex items-center gap-3">
 <Copy size={15} aria-hidden="true" /> {copied ? "Email copied" : "Copy email"}</span>
 <span className="signal-mono text-[10px] normal-case text-[#ede5d7]/60">{contactEmail}</span>
@@ -1001,7 +1002,7 @@ export default function Home() {
 </div>
 </div>
 <footer className="relative z-10 mt-24 flex flex-wrap items-center justify-between gap-4 border-t border-[#ede5d7]/30 pt-4 text-[10px] uppercase tracking-[.14em] text-[#ede5d7]/55">
-<span>Powered by Corleone</span>
+<span>Joseph Corleone — the family business</span>
 <span>Corleone © 2026</span>
 <a data-cursor="TOP" href="#home" onClick={(e) => { e.preventDefault(); goTo("home"); }}>back to top ↑</a>
 </footer>
